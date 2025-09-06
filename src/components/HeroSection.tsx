@@ -1,0 +1,136 @@
+"use client";
+
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { TrendingUp, MapPin, Users, DollarSign, Globe } from "lucide-react";
+import { useTranslation } from "@/hooks/useTranslation";
+import heroimage from "@/assets/heroimage.png";
+
+const HeroSection = () => {
+  const { t } = useTranslation();
+
+  const stats = [
+    {
+      icon: DollarSign,
+      label: t("hero.stats.totalFunding"),
+      value: "XAF0",
+      description: t("hero.stats.fundingDesc"),
+    },
+    {
+      icon: Globe,
+      value: "156",
+      label: t("hero.stats.activeProjects"),
+      color: "text-secondary",
+      description: t("hero.stats.projectsDesc"),
+    },
+    {
+      icon: Users,
+      label: t("hero.stats.activePartners"),
+      value: "89",
+      description: t("hero.stats.partnersDesc"),
+    },
+    {
+      icon: MapPin,
+      label: t("hero.stats.regionsCovered"),
+      value: "10",
+      description: t("hero.stats.regionsDesc"),
+    },
+  ];
+
+  return (
+    <section className="relative min-h-screen flex items-center">
+      {/* Background Image with Overlay */}
+      
+         <div className="absolute inset-0 z-0">
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="w-full h-full object-cover"
+          //@ts-ignore
+          poster={heroimage} 
+        >
+          <source src={'/herovideo.mp4'} type="video/mp4" />
+          {/* Fallback for browsers that don't support video */}
+          Your browser does not support the video tag.
+        </video>
+        <div className="absolute inset-0 bg-gradient-to-l from-primary/20 via-primary/30 to-secondary/40" />
+      </div>
+
+      <div className="max-w-[1350px] mx-auto px-4 sm:px-6 lg:px-8 w-full">
+        <div className="max-w-3xl">
+          <div className="relative">
+            {/* Hero Content */}
+            <div className="animate-fade-in">
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold  mb-6 leading-tight">
+                Discovering Climate Action in Cameroon
+              </h1>
+              <p className="text-xl   leading-relaxed">
+                Track climate projects across Cameroon and explore where they are
+                happening, follow their progress, and see how they are shaping
+                communities and ecosystems.
+              </p>
+
+              <p className="text-xl  mb-8 leading-relaxed">
+              Our platform helps you stay informed, hold projects accountable, and most importantly, see how transparent climate projects are.
+              </p>
+
+              <div className="flex flex-col sm:flex-row gap-4 mb-12">
+                <Button
+                  size="lg"
+                  className="bg-gradient-hero hover:opacity-90 shadow-climate"
+                >
+                  {t("hero.exploreProjects")}
+                </Button>
+                <Button
+                  size="lg"
+                  className="bg-primary hover:opacity-90 shadow-climate"
+                >
+                  Project Transparency
+                </Button>
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="border-white text-white hover:bg-white hover:text-secondary"
+                >
+                  {t("hero.viewMap")}
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Statistics Cards */}
+        <div className="relative w-full">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+            {stats.map((stat, index) => (
+              <Card
+                key={index}
+                className="py-6 px-8 bg-card shadow-lg hover:shadow-xl transition-all duration-300 border-0"
+              >
+                <div className="flex items-center justify-between">
+                  <div>
+                    <div
+                      className={`text-2xl lg:text-3xl font-bold ${stat.color} mb-1`}
+                    >
+                      {stat.value}
+                    </div>
+                    <div className="text-sm lg:text-base text-muted-foreground font-medium">
+                      {stat.label}
+                    </div>
+                  </div>
+                  <stat.icon
+                    className={`h-8 w-8 lg:h-10 lg:w-10 ${stat.color}`}
+                  />
+                </div>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default HeroSection;

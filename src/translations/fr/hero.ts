@@ -1,0 +1,18 @@
+export const hero = {
+    'hero.title': 'Action Climatique',
+    'hero.subtitle1': 'Transparence',
+    'hero.subtitle2': 'au Cameroun',
+    'hero.description': 'Suivez les projets climatiques, les sources de financement et les acteurs clés qui conduisent le changement environnemental à travers le Cameroun. Promouvez la transparence et la responsabilité dans l\'action climatique.',
+    'hero.exploreProjects': 'Explorer les Projets',
+    'hero.viewMap': 'Voir la Carte Interactive',
+    'hero.overview': 'Aperçu de la Plateforme',
+    'hero.accessDashboard': 'Accéder au Tableau de Bord',
+    'hero.stats.activeProjects': 'Projets Actifs',
+    'hero.stats.totalFunding': 'Financement Total',
+    'hero.stats.activePartners': 'Partenaires Actifs',
+    'hero.stats.regionsCovered': 'Régions Couvertes',
+    'hero.stats.projectsDesc': 'Initiatives climatiques à travers le Cameroun',
+    'hero.stats.fundingDesc': 'Alloué aux projets environnementaux',
+    'hero.stats.partnersDesc': 'Organisations et acteurs impliqués',
+    'hero.stats.regionsDesc': 'Dans toutes les régions administratives',
+}

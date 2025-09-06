@@ -1,0 +1,19 @@
+export const header = {
+  'header.about': 'About',
+  'header.home': 'Home',
+  'header.news': 'News', 
+  'header.news.international': 'International',
+  'header.news.regional': 'Regional',
+  'header.news.national': 'National',
+  'header.climateDocuments': 'Documents',
+  'header.documents.international': 'International Policies',
+  'header.documents.regulation': 'Regulations', 
+  'header.documents.national': 'National Policies',
+  'header.projectTransparency': 'Project Transparency',
+  'header.transparency.adaptation': 'Adaptation Projects',
+  'header.transparency.mitigation': 'Mitigation Projects',
+  'header.transparency.finance': 'Climate Finance Projects',
+  'header.signIn': 'Sign In',
+  'header.signUp': 'Sign Up',
+  'header.tagline': 'Climate Change Action Platform'
+};
