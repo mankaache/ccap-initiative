@@ -1,4 +1,5 @@
-import NewsDetail from '@/components/NewsDetail'
+
+import NewsDetail from '@/components/page-segments/NewsDetail'
 import React from 'react'
 
 const NewsDetailsPage = () => {

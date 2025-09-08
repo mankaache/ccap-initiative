@@ -14,7 +14,7 @@ const BaseLayout = ({ children }: { children: React.ReactNode }) => {
       <QueryClientProvider client={queryClient}>
      
           <TooltipProvider>
-            <Sonner />
+            <Sonner position="top-center"   />
             <Header/>
             {children}
             <Footer/>

@@ -55,7 +55,8 @@ const HeroSection = () => {
           {/* Fallback for browsers that don't support video */}
           Your browser does not support the video tag.
         </video>
-        <div className="absolute inset-0 bg-gradient-to-l from-primary/20 via-primary/30 to-secondary/40" />
+        <div className="absolute inset-0 bg-gradient-to-l from-primary/20 via-primary/40 to-secondary/40" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/30 to-secondary/10" />
       </div>
 
       <div className="max-w-[1350px] mx-auto px-4 sm:px-6 lg:px-8 w-full">
@@ -63,16 +64,16 @@ const HeroSection = () => {
           <div className="relative">
             {/* Hero Content */}
             <div className="animate-fade-in">
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold  mb-6 leading-tight">
+              <h1 className="text-4xl text-white sm:text-5xl lg:text-6xl font-bold  mb-6 leading-tight">
                 Discovering Climate Action in Cameroon
               </h1>
-              <p className="text-xl   leading-relaxed">
+              <p className="text-xl text-white  leading-relaxed">
                 Track climate projects across Cameroon and explore where they are
                 happening, follow their progress, and see how they are shaping
                 communities and ecosystems.
               </p>
 
-              <p className="text-xl  mb-8 leading-relaxed">
+              <p className="text-xl text-white mb-8 leading-relaxed">
               Our platform helps you stay informed, hold projects accountable, and most importantly, see how transparent climate projects are.
               </p>
 
