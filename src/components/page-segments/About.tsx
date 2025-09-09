@@ -290,12 +290,43 @@ const About = () => {
               Our Network
             </Badge>
             <h2 className="text-4xl font-bold text-foreground mb-6">
-              Trusted Partners
-            </h2>
+              Financial and Technical Partners
+              </h2>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
               Working together with leading organizations to drive climate
               transparency
             </p>
+          </div>
+           <div className="text-center">
+            <h3 className="text-2xl font-semibold text-foreground mb-8">
+              Government Partners
+            </h3>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+              <div className="bg-card rounded-lg p-6 shadow">
+                <h4 className="font-medium text-foreground">
+                  Ministry of Environment
+                </h4>
+                <p className="text-sm text-muted-foreground mt-2">Cameroon</p>
+              </div>
+              <div className="bg-card rounded-lg p-6 shadow">
+                <h4 className="font-medium text-foreground">
+                  Ministry of Finance
+                </h4>
+                <p className="text-sm text-muted-foreground mt-2">Cameroon</p>
+              </div>
+              <div className="bg-card rounded-lg p-6 shadow">
+                <h4 className="font-medium text-foreground">MINEPDED</h4>
+                <p className="text-sm text-muted-foreground mt-2">
+                  Environment Agency
+                </p>
+              </div>
+              <div className="bg-card rounded-lg p-6 shadow">
+                <h4 className="font-medium text-foreground">
+                  Regional Councils
+                </h4>
+                <p className="text-sm text-muted-foreground mt-2">10 Regions</p>
+              </div>
+            </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
@@ -346,37 +377,7 @@ const About = () => {
             </Card>
           </div>
 
-          <div className="text-center">
-            <h3 className="text-2xl font-semibold text-foreground mb-8">
-              Government Partners
-            </h3>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-              <div className="bg-card rounded-lg p-6 shadow">
-                <h4 className="font-medium text-foreground">
-                  Ministry of Environment
-                </h4>
-                <p className="text-sm text-muted-foreground mt-2">Cameroon</p>
-              </div>
-              <div className="bg-card rounded-lg p-6 shadow">
-                <h4 className="font-medium text-foreground">
-                  Ministry of Finance
-                </h4>
-                <p className="text-sm text-muted-foreground mt-2">Cameroon</p>
-              </div>
-              <div className="bg-card rounded-lg p-6 shadow">
-                <h4 className="font-medium text-foreground">MINEPDED</h4>
-                <p className="text-sm text-muted-foreground mt-2">
-                  Environment Agency
-                </p>
-              </div>
-              <div className="bg-card rounded-lg p-6 shadow">
-                <h4 className="font-medium text-foreground">
-                  Regional Councils
-                </h4>
-                <p className="text-sm text-muted-foreground mt-2">10 Regions</p>
-              </div>
-            </div>
-          </div>
+         
         </div>
       </section>
 

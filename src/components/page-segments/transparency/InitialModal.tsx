@@ -29,7 +29,7 @@ export const InitialModal = ({ onContinue, onGoBack }: InitialModalProps) => {
           </div>
           
           <CardTitle className="text-3xl font-bold  bg-gradient-to-b from-secondary to-primary bg-clip-text text-transparent">
-            Transparency Assessment
+            Transparency Demonstration
           </CardTitle>
           <CardDescription className="text-base mt-2">
             Evaluate and improve your organization's transparency practices

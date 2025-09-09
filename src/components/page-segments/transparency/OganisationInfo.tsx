@@ -46,7 +46,7 @@ export const OrganizationInfo = ({ data, onUpdate, onNext,setData }: Organizatio
     onUpdate({ ...data, [field]: value });
   };
 
-  const isFormValid = data.organizationName && data.startDate && data.endDate && data.fundingSource && data.budgetAmount  ;
+  // const isFormValid = data.organizationName && data.startDate && data.endDate && data.fundingSource && data.budgetAmount  ;
   const [newActor, setNewActor] = useState('');
   const [newProgram, setNewProgram] = useState('');
   const [newRegion, setNewRegion] = useState('');
@@ -417,7 +417,7 @@ const removeProgram = (programToRemove: string) => {
                 />
               </div>
            <div className="space-y-2">
-                <Label className="uppercase" htmlFor="description">LOGIQUE D’INTERVENTION*</Label>
+                <Label className="uppercase" htmlFor="description">LOGIQUE D'INTERVENTION*</Label>
                 <Textarea
                   id="interventionLogic"
                   placeholder=""
@@ -432,7 +432,7 @@ const removeProgram = (programToRemove: string) => {
               
               <Button 
             onClick={onNext}
-            disabled={!isFormValid}
+            // disabled={!isFormValid}
             className="bg-gradient-to-r from-orange-500 to-green-500 px-4 hover:opacity-90"
           >
             commencer

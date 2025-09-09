@@ -19,7 +19,7 @@ const TransparencyHome = () => {
             Transparency Demonstration Tool
           </h1>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto mb-8">
-            Improve your organization's transparency practices with our comprehensive assessment platform. 
+            Demonstrate your organization's transparency practices with our comprehensive assessment platform. 
             Build trust, demonstrate accountability, and identify areas for improvement.
           </p>
           <Link href="/project-transparency/demonstration">
