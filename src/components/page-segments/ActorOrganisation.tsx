@@ -5,9 +5,10 @@ import { useParams } from "next/navigation";
 import { getCategoryTitle, organizations } from "@/data/organisation";
 import Link from "next/link";
 import ProjectCard from "../ProjectCard";
-import { projects } from "@/data/mockData";
+import { getMockProjects } from "@/data/mockProjects";
 
 const ActorOrganisation = () => {
+  const mockProjects =  getMockProjects();
   const { category, id } = useParams<{ category: string; id: string }>();
 
   const organization = organizations.find(
@@ -33,11 +34,11 @@ const ActorOrganisation = () => {
       <main className="min-h-screen max-w-5xl mx-auto  mt-5 px-4 lg:px-8 py-8">
         <div className="mb-8 ">
           <div className="mt-4 font-semibold text-muted-foreground">
-           A Total of {projects.length} projects found
+           A Total of {mockProjects.length} projects found
           </div>
         </div>
         <div className="grid grid-cols-2 gap-5 items-center">
-          {projects.map((project) => (
+          {mockProjects.map((project) => (
             <div key={project.id} className="animate-fade-in">
               <ProjectCard
                 //@ts-ignore

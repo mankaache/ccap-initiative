@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import { Calendar, ArrowLeft, Share2 } from "lucide-react";
 import { useParams } from "next/navigation";
@@ -8,68 +6,16 @@ import { Button } from "../ui/button";
 import { ShareModal } from "../ShareModal";
 import image from "@/assets/vegetation.jpg";
 import Image from "next/image";
-const NewsDetail = () => {
-  const param = useParams();
-  const { category, id } = param;
-
-  const mockNews = {
-    international: [],
-    regional: [],
-    national: [
-      {
-        id: "1",
-        title:
-          "LOI N°96/12 DU 5 août 1996 PORTANT LOI-CADRE RELATIVE À LA GESTION DE L’ENVIRONNEMENT",
-        description:
-          "Ce texte juridique fondamental au Cameroun est celui qui fixe les règles générales pour la protection de l'environnement et la gestion durable de ses ressources, et est un patrimoine commun national. ",
-        date: "1996-08-5",
-        image: image,
-        category: "national",
-        type: "pdf",
-        document: "/art1.pdf",
-        content: "",
-        author: "Climate News Team",
-        source: "MINEDEP",
-      },
-      {
-        id: "2",
-        type: "text",
-        document: null,
-        title: "Cadre institutionnel sur le changement climatique au Cameroun",
-        description:
-          "L’ONACC crée le 10 déc. 2009, collecter, traiter et diffuser l’information sur l’évolution du Climat ",
-        date: "2009-03-11",
-        image: image,
-        category: "national",
-        content: `
-      <p>The recent COP29 Climate Summit has marked a significant milestone in international climate cooperation, with world leaders announcing groundbreaking new funding mechanisms designed to accelerate climate action in developing nations.</p>
-      
-      <p>The summit, held in Dubai, brought together representatives from over 190 countries to discuss innovative approaches to climate finance. Key outcomes include:</p>
-      
-      <ul>
-        <li>A new $100 billion climate adaptation fund specifically for African nations</li>
-        <li>Enhanced carbon credit mechanisms to support renewable energy projects</li>
-        <li>Streamlined processes for accessing climate finance for small island developing states</li>
-        <li>Public-private partnership frameworks for large-scale climate infrastructure</li>
-      </ul>
-      
-      <p>For countries like Cameroon, these new mechanisms represent unprecedented opportunities to scale up climate action initiatives. The enhanced funding pathways will particularly benefit forest conservation projects, renewable energy infrastructure, and climate-resilient agriculture programs.</p>
-      
-      <p>Dr. Sarah Johnson, lead negotiator for the African Union, emphasized the importance of these developments: "These new funding mechanisms address long-standing barriers that have prevented developing nations from accessing the resources needed for effective climate action."</p>
-      
-      <p>The implementation of these funding mechanisms is expected to begin in early 2024, with the first disbursements anticipated by mid-year. Countries will need to submit detailed project proposals through the enhanced application processes established by the summit.</p>
-    `,
-        author: "Climate News Team",
-        source: "L’ONACC ",
-      },
-    ],
-  };
-
-  const categoryDocuments =
-    mockNews[param.category as keyof typeof mockNews] || [];
-  const article = categoryDocuments.find(
-    (doc) => doc.id.toString() === param.id
-  );
+import { getClimateNews } from "./GetClimateNews";
+import { InewType } from "@/data/mockNews";
+const NewsDetail = async ({
+  article,
+  category,
+}: {
+  article: InewType;
+  category: string;
+}) => {
+  console.log("article details", article);
 
   if (!article) {
     return (
@@ -97,7 +43,11 @@ const NewsDetail = () => {
 
   return (
     <div className="min-h-screen bg-secondary/5 py-12">
-      <div className={` ${article.type === "pdf" ? "max-w-6xl" : "max-w-4xl"}  mx-auto px-4 sm:px-6 lg:px-8`}>
+      <div
+        className={` ${
+          article.type === "pdf" ? "max-w-6xl" : "max-w-4xl"
+        }  mx-auto px-4 sm:px-6 lg:px-8`}
+      >
         <Link
           href={`/news/${category}`}
           className="inline-flex items-center text-orange-600 hover:text-orange-700 mb-6"
@@ -110,6 +60,8 @@ const NewsDetail = () => {
           <div className="relative w-full h-64 md:h-80">
             <Image
               src={article && article.image}
+              placeholder="blur"
+              blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII="
               fill
               alt={article && article.title}
               className="w-full h-full object-cover"
@@ -136,6 +88,9 @@ const NewsDetail = () => {
             </h1>
 
             <p className="text-gray-600 mb-6">By {article && article.author}</p>
+            <p className="text-gray-600 mb-6">
+              {article && article.description}
+            </p>
 
             {article.type === "text" && article.content && (
               <>
@@ -213,6 +168,7 @@ const NewsDetail = () => {
                 />
               </div>
             )}
+            
           </div>
         </article>
       </div>

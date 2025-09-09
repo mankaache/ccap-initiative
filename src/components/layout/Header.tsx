@@ -21,7 +21,7 @@ const Header = () => {
     { name: t('header.home'), href: "/" },
     { name: t('header.about'), href: "/about" },
     {
-      name: 'Actors',
+      name: t('header.actor'),
       href: "#",
       dropdown: [
         { name: 'Etatiques', href: "/actor/etatiques" },
@@ -70,9 +70,9 @@ const Header = () => {
 
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center space-x-8">
-            {navigation.map((item) =>
+            {navigation.map((item,idx) =>
               item.dropdown ? (
-                <DropdownMenu key={item.name} >
+                <DropdownMenu key={idx + .5} >
                   <DropdownMenuTrigger className="nav-link flex items-center gap-1 focus:outline-hidden">
                     <span>{item.name}</span>
                     <ChevronDown className="h-4 w-4" />

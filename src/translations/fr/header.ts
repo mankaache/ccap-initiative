@@ -2,6 +2,7 @@ export const header = {
      'header.home': 'Accueil',
     'header.about': 'À Propos',
     'header.news': 'Actualités',
+    'header.actor': 'Acteurs',
     'header.news.international': 'International', 
     'header.news.regional': 'Régional',
     'header.news.national': 'National',

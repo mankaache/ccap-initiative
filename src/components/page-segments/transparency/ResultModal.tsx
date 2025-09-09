@@ -3,9 +3,11 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Download, Trophy, TrendingUp, AlertTriangle, CheckCircle, X } from "lucide-react";
-import { QuestionData, QuestionResponse } from "./Assessment";
+import { QuestionResponse } from "./Assessment";
 import { OrganizationData } from "./OganisationInfo";
 import { toast } from "sonner";
+import { QuestionData } from "@/data/AssessmentQuestions";
+import { start } from "repl";
 
 
 interface ResultsModalProps {
@@ -32,13 +34,10 @@ export const ResultsModal = ({ score, responses, questions, organizationData, on
     const reportData = {
       organizationInfo: {
         name: organizationData.organizationName,
-        date: organizationData.date,
-        contactPerson: organizationData.contactPerson,
-        email: organizationData.email,
-        phone: organizationData.phone,
-        address: organizationData.address,
+        startDate: organizationData.startDate,
+        endDate: organizationData.endDate,
         organizationType: organizationData.organizationType,
-        bio: organizationData.bio
+        goal: organizationData.Goal
       },
       assessmentDate: new Date().toISOString().split('T')[0],
       overallScore: score,
@@ -109,21 +108,16 @@ export const ResultsModal = ({ score, responses, questions, organizationData, on
     
     // Create a comprehensive text report
     const reportText = `
-TRANSPARENCY ASSESSMENT REPORT
+TRANSPARENCY DEMONSTRATION REPORT
 Generated on: ${reportData.assessmentDate}
 
 ORGANIZATION INFORMATION
 ========================
 Organization Name: ${reportData.organizationInfo.name}
-Assessment Date: ${reportData.organizationInfo.date}
-Contact Person: ${reportData.organizationInfo.contactPerson}
-Email: ${reportData.organizationInfo.email}
-Phone: ${reportData.organizationInfo.phone || 'Not provided'}
-Address: ${reportData.organizationInfo.address || 'Not provided'}
 Organization Type: ${reportData.organizationInfo.organizationType || 'Not specified'}
 
 Organization Description:
-${reportData.organizationInfo.bio || 'No description provided'}
+${reportData.organizationInfo.goal || 'No description provided'}
 
 OVERALL RESULTS
 ===============
@@ -198,15 +192,15 @@ consult with governance and compliance experts.
             Your Transparency Results
           </CardTitle>
           <CardDescription className="text-base mt-2">
-            Assessment completed on {new Date().toLocaleDateString()}
+            Form filled  on {new Date().toLocaleDateString()}
           </CardDescription>
         </CardHeader>
         
         <CardContent className="space-y-6">
           {/* Overall Score */}
-          <div className="text-center bg-gradient-to-l from-secondary to-primary  p-6 rounded-lg">
+          <div className="text-center bg-gradient-to-l from-secondary/10 to-primary/10  p-6 rounded-lg">
             <div className="text-6xl font-bold text-primary mb-2">{score}%</div>
-            <Badge variant={scoreCategory.color as any} className="mb-4 text-base px-4 py-2">
+            <Badge variant={scoreCategory.color as any} className="mb-4 text-sm px-4 py-2">
               {scoreCategory.label}
             </Badge>
             <Progress value={score} className="w-full max-w-md mx-auto" />

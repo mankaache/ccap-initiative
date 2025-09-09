@@ -80,23 +80,23 @@ export const InitialModal = ({ onContinue, onGoBack }: InitialModalProps) => {
             <ul className="text-sm text-muted-foreground space-y-1">
               <li>• Comprehensive transparency score and analysis</li>
               <li>• Personalized recommendations for improvement</li>
-              <li>• Downloadable assessment report for your records</li>
+              <li>• Downloadable report for your records</li>
             </ul>
           </div>
 
-          <div className="flex gap-3 pt-4">
+          <div className="flex items-center justify-between gap-3 pt-4">
             <Button
               variant="outline"
               onClick={onGoBack}
-              className="flex-1"
+              className=""
             >
               Maybe Later
             </Button>
             <Button
               onClick={onContinue}
-              className="flex-1  bg-secondary hover:opacity-90"
+              className=" bg-secondary hover:opacity-90"
             >
-              Start Assessment
+              Start Process
             </Button>
           </div>
 

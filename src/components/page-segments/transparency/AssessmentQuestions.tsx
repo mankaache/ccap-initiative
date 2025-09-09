@@ -8,8 +8,9 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Upload, FileText, CheckCircle, XCircle, AlertCircle } from "lucide-react";
-import { QuestionData, QuestionResponse } from "./Assessment";
+import {  QuestionResponse } from "./Assessment";
 import { toast } from "sonner";
+import { QuestionData } from "@/data/AssessmentQuestions";
 
 
 interface AssessmentQuestionProps {

@@ -3,95 +3,10 @@
 import { useState, useMemo } from "react";
 import FilterBar from "./FilterBar";
 import ProjectsGrid from "./ProjectsGrid";
+import { getMockProjects } from "@/data/mockProjects";
 
 // Mock project data - replace with your actual data source
-const mockProjects = [
-  {
-    id: "1",
-    title: "Climate Resilience Project",
-    description: "Building climate resilience in coastal communities through mangrove restoration and sustainable fishing practices.",
-    status: "ongoing",
-    budget: "$2.5M",
-    fundingSource: "World Bank",
-    location: "Douala",
-    region: "Littoral Region",
-    actors: ["MINEPDED", "Local Communities", "WWF"],
-    startDate: "2023-01-15",
-    category: "adaptation",
-    programs: ["Coastal Protection", "Sustainable Fisheries"]
-  },
-  {
-    id: "2",
-    title: "Solar Energy Initiative",
-    description: "Installing solar panels in rural communities to provide clean energy and reduce carbon emissions.",
-    status: "completed",
-    budget: "$1.8M",
-    fundingSource: "Green Climate Fund",
-    location: "Bamenda",
-    region: "Northwest Region",
-    actors: ["Private Sector", "Research Institutions", "MINEPDED"],
-    startDate: "2022-06-01",
-    endDate: "2023-12-15",
-    category: "mitigation",
-    programs: ["Renewable Energy", "Rural Development"]
-  },
-  {
-    id: "3",
-    title: "Forest Conservation Program",
-    description: "Protecting endangered forest areas and promoting sustainable forestry practices.",
-    status: "planned",
-    budget: "$3.2M",
-    fundingSource: "Global Environment Facility",
-    location: "Yaoundé",
-    region: "Centre Region",
-    actors: ["NGOs", "Local Communities", "Research Institutions"],
-    startDate: "2024-03-01",
-    category: "forestry",
-    programs: ["Forest Conservation", "Biodiversity"]
-  },
-  {
-    id: "4",
-    title: "REDD+ Implementation",
-    description: "Reducing emissions from deforestation and forest degradation through community-based approaches.",
-    status: "ongoing",
-    budget: "$4.1M",
-    fundingSource: "World Bank",
-    location: "Ebolowa",
-    region: "South Region",
-    actors: ["MINEPDED", "NGOs", "Local Communities"],
-    startDate: "2023-08-10",
-    category: "redd",
-    programs: ["Carbon Sequestration", "Community Forestry"]
-  },
-  {
-    id: "5",
-    title: "Urban Green Infrastructure",
-    description: "Developing green spaces and sustainable urban infrastructure in major cities.",
-    status: "ongoing",
-    budget: "$2.9M",
-    fundingSource: "European Union",
-    location: "Douala",
-    region: "Littoral Region",
-    actors: ["Private Sector", "Government of Cameroon", "MINEPDED"],
-    startDate: "2023-03-20",
-    category: "mitigation",
-    programs: ["Urban Planning", "Green Infrastructure"]
-  },
-  {
-    id: "6",
-    title: "Climate Smart Agriculture",
-    description: "Promoting climate-resilient agricultural practices among smallholder farmers.",
-    status: "planned",
-    budget: "$1.5M",
-    fundingSource: "African Development Bank",
-    location: "Bafoussam",
-    region: "West Region",
-    actors: ["Research Institutions", "Local Communities", "NGOs"],
-    startDate: "2024-06-01",
-    category: "adaptation",
-    programs: ["Sustainable Agriculture", "Food Security"]
-  }
-];
+
 
 export interface Project {
   id: string;
@@ -117,6 +32,7 @@ interface FilterState {
 }
 
 const FilteredProjects = () => {
+  const mockProjects =  getMockProjects();
   const [activeFilters, setActiveFilters] = useState<FilterState>({
     projects: [],
     actors: [],

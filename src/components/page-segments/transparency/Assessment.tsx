@@ -11,15 +11,10 @@ import { OrganizationData, OrganizationInfo } from "./OganisationInfo";
 import { InitialModal } from "./InitialModal";
 import { AssessmentQuestion } from "./AssessmentQuestions";
 import { ResultsModal } from "./ResultModal";
+import { sampleQuestions } from "@/data/AssessmentQuestions";
+import { set } from "react-hook-form";
 
-export interface QuestionData {
-  id: number;
-  title: string;
-  yesNoQuestion: string;
-  checkboxLabel: string;
-  checkboxOptions: string[];
-  fileUploadLabel?: string;
-}
+
 
 export interface QuestionResponse {
   id: number;
@@ -29,57 +24,7 @@ export interface QuestionResponse {
   skipped: boolean;
 }
 
-const sampleQuestions: QuestionData[] = [
-  {
-    id: 1,
-    title: "Financial Transparency",
-    yesNoQuestion:
-      "Do you publish annual financial reports that are publicly accessible?",
-    checkboxLabel: "Which financial information do you regularly disclose?",
-    checkboxOptions: [
-      "Revenue and profit statements",
-      "Executive compensation details",
-      "Investment and funding sources",
-    ],
-    fileUploadLabel: "Upload your latest financial report (optional)",
-  },
-  {
-    id: 2,
-    title: "Governance Practices",
-    yesNoQuestion: "Does your organization have a formal code of conduct?",
-    checkboxLabel: "Which governance practices do you follow?",
-    checkboxOptions: [
-      "Regular board meetings with documented minutes",
-      "Independent oversight committee",
-      "Conflict of interest policies",
-    ],
-    fileUploadLabel: "Upload your code of conduct document (optional)",
-  },
-  {
-    id: 3,
-    title: "Stakeholder Engagement",
-    yesNoQuestion: "Do you actively seek feedback from stakeholders?",
-    checkboxLabel: "How do you engage with stakeholders?",
-    checkboxOptions: [
-      "Regular surveys and feedback collection",
-      "Public consultation sessions",
-      "Dedicated stakeholder communication channels",
-    ],
-    fileUploadLabel: "Upload evidence of stakeholder engagement (optional)",
-  },
-  {
-    id: 4,
-    title: "Environmental Impact",
-    yesNoQuestion: "Do you measure and report your environmental impact?",
-    checkboxLabel: "Which environmental metrics do you track?",
-    checkboxOptions: [
-      "Carbon footprint and emissions",
-      "Waste reduction and recycling",
-      "Sustainable sourcing practices",
-    ],
-    fileUploadLabel: "Upload your environmental impact report (optional)",
-  },
-];
+
 
 const TransparencyAssessment = () => {
   const navigate = useRouter();
@@ -91,16 +36,27 @@ const TransparencyAssessment = () => {
   const [currentSection, setCurrentSection] = useState<
     "organization" | "questions"
   >("organization");
-  
+
   const [organizationData, setOrganizationData] = useState<OrganizationData>({
     organizationName: "",
-    date: "",
-    contactPerson: "",
-    email: "",
-    phone: "",
-    address: "",
-    organizationType: "",
-    bio: "",
+  description:"",
+  ProjectTitle: "",
+  specificLocation:"",
+  region: [],
+  target:"",
+  actors:[],
+  startDate: "",
+  endDate: "",
+  fundingSource: "",
+  budgetAmount: "",
+  specificObjectives: "",
+  interventionLogic: "",
+  results: "",
+  Goal: "",
+  organizationType: "",
+  programs: [],
+  isOngoing: false,
+  status:'planned' as 'ongoing' | 'completed' | 'planned'
   });
 
   useEffect(() => {
@@ -197,13 +153,23 @@ const TransparencyAssessment = () => {
     setCurrentSection("organization");
     setOrganizationData({
       organizationName: "",
-      date: "",
-      contactPerson: "",
-      email: "",
-      phone: "",
-      address: "",
       organizationType: "",
-      bio: "",
+      Goal: "",
+      description:"",
+      ProjectTitle:"",
+      specificLocation:"",region: [],
+      target:"",
+      actors :[],
+      startDate: "",
+      endDate: "",
+      fundingSource: "",
+      budgetAmount: "",
+      specificObjectives: "",
+      interventionLogic: "",
+      results: "",
+      programs: [],
+      isOngoing: false,
+      status:'planned' as 'ongoing' | 'completed' | 'planned'
     });
   };
 
@@ -221,17 +187,18 @@ const TransparencyAssessment = () => {
           <div className="flex items-center justify-center gap-2 mb-4">
             <Shield className="h-8 w-8 text-primary" />
             <h1 className="text-3xl font-bold bg-gradient-to-l from-secondary to-primary bg-clip-text text-transparent">
-              Transparency Assessment
+              Transparency Demonstation
             </h1>
           </div>
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            Complete this comprehensive assessment to evaluate your
+            Complete this comprehensive form to evaluate your
             organization's transparency practices
           </p>
         </div>
 
         {currentSection === "organization" ? (
           <OrganizationInfo
+          setData={setOrganizationData}
             data={organizationData}
             onUpdate={setOrganizationData}
             onNext={handleOrganizationNext}

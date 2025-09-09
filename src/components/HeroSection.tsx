@@ -53,7 +53,7 @@ const HeroSection = () => {
         >
           <source src={'/herovideo.mp4'} type="video/mp4" />
           {/* Fallback for browsers that don't support video */}
-          Your browser does not support the video tag.
+          {t("hero.videosupport")}
         </video>
         <div className="absolute inset-0 bg-gradient-to-l from-primary/20 via-primary/40 to-secondary/40" />
         <div className="absolute inset-0 bg-gradient-to-r from-black/30 to-secondary/10" />
@@ -65,12 +65,10 @@ const HeroSection = () => {
             {/* Hero Content */}
             <div className="animate-fade-in">
               <h1 className="text-4xl text-white sm:text-5xl lg:text-6xl font-bold  mb-6 leading-tight">
-                Discovering Climate Action in Cameroon
+                {t("hero.title")}
               </h1>
               <p className="text-xl text-white  leading-relaxed">
-                Track climate projects across Cameroon and explore where they are
-                happening, follow their progress, and see how they are shaping
-                communities and ecosystems.
+                {t("hero.description")}
               </p>
 
               <p className="text-xl text-white mb-8 leading-relaxed">
@@ -78,17 +76,17 @@ const HeroSection = () => {
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 mb-12">
-                <Button
+                {/* <Button
                   size="lg"
                   className="bg-gradient-hero hover:opacity-90 shadow-climate"
                 >
                   {t("hero.exploreProjects")}
-                </Button>
+                </Button> */}
                 <Button
                   size="lg"
                   className="bg-primary hover:opacity-90 shadow-climate"
                 >
-                  Project Transparency
+                  {t("hero.projectTransparency")}
                 </Button>
                 <Button
                   variant="outline"

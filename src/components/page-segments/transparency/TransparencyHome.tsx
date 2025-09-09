@@ -8,7 +8,7 @@ const TransparencyHome = () => {
   return (
     <div className="min-h-screen max-w-[1300px] mx-auto bg-gradient-subtle">
       {/* Hero Section */}
-      <div className="container mx-auto px-4 py-16">
+      <div className="container mx-auto px-4 py-16 md:py-28">
         <div className="text-center mb-16">
           <div className="flex items-center justify-center gap-2 mb-6">
             <div className="p-4 bg-gradient-to-b from-secondary to-primary text-white rounded-full">
@@ -69,7 +69,7 @@ const TransparencyHome = () => {
             </CardHeader>
             <CardContent>
               <CardDescription className="text-center">
-                Receive comprehensive assessment reports with detailed analysis and benchmarking data.
+                Receive comprehensive reports with detailed analysis and benchmarking data.
               </CardDescription>
             </CardContent>
           </Card>
@@ -80,7 +80,7 @@ const TransparencyHome = () => {
           <h2 className="text-3xl font-bold mb-8">How It Works</h2>
           <div className="grid md:grid-cols-4 gap-8">
             {[
-              { step: "1", title: "Start Assessment", description: "Click to begin your transparency evaluation" },
+              { step: "1", title: "Start Demonstation process", description: "Click to begin your transparency evaluation" },
               { step: "2", title: "Answer Questions", description: "Complete multi-part questions about your practices" },
               { step: "3", title: "Get Scored", description: "Receive real-time scoring and progress tracking" },
               { step: "4", title: "Download Report", description: "Get detailed results and recommendations" }
