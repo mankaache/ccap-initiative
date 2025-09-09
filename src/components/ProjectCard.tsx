@@ -1,6 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { 
   Calendar, 
   DollarSign, 
@@ -67,7 +66,7 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
           </CardTitle>
           <Badge className={`flex items-center gap-1 ${getStatusStyles()} text-xs`}>
             {getStatusIcon()}
-            {t(`project.status.${project.status}`)}
+            {t(`${project.status}`)}
           </Badge>
         </div>
         
@@ -109,35 +108,35 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
         <div className="space-y-2">
           <div className="flex items-center gap-2 text-xs text-muted-foreground">
             <Users className="h-3 w-3" />
-            <span>{t('project.keyActors')} ({project.actors.length})</span>
+            <span>{t('project.keyActors')} ({project.actors &&project.actors.length})</span>
           </div>
           <div className="flex flex-wrap gap-1">
-            {project.actors.slice(0, 3).map((actor, index) => (
+            { project.actors && project.actors.slice(0, 3).map((actor, index) => (
               <Badge key={index} variant="secondary" className="text-xs">
                 {actor}
               </Badge>
             ))}
-            {project.actors.length > 3 && (
+            {project.actors && project.actors.length > 3 && (
               <Badge variant="outline" className="text-xs">
-                +{project.actors.length - 3} more
+                +{project.actors && project.actors.length - 3} {t('project.more')}
               </Badge>
             )}
           </div>
         </div>
 
         {/* Programs */}
-        {project.programs.length > 0 && (
+        {project.programs && project.programs.length > 0 && (
           <div className="space-y-2">
             <div className="text-xs text-muted-foreground">{t('project.programs')}</div>
             <div className="flex flex-wrap gap-1">
-              {project.programs.slice(0, 2).map((program, index) => (
+              {project.programs && project.programs.slice(0, 2).map((program, index) => (
                 <Badge key={index} variant="outline" className="text-xs bg-accent/30">
                   {program}
                 </Badge>
               ))}
-              {project.programs.length > 2 && (
+              {project.programs && project.programs.length > 2 && (
                 <Badge variant="outline" className="text-xs">
-                  +{project.programs.length - 2}
+                  +{project.programs && project.programs.length - 2}
                 </Badge>
               )}
             </div>

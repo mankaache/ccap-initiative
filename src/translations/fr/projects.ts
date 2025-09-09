@@ -1,6 +1,27 @@
 export const projects = {
-     'projects.title': 'Projets Climatiques',
-    'projects.description': 'Découvrez les initiatives d\'action climatique en cours et terminées à travers le Cameroun',
+     'project.title1': 'Projet de résilience climatique',
+    'project.description1': "Renforcer la résilience climatique des communautés côtières grâce à la restauration des mangroves et à des pratiques de pêche durables.",
+  'project.title2':'Initiative sur l\'énergie solaire',
+  'projects.sectiontitle':'Projets',
+  'project.description2':'Installation de panneaux solaires dans les communautés rurales pour fournir une énergie propre et réduire les émissions de carbone.',
+  'project.title3':'Programme de conservation des forêts',
+  'project.description3':'Protéger les zones forestières menacées et promouvoir des pratiques forestières durables.',
+  'project.title4':'Mise en œuvre de REDD+',
+  'project.description4':'Réduire les émissions dues à la déforestation et à la dégradation des forêts grâce à des approches communautaires.',
+  'project.title5':'Infrastructure verte urbaine',
+  'project.description5':'Développer des espaces verts et des infrastructures urbaines durables dans les grandes villes.',
+  'project.title6':'Agriculture intelligente face au climat',
+  'project.description6':'Promouvoir des pratiques agricoles résilientes au climat auprès des petits exploitants agricoles.',
+
+
+
+       'project.status.ongoing': 'En cours',
+  'project.status.completed': 'Complété',
+  'project.status.planned': 'Prévu',
+  'project.funding_source': 'Source de financement',
+     'project.location': 'Funding Source',
+     'project.more': 'plus',
+
     'projects.showing': 'Affichage de',
     'projects.results': 'projets',
     'projects.ongoing': 'En Cours',
@@ -12,12 +33,8 @@ export const projects = {
     'projects.status': 'Statut',
     'projects.region': 'Région',
     'project.budget': 'Budget',
-    'project.location': 'Emplacement',
     'project.startDate': 'Date de Début',
     'project.keyActors': 'Acteurs Clés',
     'project.programs': 'Programmes Connexes',
     'project.viewDetails': 'Voir les Détails',
-    'project.status.ongoing': 'En Cours',
-    'project.status.completed': 'Terminé',
-    'project.status.planned': 'Planifié',
 }

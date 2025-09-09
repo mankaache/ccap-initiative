@@ -10,6 +10,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { Copy, Facebook, Linkedin, Share2, Twitter } from "lucide-react"
+import { toast } from 'sonner'
 
 interface ShareModalProps {
   url: string
@@ -19,7 +20,7 @@ interface ShareModalProps {
 export const ShareModal: React.FC<ShareModalProps> = ({ url, title }) => {
   const copyToClipboard = () => {
     navigator.clipboard.writeText(url)
-    alert("Link copied to clipboard!")
+    toast.success("Link copied to clipboard!")
   }
 
   const shareToTwitter = () => {

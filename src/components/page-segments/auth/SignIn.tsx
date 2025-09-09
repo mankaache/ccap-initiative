@@ -129,9 +129,12 @@ const SignIn = () => {
                   </div>
                 </div>
 
-                <div className="mt-6 grid grid-cols-2 gap-3">
+                <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-3">
                   <Button variant="outline" className="w-full">
                     Google
+                  </Button>
+                  <Button variant="outline" className="w-full">
+                    Facebook
                   </Button>
                   <Button variant="outline" className="w-full">
                     Microsoft

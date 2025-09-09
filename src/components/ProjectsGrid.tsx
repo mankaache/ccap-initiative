@@ -13,7 +13,7 @@ interface ProjectsGridProps {
 const ProjectsGrid = ({ projects }: ProjectsGridProps) => {
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const { t } = useTranslation();
-  const [sortBy, setSortBy] = useState("latest");
+  
   if (projects.length === 0) {
     return (
       <div className="max-w-[1350px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -51,7 +51,7 @@ const ProjectsGrid = ({ projects }: ProjectsGridProps) => {
          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-3">
         <div>
           <h2 className="text-2xl font-bold text-foreground mb-2">
-            {t('projects.title')}
+            {t('projects.sectiontitle')}
           </h2>
           <p className="text-muted-foreground">
             {t('projects.showing')} {projects.length} {t('projects.results')}

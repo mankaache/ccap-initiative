@@ -1,9 +1,9 @@
-import Transparency from '@/components/page-segments/Transparency'
+import TransparencyHome from '@/components/page-segments/transparency/TransparencyHome'
 import React from 'react'
 
 const page = () => {
   return (
-    <Transparency/>
+    <TransparencyHome/>
   )
 }
 

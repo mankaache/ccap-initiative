@@ -21,12 +21,15 @@ const Header = () => {
     { name: t('header.home'), href: "/" },
     { name: t('header.about'), href: "/about" },
     {
-      name: 'Actors',
+      name: t('header.actor'),
       href: "#",
       dropdown: [
-        { name: 'Etiquete', href: "/news/international" },
-        { name: 'NGO', href: "/news/regional" },
-        { name: 'OGA', href: "/news/national" },
+        { name: 'Etatiques', href: "/actor/etatiques" },
+        { name: 'ONGI', href: "/actor/ongi" },
+        { name: 'OSC', href: "/actor/osc" },
+        { name: 'OBC', href: "/actor/obc" },
+        { name: 'SECTEUR PRIVEE', href: "/actor/secteur-privee" },
+        { name: 'CL', href: "/actor/cl" },
       ],
     },
     {
@@ -67,18 +70,18 @@ const Header = () => {
 
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center space-x-8">
-            {navigation.map((item) =>
+            {navigation.map((item,idx) =>
               item.dropdown ? (
-                <DropdownMenu key={item.name} >
+                <DropdownMenu key={idx + .5} >
                   <DropdownMenuTrigger className="nav-link flex items-center gap-1 focus:outline-hidden">
                     <span>{item.name}</span>
                     <ChevronDown className="h-4 w-4" />
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent className="bg-background border-border shadow-elegant min-w-[200px]">
+                  <DropdownMenuContent className="bg-background py-3 border-border shadow-elegant min-w-[200px]">
                     {item.dropdown.map((subItem) => (
                       <DropdownMenuItem
                         key={subItem.name}
-                        className="text-foreground hover:bg-accent hover:text-accent-foreground cursor-pointer"
+                        className="text-foreground border-b py-2 border-gray-100 hover:bg-accent hover:text-accent-foreground cursor-pointer"
                       >
                         <a href={subItem.href} className="w-full">
                           {subItem.name}
