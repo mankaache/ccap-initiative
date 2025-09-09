@@ -6,6 +6,7 @@ import { TooltipProvider } from "../ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Footer from "./Footer";
 import Header from "./Header";
+import Providers from "@/app/Provider";
 
 const BaseLayout = ({ children }: { children: React.ReactNode }) => {
   const queryClient = new QueryClient();
@@ -16,7 +17,9 @@ const BaseLayout = ({ children }: { children: React.ReactNode }) => {
           <TooltipProvider>
             <Sonner position="top-center"   />
             <Header/>
-            {children}
+            <Providers>
+              {children}
+            </Providers>
             <Footer/>
           </TooltipProvider>
       </QueryClientProvider>
