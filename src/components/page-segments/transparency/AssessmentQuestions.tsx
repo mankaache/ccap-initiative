@@ -11,6 +11,7 @@ import { Upload, FileText, CheckCircle, XCircle, AlertCircle } from "lucide-reac
 import {  QuestionResponse } from "./Assessment";
 import { toast } from "sonner";
 import { QuestionData } from "@/data/AssessmentQuestions";
+import { useTranslation } from "@/hooks/useTranslation";
 
 
 interface AssessmentQuestionProps {
@@ -54,17 +55,17 @@ export const AssessmentQuestion = ({
     const maxSize = 10 * 1024 * 1024; // 10MB
 
     if (!allowedTypes.includes(file.type)) {
-      toast.error("Invalid file type",{
-        description: "Please upload an image, PDF, or Word document.",
+      toast.error( t("tran.fileType"),{
+        description: t("tran.upload") ,
         
       });
       return;
     }
 
     if (file.size > maxSize) {
-      toast.error( "File too large",{
+      toast.error( t("ran.largeUploadError"),{
     
-        description: "Please upload a file smaller than 10MB.",
+        description: t("tran.largeUploadErrorDesc"),
       
       });
       return;
@@ -75,8 +76,8 @@ export const AssessmentQuestion = ({
       skipped: false 
     });
     
-    toast("File uploaded successfully",{
-      description: `${file.name} has been uploaded.`,
+    toast(t("tran.uploadSuccess") ,{
+      description: `${file.name} ${t("tran.uploaded")} .`,
     });
   };
 
@@ -128,6 +129,8 @@ export const AssessmentQuestion = ({
   const questionScore = calculateQuestionScore();
   const maxScore = response.skipped ? 0 : 3;
 
+  const {t} = useTranslation();
+
   return (
     <div className="space-y-6">
       {/* Question Score Badge */}
@@ -142,7 +145,7 @@ export const AssessmentQuestion = ({
           className="text-muted-foreground hover:text-foreground"
         >
           <AlertCircle className="h-4 w-4 mr-1" />
-          Skip Question
+          {t("tran.skipQuestion")}
         </Button>
       </div>
 
@@ -164,7 +167,7 @@ export const AssessmentQuestion = ({
                   className="flex items-center gap-2"
                 >
                   <CheckCircle className="h-4 w-4" />
-                  Yes
+                  {t("tran.yes")}
                 </Button>
                 <Button
                   variant={response.yesNoAnswer === false ? "default" : "outline"}
@@ -172,7 +175,7 @@ export const AssessmentQuestion = ({
                   className="flex items-center gap-2"
                 >
                   <XCircle className="h-4 w-4" />
-                  No
+                  {t("tran.no")}
                 </Button>
               </div>
             </CardContent>
@@ -221,7 +224,7 @@ export const AssessmentQuestion = ({
                   <div className="flex items-center gap-3 p-3 bg-success/10 border border-success/20 rounded-lg">
                     <FileText className="h-5 w-5 text-success" />
                     <div className="flex-1">
-                      <p className="text-sm font-medium text-success">File uploaded successfully</p>
+                      <p className="text-sm font-medium text-success">{t("tran.uploadSuccess")}</p>
                       <p className="text-xs text-muted-foreground">{response.fileUploaded.name}</p>
                     </div>
                     <Button
@@ -229,7 +232,7 @@ export const AssessmentQuestion = ({
                       size="sm"
                       onClick={() => onUpdateResponse(question.id, { fileUploaded: null })}
                     >
-                      Remove
+                      {t("tran.remove")}
                     </Button>
                   </div>
                 ) : (
@@ -245,10 +248,10 @@ export const AssessmentQuestion = ({
                   >
                     <Upload className="h-8 w-8 text-muted-foreground mx-auto mb-2" />
                     <p className="text-sm text-muted-foreground mb-2">
-                      Drag and drop your file here, or click to browse
+                     {t("tran.drag-drop")}
                     </p>
                     <p className="text-xs text-muted-foreground mb-4">
-                      Supports: Images, PDF, Word documents (max 10MB)
+                     {t("tran.supprt")} : Images, PDF, Word documents (max 10MB)
                     </p>
                     <Input
                       type="file"
@@ -262,7 +265,7 @@ export const AssessmentQuestion = ({
                       className="cursor-pointer flex w-full justify-center"
                     >
                       <Button variant="outline" size="sm" asChild>
-                        <span>Choose File</span>
+                        <span>{t("tran.chooseFile")}</span>
                       </Button>
                     </Label>
                   </div>
@@ -278,7 +281,7 @@ export const AssessmentQuestion = ({
           <CardContent className="p-4 text-center">
             <AlertCircle className="h-8 w-8 text-destructive mx-auto mb-2" />
             <p className="text-sm text-muted-foreground">
-              This question has been skipped and won't contribute to your final score.
+             {t("tran.skippedText")}
             </p>
             <Button
               variant="outline"
@@ -286,7 +289,7 @@ export const AssessmentQuestion = ({
               onClick={() => onUpdateResponse(question.id, { skipped: false })}
               className="mt-2"
             >
-              Answer This Question
+             {t("tran.answerQuestion")}
             </Button>
           </CardContent>
         </Card>

@@ -3,11 +3,13 @@ export const common = {
     'common.error': 'Erreur',
     'common.success': 'Succès',
     'common.submit': 'Soumettre',
-    'common.cancel': 'Annuler',
-    'common.save': 'Sauvegarder',
-    'common.edit': 'Modifier',
+    'common.later':'Plus tard',
+    'common.start': 'Démarrer le processus',
+    'common.begin': 'Commencez maintenant',
     'common.delete': 'Supprimer',
     'common.search': 'Rechercher',
-    'common.filter': 'Filtrer'
-  
+    'common.filter': 'Filtrer',
+   "common.allProjects": "Voir tous les projets",
+   "common.addProject": "Ajouter votre projet",
+   "common.transparent": "Transparence du projet",
 }

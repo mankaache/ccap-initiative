@@ -1,8 +1,10 @@
-
+'use client';
+import { useTranslation } from '@/hooks/useTranslation';
 import { Facebook, Twitter, Linkedin, Mail, Phone, MapPin } from 'lucide-react';
 import Link from 'next/link';
 
 const Footer = () => {
+  const { t } = useTranslation();
   return (
     <footer className="bg-foreground text-background">
       <div className="max-w-[1350px]  mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -20,8 +22,7 @@ const Footer = () => {
           </div>
             </Link>
             <p className="text-background/80 mb-6 max-w-md">
-              Climate Change Action Platform promotes transparency and accountability 
-              in climate finance and environmental initiatives across Cameroon.
+               {t('footer.title')} 
             </p>
             <div className="flex space-x-4">
               <a href="#" className="text-background/60 hover:text-primary transition-colors">
@@ -39,32 +40,32 @@ const Footer = () => {
           {/* Quick Links */}
           <div>
             <h3 className="text-lg font-semibold text-background mb-4">
-              Quick Links
+              {t('footer.quick')}
             </h3>
             <ul className="space-y-2">
               <li>
                 <Link href="/about" className="text-background/80 hover:text-primary transition-colors">
-                  About CCAP
+                 {t('footer.about')}
                 </Link>
               </li>
               <li>
-                <Link href="/projects" className="text-background/80 hover:text-primary transition-colors">
-                  Climate Projects
+                <Link href="/" className="text-background/80 hover:text-primary transition-colors">
+                  {t('footer.climate')}
                 </Link>
               </li>
               <li>
-                <Link href="/news" className="text-background/80 hover:text-primary transition-colors">
-                  News & Updates
+                <Link href="/news/international" className="text-background/80 hover:text-primary transition-colors">
+                  {t('footer.news')}
                 </Link>
               </li>
               <li>
-                <Link href="/documents" className="text-background/80 hover:text-primary transition-colors">
-                  Climate Documents
+                <Link href="/documents/national" className="text-background/80 hover:text-primary transition-colors">
+                  {t('footer.doc')}
                 </Link>
               </li>
               <li>
-                <Link href="/transparency" className="text-background/80 hover:text-primary transition-colors">
-                  Project Transparency
+                <Link href="/project-transparency" className="text-background/80 hover:text-primary transition-colors">
+                  {t('footer.trans')}
                 </Link>
               </li>
             </ul>
@@ -73,7 +74,7 @@ const Footer = () => {
           {/* Contact Info */}
           <div>
             <h3 className="text-lg font-semibold text-background mb-4">
-              Contact Us
+              {t('footer.contact')}
             </h3>
             <ul className="space-y-3">
               <li className="flex items-center gap-2 text-background/80">
@@ -105,14 +106,14 @@ const Footer = () => {
           </div>
           <div className="flex items-center gap-6 text-sm">
             <Link href="/privacy" className="text-background/60 hover:text-primary transition-colors">
-              Privacy Policy
+              {t('footer.privacy')}
             </Link>
             <Link href="/terms" className="text-background/60 hover:text-primary transition-colors">
-              Terms of Service
+              {t('footer.terms')}
             </Link>
-            <Link href="/contact" className="text-background/60 hover:text-primary transition-colors">
+            {/* <Link href="/contact" className="text-background/60 hover:text-primary transition-colors">
               Contact
-            </Link>
+            </Link> */}
           </div>
         </div>
       </div>

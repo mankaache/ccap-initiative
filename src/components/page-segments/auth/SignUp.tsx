@@ -10,8 +10,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Eye, EyeOff, Mail, Lock, User, Building } from "lucide-react";
 import { toast } from 'sonner'
 import Link from "next/link";
+import { useTranslation } from "@/hooks/useTranslation";
 
 const SignUp = () => {
+  const {t} = useTranslation();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [formData, setFormData] = useState({
@@ -26,15 +28,7 @@ const SignUp = () => {
     subscribeNewsletter: false
   });
 
-  const organizationTypes = [
-    "Government Agency",
-    "NGO/Non-Profit",
-    "Research Institution",
-    "Private Company",
-    "International Organization",
-    "Community Organization",
-    "Other"
-  ];
+  
 
   const handleInputChange = (field: string, value: string | boolean) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -44,26 +38,26 @@ const SignUp = () => {
     e.preventDefault();
     
     if (formData.password !== formData.confirmPassword) {
-      toast.error( "Password mismatch", {
+      toast.error( t("auth.passMissmatch") , {
    
-        description: "Please ensure both passwords match.",
+        description: t("auth.passMissmatchDesc") ,
    
       });
       return;
     }
 
     if (!formData.agreeToTerms) {
-      toast.warning("Terms agreement required", {
+      toast.warning(t("auth.terms") , {
     
-        description: "Please agree to the terms and conditions to continue.",
+        description: t("auth.termsDesc") ,
         
       });
       return;
     }
 
     // Mock registration - in real app, this would call an API
-    toast.success("Account created successfully!",{
-      description: "Welcome to CCAP. Please check your email to verify your account.",
+    toast.success(t("auth.actSuccess") ,{
+      description: t("auth.actSucessDesc") ,
     });
   };
 
@@ -78,23 +72,23 @@ const SignUp = () => {
               CCAP
             </div>
             <h2 className="text-3xl font-bold text-foreground">
-              Create your account
+              {t("auth.createAcct")}
             </h2>
             <p className="mt-2 text-muted-foreground">
-              Join the climate transparency community
+             {t("auth.createAcctDesc")}
             </p>
           </div>
 
           {/* Sign Up Form */}
           <Card className="border-border bg-gradient-card shadow-elegant">
             <CardHeader>
-              <CardTitle className="text-center">Sign Up</CardTitle>
+              <CardTitle className="text-center">{t("auth.signUp")}</CardTitle>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <Label htmlFor="firstName">First name</Label>
+                    <Label htmlFor="firstName">{t("auth.first_name")}</Label>
                     <div className="relative mt-1">
                       <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                       <Input
@@ -102,14 +96,14 @@ const SignUp = () => {
                         type="text"
                         value={formData.firstName}
                         onChange={(e) => handleInputChange("firstName", e.target.value)}
-                        placeholder="First name"
+                        placeholder={t("auth.first_name")}
                         className="pl-10"
                         required
                       />
                     </div>
                   </div>
                   <div>
-                    <Label htmlFor="lastName">Last name</Label>
+                    <Label htmlFor="lastName">{t("auth.last_name")}</Label>
                     <div className="relative mt-1">
                       <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                       <Input
@@ -117,7 +111,7 @@ const SignUp = () => {
                         type="text"
                         value={formData.lastName}
                         onChange={(e) => handleInputChange("lastName", e.target.value)}
-                        placeholder="Last name"
+                        placeholder={t("auth.last_name")}
                         className="pl-10"
                         required
                       />
@@ -126,7 +120,7 @@ const SignUp = () => {
                 </div>
 
                 <div>
-                  <Label htmlFor="email">Email address</Label>
+                  <Label htmlFor="email">{t("auth.email")}</Label>
                   <div className="relative mt-1">
                     <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                     <Input
@@ -134,7 +128,7 @@ const SignUp = () => {
                       type="email"
                       value={formData.email}
                       onChange={(e) => handleInputChange("email", e.target.value)}
-                      placeholder="Enter your email"
+                      placeholder={t("auth.email")}
                       className="pl-10"
                       required
                     />
@@ -145,7 +139,7 @@ const SignUp = () => {
               
 
                 <div>
-                  <Label htmlFor="password">Password</Label>
+                  <Label htmlFor="password">{t("auth.password")}</Label>
                   <div className="relative mt-1">
                     <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                     <Input
@@ -153,7 +147,7 @@ const SignUp = () => {
                       type={showPassword ? "text" : "password"}
                       value={formData.password}
                       onChange={(e) => handleInputChange("password", e.target.value)}
-                      placeholder="Create password"
+                      placeholder="*******"
                       className="pl-10 pr-10"
                       required
                     />
@@ -168,7 +162,7 @@ const SignUp = () => {
                 </div>
 
                 <div>
-                  <Label htmlFor="confirmPassword">Confirm Password</Label>
+                  <Label htmlFor="confirmPassword">{t("auth.confirm_password")}</Label>
                   <div className="relative mt-1">
                     <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                     <Input
@@ -176,7 +170,7 @@ const SignUp = () => {
                       type={showConfirmPassword ? "text" : "password"}
                       value={formData.confirmPassword}
                       onChange={(e) => handleInputChange("confirmPassword", e.target.value)}
-                      placeholder="Confirm password"
+                      placeholder="*******"
                       className="pl-10 pr-10"
                       required
                     />
@@ -197,19 +191,19 @@ const SignUp = () => {
                       checked={formData.agreeToTerms}
                       onCheckedChange={(checked) => handleInputChange("agreeToTerms", checked as boolean)}
                     />
-                    <Label htmlFor="agreeToTerms" className="text-sm cursor-pointer">
-                      I agree to the{" "}
+                    <Label htmlFor="agreeToTerms" className=" flex gap-2 items-center text-sm cursor-pointer">
+                     {t("auth.agree")}{" "}
                       <Link href="/terms" className="text-primary hover:text-primary-hover">
-                        Terms of Service
+                        {t("auth.termsAndConditions")}
                       </Link>{" "}
-                      and{" "}
+                      {t("auth.and")} {" "}
                       <Link href="/privacy" className="text-primary hover:text-primary-hover">
-                        Privacy Policy
+                        {t("auth.privacyPolicy")}
                       </Link>
                     </Label>
                   </div>
 
-                  <div className="flex items-center space-x-2">
+                  {/* <div className="flex items-center space-x-2">
                     <Checkbox
                       id="subscribeNewsletter"
                       checked={formData.subscribeNewsletter}
@@ -218,23 +212,23 @@ const SignUp = () => {
                     <Label htmlFor="subscribeNewsletter" className="text-sm cursor-pointer">
                       Subscribe to climate action updates and newsletters
                     </Label>
-                  </div>
-                </div>
+                  </div>*/}
+                </div> 
 
                 <Button type="submit" className="w-full bg-gradient-hero hover:opacity-90 shadow-climate">
-                  Create Account
+                 {t("auth.button1")}
                 </Button>
                 <div className="mt-6">
                 <div className="relative">
                   <div className="absolute inset-0 flex items-center">
                     <div className="w-full border-t border-border" />
                   </div>
-                  <div className="relative flex justify-center text-sm">
+                  {/* <div className="relative flex justify-center text-sm">
                     <span className="px-2 bg-background text-muted-foreground">Or continue with</span>
-                  </div>
+                  </div> */}
                 </div>
 
-                <div className="mt-6 grid  md:grid-cols-3 gap-3">
+                {/* <div className="mt-6 grid  md:grid-cols-3 gap-3">
                   <Button variant="outline" className="w-full">
                     Google
                   </Button>
@@ -244,14 +238,14 @@ const SignUp = () => {
                   <Button variant="outline" className="w-full">
                     Microsoft
                   </Button>
-                </div>
+                </div> */}
               </div>
               </form>
 
               <div className="mt-6 text-center">
-                <span className="text-muted-foreground">Already have an account? </span>
+                <span className="text-muted-foreground">{t("auth.haveAcctAlready")} {' '} </span>
                 <Link href ="/signin" className="text-primary hover:text-primary-hover font-medium">
-                  Sign in
+                 {t("auth.signIn")}
                 </Link>
               </div>
             </CardContent>

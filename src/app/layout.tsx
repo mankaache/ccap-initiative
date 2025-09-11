@@ -14,7 +14,7 @@ const poppins = Poppins({
 export const metadata: Metadata = {
   title: "Climate Change Action Portal",
   description:
-    "Climate Change Action Platform for Cameroon - Track climate projects, funding sources, and actors making a difference in environmental conservation",
+    "Climate Change Action Portal for Cameroon - Track climate projects, funding sources, and actors making a difference in environmental conservation",
 };
 
 export default async function RootLayout({
