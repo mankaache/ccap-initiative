@@ -108,7 +108,34 @@ const ClimateDocuments = () => {
         document: "/documents/international/rapport de la COP a cancun.pdf",
       },
     ],
-    regulation: [],
+    regulation: [
+      {
+        id: 1,
+        title: "LOI N°96/12 DU 5 août 1996 PORTANT LOI-CADRE RELATIVE À LA GESTION DE L’ENVIRONNEMENT",
+        description:"Ce texte juridique fondamental au Cameroun est celui qui fixe les règles générales pour la protection de l'environnement et la gestion durable de ses ressources, et est un patrimoine commun national.",
+          type: "Law",
+        pages: 21,
+        size: "2.3 MB",
+        date: "20212-02-14",
+        restricted: true,
+        author: "MINEDEP",
+        language: "French",
+        document: "/documents/regulation/art1.pdf",
+      },
+      {
+        id: 2,
+        title: "Cadre institutionnel sur le changement climatique au Cameroun",
+        description:  "L’ONACC crée le 10 déc. 2009, collecter, traiter et diffuser l’information sur l’évolution du Climat ",
+         type: "Decree",
+        pages: 21,
+        size: "2.3 MB",
+        date: "2024-03-11",
+        restricted: true,
+        author: "L’ONACC",
+        language: "French",
+        document: "/documents/regulation/art1.pdf"
+      },
+    ],
     national: [
       {
         id: 1,
@@ -296,9 +323,9 @@ const ClimateDocuments = () => {
                   <div className="space-y-2 mb-4">
                     <div className="flex items-center justify-between text-sm">
                       <span className="text-muted-foreground">
-                        Organization:
+                        Source:
                       </span>
-                      {/* <span className="font-medium text-foreground">{document.organization}</span> */}
+                      <span className="font-medium text-foreground">{document.author}</span>
                     </div>
                     <div className="flex items-center justify-between text-sm">
                       <span className="text-muted-foreground">Published:</span>

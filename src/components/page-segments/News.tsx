@@ -1,14 +1,10 @@
 import React from "react";
-import { Calendar, ArrowRight, Download } from "lucide-react";
-import { useParams } from "next/navigation";
+import { Calendar, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import NewsHero from "./News-hero";
 import intlImage from "@/assets/intl-news.jpg";
 import national from "@/assets/national-news.jpg";
-import Image, { StaticImageData } from "next/image";
-import image from "@/assets/vegetation.jpg";
-import { Button } from "../ui/button";
-import { getClimateNews } from "./GetClimateNews";
+import Image from "next/image";
 
 const News = ({
   newsItems,

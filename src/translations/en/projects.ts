@@ -1,7 +1,7 @@
 export const projects = {
   'project.title1': 'Climate Resilience Project',
   'project.description1': 'Building climate resilience in coastal communities through mangrove restoration and sustainable fishing practices.',
-'projects.sectiontitle':'Projects',
+  'projects.sectiontitle':'Projects',
   'project.title2':'Solar Energy Initiative',
   'project.description2':'Installing solar panels in rural communities to provide clean energy and reduce carbon emissions.',
   'project.title3':'Forest Conservation Program',
@@ -19,8 +19,8 @@ export const projects = {
   'project.status.completed': 'Completed',
   'project.status.planned': 'Planned',
   'project.funding_source': 'Funding Source',
- 'project.location': 'Funding Source',
- 'project.more': 'More', 
+  'project.location': 'Funding Source',
+  'project.more': 'More', 
   'projects.showing': 'Showing',
   'projects.results': 'projects',
   'projects.ongoing': 'Ongoing',
@@ -36,7 +36,7 @@ export const projects = {
   'project.keyActors': 'Key Actors',
   'project.programs': 'Related Programs',
   'project.viewDetails': 'View Details',
- 
+
   'project.start_date': 'Start Date',
   'project.end_date': 'End Date',
   'project.ongoing': 'Ongoing',
@@ -55,5 +55,59 @@ export const projects = {
   'project.additional_info': 'Additional information',
   'project.type.adaptation': 'adaptation',
   'project.type.mitigation': 'mitigation',
-  'project.type.finance': 'climate finance'
+  'project.type.finance': 'climate finance',
+
+
+
+  // create projects
+  'project.creatingProject':'Creating Project',
+  'project.added':'Project added successfully!',
+  'project.createNew':'Create New Project',
+  'project.createNewDesc':'Add a new project to track progress and transparency',
+  
+  
+  'project.basicInformation':'Basic Information',
+  'project.basicInfoDesc':'Before Starting we need a few details. ',
+
+  'project.orgName':'Name of Organization',
+  'project.orgNameDesc':'Enter the name of the organization',
+'project.orgStructure':'Name of Ministry',
+'project.orgStructureDesc':'Enter the name of the structure',
+    
+  
+  'project.projectTitle':'Project Title',
+  'project.projectDescription':'Enter project title',
+  'project.orgaDesc':'Brief Description of the Organization',
+  'project.orgaDesc2':'Describe your organization',
+  'project.projectDesc':'Brief Description of the Project',
+  
+  'project.projectDetails':'Project Details',
+  'project.projectZone':'Specific intervention area',
+  'project.projectZone2':'Specific location or address',
+  'project.region':'Region of Intervention',
+  'project.region2':'Select a region',
+  'project.add':'Add',
+  'project.Budget':'Budget Amount',
+  'project.fundingSource':'Funding Source',
+  'project.actor_category':'Actor Category',
+  'project.partners':'Partners (Technical and Financial)',
+  'project.goal':'Goal of this Project',
+    'project.goal1':'Mitigation',
+     'project.goal2':'Adaptation',
+     'project.goal3':'Finance',
+
+  'project.specific_objective':'Specific Objectives',
+  'project.specific_objective2':'What are you specific objectives?',
+
+  'project.intervention_logic':'Intervention Logic',
+  'project.intervention_logic2':'Describe the intervention logic',
+  'project.start':'Start',
+  'project.anOption':'Select an option',
+
+  'project.images':'Project Images (Optional)',
+  'project.drop_images':'Drop your images here or click to browse',
+  'project.chooseImage':'Choose Images',
+  'project.createProject':'Create Project',
+ 
+
 };

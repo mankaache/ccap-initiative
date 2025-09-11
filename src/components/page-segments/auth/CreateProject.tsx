@@ -23,7 +23,8 @@ import {
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
-import { Briefcase, Building2, X } from "lucide-react";
+import { useTranslation } from "@/hooks/useTranslation";
+import { Briefcase, Building2, Upload, X } from "lucide-react";
 import React, { useState } from "react";
 import { toast } from "sonner";
 
@@ -44,6 +45,7 @@ const CreateProject = () => {
     interventionLogic: "",
     results: "",
     Goal: "",
+    images: [],
     organizationType: "",
     programs: [],
     isOngoing: false,
@@ -53,6 +55,15 @@ const CreateProject = () => {
   const handleInputChange = (field: keyof OrganizationData, value: string) => {
     //@ts-ignore
     onUpdate({ ...data, [field]: value });
+  };
+  const handleFileUpload = (files: FileList | null) => {
+    if (files) {
+      setOrganizationData((prev) => ({
+        ...prev,
+        //@ts-ignore
+        images: [...prev.images, ...Array.from(files)],
+      }));
+    }
   };
 
   const isFormValid =
@@ -65,25 +76,14 @@ const CreateProject = () => {
   const [newProgram, setNewProgram] = useState("");
   const [newRegion, setNewRegion] = useState("");
   const availableActors = [
-    "GU Group",
-    "SU Organization",
-    "Development Partners",
-    "Local Community",
-    "Government Agency",
-    "NGO Partners",
-    "International Organization",
+    "Etatiques",
+    "ONGI",
+    "OSC",
+    "OBC",
+    "SECTEUR PRIVEE",
+    "CL",
   ];
-  const projectCategories = [
-    "Infrastructure",
-    "Education",
-    "Healthcare",
-    "Agriculture",
-    "Technology",
-    "Environment",
-    "Social Development",
-    "Economic Development",
-    "Governance",
-  ];
+
   const regions = [
     "Central Region",
     "Northern Region",
@@ -103,22 +103,6 @@ const CreateProject = () => {
     toast("Project added successfully!", {
       // description: `${organizationData.title} has been added to the project portfolio.`,
     });
-  };
-  const addActor = () => {
-    if (newActor && !organizationData.actors.includes(newActor)) {
-      setOrganizationData((prevData) => ({
-        ...prevData,
-        actors: [...prevData.actors, newActor],
-      }));
-      setNewActor("");
-    }
-  };
-
-  const removeActor = (actorToRemove: string) => {
-    setOrganizationData((prevData) => ({
-      ...prevData,
-      actors: prevData.actors.filter((actor) => actor !== actorToRemove),
-    }));
   };
 
   const addProgram = () => {
@@ -162,35 +146,62 @@ const CreateProject = () => {
       region: prevData.region.filter((region) => region !== regiontoRemove),
     }));
   };
-
+const {t} = useTranslation()
   return (
     <Card className="max-w-4xl mx-auto">
       <CardHeader>
         <CardTitle className="flex text-2xl font-semibold items-center space-x-2">
           <Briefcase className="w-6 h-6 text-primary" />
-          <h1>Create New Project</h1>
+          <h1>{t("project.createNew")}</h1>
         </CardTitle>
         <CardDescription>
-          Add a new project to track progress and transparency
-        </CardDescription>
+          {t("project.createNewDesc")}
+          </CardDescription>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-8">
           {/* Basic Information */}
           <div className="space-y-6">
             <Label className="text-lg font-semibold pb-2  border-b border-gray-300">
-              Basic Information
+              {t("project.basicInformation")}
             </Label>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Actors */}
               <div className="space-y-2">
-                <Label className="uppercase" htmlFor="title">
-                  {" "}
-                  NOM DE L’ORGANISATION *
+                <Label className=" capitalize ">{t("project.actor_category")} *</Label>
+
+                <div className="space-y-4">
+                  <div className="flex space-x-2">
+                    <Select value={newActor} onValueChange={setNewActor}>
+                      <SelectTrigger className="flex-1">
+                        <SelectValue placeholder="" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {availableActors.map((actor) => (
+                          <SelectItem key={actor} value={actor}>
+                            {actor}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <Label className="capitalize" htmlFor="title">
+                  {newActor === availableActors[0]
+                    ? `${t("project.orgStructure")} *`
+                    : `${t("project.orgName")} *`}
                 </Label>
                 <Input
                   id="title"
-                  placeholder="Entre le nom de l'organisation"
+                  placeholder={`${
+                    newActor === availableActors[0]
+                      ?  `${t("project.orgStructureDesc")} *`
+                      : `${t("project.orgNameDesc")} *`
+                  }`}
                   value={organizationData.organizationName}
                   onChange={(e) =>
                     handleInputChange("organizationName", e.target.value)
@@ -198,29 +209,29 @@ const CreateProject = () => {
                   required
                 />
               </div>
-              <div className="space-y-2">
-                <Label className="uppercase" htmlFor="title">
-                  TITRE DU PROJET *
-                </Label>
-                <Input
-                  id="title"
-                  placeholder="Enter project title"
-                  value={organizationData.ProjectTitle}
-                  onChange={(e) =>
-                    handleInputChange("ProjectTitle", e.target.value)
-                  }
-                  required
-                />
-              </div>
+            </div>
+            <div className="space-y-2">
+              <Label className="" htmlFor="title">
+               {t("project.projectTitle")} *
+              </Label>
+              <Input
+                id="title"
+                placeholder= {t("project.projectDescription")}
+                value={organizationData.ProjectTitle}
+                onChange={(e) =>
+                  handleInputChange("ProjectTitle", e.target.value)
+                }
+                required
+              />
             </div>
 
             <div className="space-y-2">
-              <Label className="uppercase" htmlFor="description">
-                BREF DESCRIPTION DE L’ORGANISATION*
+              <Label className="" htmlFor="description">
+               {t("project.orgaDesc")} *
               </Label>
               <Textarea
                 id="description"
-                placeholder=""
+                placeholder={t("project.orgaDesc2")}
                 value={organizationData.description}
                 onChange={(e) =>
                   handleInputChange("description", e.target.value)
@@ -234,16 +245,16 @@ const CreateProject = () => {
           {/* Project Details */}
           <div className="space-y-6">
             <Label className="text-lg font-semibold border-b border-gray-300 pb-2">
-              Project Details
+              {t("project.projectDetails")}
             </Label>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
-                <Label className="uppercase" htmlFor="location">
-                  ZONE D’INTERVENTION Specific *
+                <Label className="" htmlFor="location">
+                  {t("project.projectZone")} *
                 </Label>
                 <Input
                   id="location"
-                  placeholder="Specific location or address"
+                  placeholder={t("project.projectZone2")}
                   value={organizationData.specificLocation}
                   onChange={(e) =>
                     handleInputChange("specificLocation", e.target.value)
@@ -253,13 +264,13 @@ const CreateProject = () => {
               </div>
 
               <div className="space-y-4">
-                <Label className="uppercase" htmlFor="regions">
-                  Region D’INTERVENTION *
+                <Label className="" htmlFor="regions">
+                  {t("project.region")} *
                 </Label>
                 <div className="flex space-x-2">
                   <Select value={newRegion} onValueChange={setNewRegion}>
                     <SelectTrigger className="flex-1">
-                      <SelectValue placeholder="Select a region" />
+                      <SelectValue placeholder={t("project.region2")} />
                     </SelectTrigger>
                     <SelectContent>
                       {regions
@@ -304,8 +315,8 @@ const CreateProject = () => {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
-                <Label className="uppercase" htmlFor="status">
-                  Status *
+                <Label className="" htmlFor="status">
+                  {t("projects.status")} *
                 </Label>
                 <Select
                   value={organizationData.status}
@@ -317,16 +328,16 @@ const CreateProject = () => {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="planned">Planned</SelectItem>
-                    <SelectItem value="ongoing">Ongoing</SelectItem>
-                    <SelectItem value="completed">Completed</SelectItem>
+                    <SelectItem value="planned">{t("projects.planned")}</SelectItem>
+                    <SelectItem value="ongoing">{t("projects.ongoing")}</SelectItem>
+                    <SelectItem value="completed">{t("projects.completed")}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
 
               <div className="space-y-2">
-                <Label className="uppercase" htmlFor="budget">
-                  MONTANT DU BUDGET (XAF) *
+                <Label className="" htmlFor="budget">
+                {t("project.Budget")} (XAF) *
                 </Label>
                 <Input
                   id="budget"
@@ -340,8 +351,8 @@ const CreateProject = () => {
               </div>
 
               <div className="space-y-2">
-                <Label className="uppercase" htmlFor="fundingSource">
-                  SOURCE DE FINANCEMENT *
+                <Label className="" htmlFor="fundingSource">
+                {t("project.fundingSource")} *
                 </Label>
                 <Input
                   id="fundingSource"
@@ -359,13 +370,13 @@ const CreateProject = () => {
           {/* Timeline */}
           <div className="space-y-6">
             <Label className="text-lg font-semibold border-b border-gray-300 pb-2">
-              Timeline
+              {t("project.timeline")} *
             </Label>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
-                <Label className="uppercase" htmlFor="startDate">
-                  début de MISE EN ŒUVRE *
+                <Label className="" htmlFor="startDate">
+                {t("project.start_date")} *
                 </Label>
                 <Input
                   id="startDate"
@@ -380,8 +391,8 @@ const CreateProject = () => {
 
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <Label className="uppercase" htmlFor="endDate">
-                    fin de MISE EN ŒUVRE
+                  <Label className="" htmlFor="endDate">
+                    {t("project.end_date")}
                   </Label>
                   <div className="flex items-center space-x-2">
                     <Switch
@@ -392,7 +403,7 @@ const CreateProject = () => {
                       }
                     />
                     <Label className="text-sm capitalize" htmlFor="ongoing">
-                      En cours
+                      {t("project.ongoing")}
                     </Label>
                   </div>
                 </div>
@@ -407,55 +418,10 @@ const CreateProject = () => {
             </div>
           </div>
 
-          {/* Actors */}
-          <div className="space-y-6">
-            <Label className=" uppercase pb-2">Acteur</Label>
-
-            <div className="space-y-4">
-              <div className="flex space-x-2">
-                <Select value={newActor} onValueChange={setNewActor}>
-                  <SelectTrigger className="flex-1">
-                    <SelectValue placeholder="" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {availableActors
-                      .filter(
-                        (actor) => !organizationData.actors.includes(actor)
-                      )
-                      .map((actor) => (
-                        <SelectItem key={actor} value={actor}>
-                          {actor}
-                        </SelectItem>
-                      ))}
-                  </SelectContent>
-                </Select>
-
-                <Button type="button" onClick={addActor} disabled={!newActor}>
-                  Ajouter
-                </Button>
-              </div>
-
-              <div className="flex flex-wrap gap-2">
-                {organizationData.actors.map((actor) => (
-                  <Badge key={actor} variant="secondary" className="px-3 py-1">
-                    {actor}
-                    <button
-                      type="button"
-                      onClick={() => removeActor(actor)}
-                      className="ml-2 hover:bg-destructive/20 rounded-full p-0.5"
-                    >
-                      <X className="w-3 h-3" />
-                    </button>
-                  </Badge>
-                ))}
-              </div>
-            </div>
-          </div>
-
           {/* Programs */}
-          <div className="space-y-6">
-            <Label className=" uppercase  pb-2">
-              PARTENAIRES (TECHNIQUE ET FINANCIER)
+          <div className="space-y-2">
+            <Label className="   pb-2">
+              {t("project.partners")}
             </Label>
 
             <div className="space-y-4">
@@ -471,7 +437,7 @@ const CreateProject = () => {
                   onClick={addProgram}
                   disabled={!newProgram}
                 >
-                  ajouter
+                  {t("project.add")}
                 </Button>
               </div>
 
@@ -493,25 +459,31 @@ const CreateProject = () => {
           </div>
 
           <div className="space-y-2">
-            <Label className="uppercase" htmlFor="description">
-              BUT (Liste déroulante : atténuation, adaptation ,finance……)*
-            </Label>
-            <Textarea
-              id="goal"
-              placeholder=""
-              value={organizationData.Goal}
-              onChange={(e) => handleInputChange("Goal", e.target.value)}
-              required
-              rows={4}
-            />
+            <Label className="" htmlFor="description">
+              {t("project.goal")} *
+              </Label>
+              <Select>
+              <SelectTrigger className="flex-1 w-full ">
+                <SelectValue placeholder={t("project.anOption")} />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value={"atténuation"}>
+                  {t("project.goal1")}
+                </SelectItem>
+                <SelectItem value={"adaptation"}>
+                  {t("project.goal2")}
+                </SelectItem>
+                <SelectItem value={"finance"}>{t("project.goal3")}</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
           <div className="space-y-2">
-            <Label className="uppercase" htmlFor="description">
-              OBJECTIFS SPECIFIQUES*
+            <Label className="" htmlFor="description">
+              {t("project.specific_objective")} *
             </Label>
             <Textarea
               id="specificObjectives"
-              placeholder=""
+              placeholder={t("project.specific_objective2")}
               value={organizationData.specificObjectives}
               onChange={(e) =>
                 handleInputChange("specificObjectives", e.target.value)
@@ -521,12 +493,12 @@ const CreateProject = () => {
             />
           </div>
           <div className="space-y-2">
-            <Label className="uppercase" htmlFor="description">
-              LOGIQUE D’INTERVENTION*
+            <Label className="" htmlFor="description">
+              {t("project.intervention_logic")} *
             </Label>
             <Textarea
               id="interventionLogic"
-              placeholder=""
+              placeholder={t("project.intervention_logic2")}
               value={organizationData.interventionLogic}
               onChange={(e) =>
                 handleInputChange("interventionLogic", e.target.value)
@@ -536,12 +508,51 @@ const CreateProject = () => {
             />
           </div>
 
-          <div className="flex justify-center pt-6 border-t w-full">
+          {/* Images */}
+          <div className="space-y-4">
+            <h3 className="text-lg font-semibold border-b border-gray-300 pb-2">
+              {t("project.images")}
+            </h3>
+
+            <div className="border border-dashed border-muted-foreground/25 rounded-lg p-6 text-center">
+              <Upload className="w-8 h-8 mx-auto mb-4 text-muted-foreground" />
+              <div className="space-y-2">
+                <p className="text-sm text-muted-foreground">
+                  {t("project.drop_images")}
+                </p>
+                <input
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  className="hidden"
+                  id="image-upload"
+                  onChange={(e) => handleFileUpload(e.target.files)}
+                />
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() =>
+                    document.getElementById("image-upload")?.click()
+                  }
+                >
+                  {t("project.chooseImage")}
+                </Button>
+                {organizationData.images &&
+                  organizationData?.images.length > 0 && (
+                    <p className="text-sm text-primary font-medium">
+                      {organizationData.images.length} image(s) selected
+                    </p>
+                  )}
+              </div>
+            </div>
+          </div>
+
+          <div className="flex justify-center pt-6 border-t border-gray-300 w-full">
             <Button
               disabled={!isFormValid}
               className="bg-gradient-to-l from-secondary   to-primary hover:opacity-90 px-8"
             >
-              Create Project
+              {t("project.createProject")}
             </Button>
           </div>
         </form>

@@ -13,6 +13,7 @@ import { AssessmentQuestion } from "./AssessmentQuestions";
 import { ResultsModal } from "./ResultModal";
 import { sampleQuestions } from "@/data/AssessmentQuestions";
 import { set } from "react-hook-form";
+import { useTranslation } from "@/hooks/useTranslation";
 
 
 
@@ -28,6 +29,7 @@ export interface QuestionResponse {
 
 const TransparencyAssessment = () => {
   const navigate = useRouter();
+  const {t} = useTranslation()
   const [showInitialModal, setShowInitialModal] = useState(true);
   const [showResultsModal, setShowResultsModal] = useState(false);
   const [responses, setResponses] = useState<QuestionResponse[]>([]);
@@ -56,7 +58,7 @@ const TransparencyAssessment = () => {
   organizationType: "",
   programs: [],
   isOngoing: false,
-  status:'planned' as 'ongoing' | 'completed' | 'planned'
+  status:t('tran.planned') as 'ongoing' | 'completed' | 'planned'
   });
 
   useEffect(() => {
@@ -169,7 +171,7 @@ const TransparencyAssessment = () => {
       results: "",
       programs: [],
       isOngoing: false,
-      status:'planned' as 'ongoing' | 'completed' | 'planned'
+      status:t("tran.planned") as 'ongoing' | 'completed' | 'planned'
     });
   };
 
@@ -187,12 +189,11 @@ const TransparencyAssessment = () => {
           <div className="flex items-center justify-center gap-2 mb-4">
             <Shield className="h-8 w-8 text-primary" />
             <h1 className="text-3xl font-bold bg-gradient-to-l from-secondary to-primary bg-clip-text text-transparent">
-              Transparency Demonstation
+              {t('tran.demonstration')}
             </h1>
           </div>
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            Complete this comprehensive form to evaluate your
-            organization's transparency practices
+            {t("tran.comprehensive")}
           </p>
         </div>
 
@@ -211,7 +212,7 @@ const TransparencyAssessment = () => {
                 <CardHeader className="text-center">
                   <CardTitle className="flex items-center gap-2 justify-center text-lg">
                     <TrendingUp className="h-5 w-5 text-primary" />
-                    Your Score
+                    {t("tran.closeResults")}
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
@@ -221,9 +222,9 @@ const TransparencyAssessment = () => {
                   </div>
                   
                   <div className="space-y-2">
-                    <div className="text-sm text-muted-foreground">Progress</div>
+                    <div className="text-sm text-muted-foreground">{t("tran.progess")}</div>
                     <div className="text-sm">
-                      Question {currentQuestionIndex + 1} of {sampleQuestions.length}
+                      {t("tran.questions")} {currentQuestionIndex + 1} {t("tran.of")} {sampleQuestions.length}
                     </div>
                     <Progress value={((currentQuestionIndex + 1) / sampleQuestions.length) * 100} className="w-full" />
                   </div>
@@ -248,7 +249,7 @@ const TransparencyAssessment = () => {
                         {sampleQuestions[currentQuestionIndex]?.title}
                       </div>
                       <div className="text-sm">
-                        Question {currentQuestionIndex + 1} of{" "}
+                         {t("tran.questions")}  {currentQuestionIndex + 1} {t("tran.of")} {" "}
                         {sampleQuestions.length}
                       </div>
                     </div>
@@ -279,8 +280,8 @@ const TransparencyAssessment = () => {
                       }
                     >
                       {currentQuestionIndex === 0
-                        ? "Back to Organization Info"
-                        : "Previous"}
+                        ? t("tran.backOrg")
+                        : t('tran.prev')}
                     </Button>
 
                     <div className="flex gap-2">
@@ -289,14 +290,14 @@ const TransparencyAssessment = () => {
                           onClick={handleShowResults}
                           className="bg-gradient-to-l from-secondary to-primary hover:opacity-90"
                         >
-                          See Transparency Results
+                            {t("tran.ParencyResult")}
                         </Button>
                       ) : (
                         <Button
                           onClick={handleNext}
                           className="bg-gradient-to-l from-secondary to-primary hover:opacity-90"
                         >
-                          Next Question
+                         {t("tran.nextQuestion")}
                         </Button>
                       )}
                     </div>

@@ -4,6 +4,11 @@ import { filters } from "./filters";
 import { hero } from "./hero";
 import { map } from "./map";
 import { projects } from "./projects";
+import { about } from "./about";
+import { actor } from "./actor";
+import { transparency } from "./transparency";
+import { auth } from "./auth";
+import { footer } from "./footer";
 
 
 export const fr = {
@@ -12,5 +17,10 @@ export const fr = {
   ...filters,
   ...projects,
   ...map,
-  ...common
+  ...common,
+  ...about,
+  ...actor,
+  ...transparency,
+  ...auth,
+  ...footer
 };

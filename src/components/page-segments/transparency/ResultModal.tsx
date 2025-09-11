@@ -1,3 +1,4 @@
+'use client'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -8,6 +9,7 @@ import { OrganizationData } from "./OganisationInfo";
 import { toast } from "sonner";
 import { QuestionData } from "@/data/AssessmentQuestions";
 import { start } from "repl";
+import { useTranslation } from "@/hooks/useTranslation";
 
 
 interface ResultsModalProps {
@@ -20,11 +22,11 @@ interface ResultsModalProps {
 
 export const ResultsModal = ({ score, responses, questions, organizationData, onClose }: ResultsModalProps) => {
  
-
+const {t} = useTranslation()
   const getScoreCategory = (score: number) => {
-    if (score >= 80) return { label: "Excellent", color: "default", icon: Trophy };
-    if (score >= 60) return { label: "Good", color: "secondary", icon: TrendingUp };
-    return { label: "Needs Improvement", color: "destructive", icon: AlertTriangle };
+    if (score >= 80) return { label: t("tran.excellent") , color: "default", icon: Trophy };
+    if (score >= 60) return { label: t('tran.good') , color: "secondary", icon: TrendingUp };
+    return { label: t("tran.Improvement") , color: "destructive", icon: AlertTriangle };
   };
 
   const scoreCategory = getScoreCategory(score);
@@ -58,9 +60,9 @@ export const ResultsModal = ({ score, responses, questions, organizationData, on
         return {
           question: question.title,
           yesNoQuestion: question.yesNoQuestion,
-          yesNoAnswer: response.skipped ? "Skipped" : (response.yesNoAnswer === true ? "Yes" : response.yesNoAnswer === false ? "No" : "Not answered"),
-          checkboxAnswers: response.skipped ? "Skipped" : question.checkboxOptions.filter((_, index:any) => response.checkboxAnswers[index]).join(", ") || "None selected",
-          fileUploaded: response.skipped ? "Skipped" : (response.fileUploaded ? response.fileUploaded.name : "No file uploaded"),
+          yesNoAnswer: response.skipped ? t("tran.skipped") : (response.yesNoAnswer === true ? t("tran.yes") : response.yesNoAnswer === false ? t('tran.no') : t("tran.notAnswered")),
+          checkboxAnswers: response.skipped ? t("tran.skipped") : question.checkboxOptions.filter((_, index:any) => response.checkboxAnswers[index]).join(", ") || t("tran.noneSelected"),
+          fileUploaded: response.skipped ? t("tran.skipped") : (response.fileUploaded ? response.fileUploaded.name : t("tran.noFile")),
           questionScore: `${questionScore}/3`,
           skipped: response.skipped
         };
@@ -75,19 +77,19 @@ export const ResultsModal = ({ score, responses, questions, organizationData, on
     const recommendations = [];
     
     if (score < 60) {
-      recommendations.push("Consider developing a comprehensive transparency strategy");
-      recommendations.push("Establish regular reporting mechanisms for key metrics");
+      recommendations.push(t("tran.recommendation1"));
+      recommendations.push(t("tran.recommendation2"));
     }
     
     if (score < 80) {
-      recommendations.push("Enhance stakeholder communication channels");
-      recommendations.push("Implement more robust documentation practices");
+      recommendations.push(t("tran.recommendation3"));
+      recommendations.push(t("tran.recommendation4"));
     }
 
     // Check for specific areas of improvement
     responses.forEach((response, index) => {
       if (response.skipped) {
-        recommendations.push(`Consider addressing ${questions[index]?.title.toLowerCase()} practices`);
+        recommendations.push(`${t("tran.addressing")} ${questions[index]?.title.toLowerCase()} ${t("tran.practices")}`);
       } else {
         let questionScore = 0;
         if (response.yesNoAnswer === true) questionScore += 1;
@@ -95,7 +97,7 @@ export const ResultsModal = ({ score, responses, questions, organizationData, on
         if (response.fileUploaded) questionScore += 1;
         
         if (questionScore < 2) {
-          recommendations.push(`Strengthen your ${questions[index]?.title.toLowerCase()} practices`);
+          recommendations.push(`${t("tran.strengthen")} ${questions[index]?.title.toLowerCase()} ${t("tran.practices")}`);
         }
       }
     });
@@ -108,61 +110,59 @@ export const ResultsModal = ({ score, responses, questions, organizationData, on
     
     // Create a comprehensive text report
     const reportText = `
-TRANSPARENCY DEMONSTRATION REPORT
-Generated on: ${reportData.assessmentDate}
+${t("tran.demonstrationReport")}
+${t("tran.generated")}: ${reportData.assessmentDate}
 
-ORGANIZATION INFORMATION
+${t("tran.orgInfo")}
 ========================
-Organization Name: ${reportData.organizationInfo.name}
-Organization Type: ${reportData.organizationInfo.organizationType || 'Not specified'}
+${t("tran.orgName")}: ${reportData.organizationInfo.name}
+${t("tran.orgType")}: ${reportData.organizationInfo.organizationType || t("tran.notSpecified")}
 
-Organization Description:
-${reportData.organizationInfo.goal || 'No description provided'}
+${t("orgDescription")}:
+${reportData.organizationInfo.goal || t("tran.NoOrgDescription")}
 
-OVERALL RESULTS
+${t("tran.overallResults")}
 ===============
-Score: ${reportData.overallScore}%
-Category: ${reportData.scoreCategory}
+${t("tran.Rscore")}: ${reportData.overallScore}%
+${t("tran.category")}: ${reportData.scoreCategory}
 
-DETAILED RESPONSES
+${t("tran.responses")}
 ==================
 ${reportData.questionResponses.map((response:any, index) => `
 ${index + 1}. ${response.question}
-   Question: ${response.yesNoQuestion}
-   Answer: ${response.yesNoAnswer}
+   ${t("tran.questions")}: ${response.yesNoQuestion}
+   ${t("tran.answer")}: ${response.yesNoAnswer}
    
-   Selected Options: ${response.checkboxAnswers}
+   ${t("tran.selectedOptions")}: ${response.checkboxAnswers}
    
-   File Upload: ${response.fileUploaded}
+   ${t("tran.uploadedFile")}: ${response.fileUploaded}
    
-   Score: ${response.questionScore}
-   ${response.skipped ? '(SKIPPED)' : ''}
+   ${t("tran.Rscore")}: ${response.questionScore}
+   ${response.skipped ? (`${t("tran.skipped")}`): ''}
 `).join('\n')}
 
-RECOMMENDATIONS
+${t("tran.recommendation")}
 ===============
 ${reportData.recommendations.map((rec, index) => `${index + 1}. ${rec}`).join('\n')}
 
 ---
-This report was generated by the Transparency Assessment Tool.
-For more information on improving your transparency practices, 
-consult with governance and compliance experts.
-    `.trim();
+${t("tran.recoDesc")}
+`.trim();
 
     // Create and download the file
     const blob = new Blob([reportText], { type: 'text/plain' });
     const url = window.URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = `transparency-assessment-${reportData.organizationInfo.name.replace(/[^a-zA-Z0-9]/g, '-')}-${reportData.assessmentDate}.txt`;
+    link.download = `${t("tran.assessment")}-${reportData.organizationInfo.name.replace(/[^a-zA-Z0-9]/g, '-')}-${reportData.assessmentDate}.txt`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
     window.URL.revokeObjectURL(url);
 
-    toast.success("Report Downloaded",{
+    toast.success(t("tran.downloadedReport"),{
       
-      description: "Your transparency assessment report has been downloaded successfully.",
+      description: t("tran.downloadDesc"),  
     });
   };
 
@@ -189,10 +189,10 @@ consult with governance and compliance experts.
           </div>
           
           <CardTitle className="text-3xl font-bold bg-gradient-to-l from-secondary to-primary bg-clip-text text-transparent">
-            Your Transparency Results
+            {t("tran.tranResults")}
           </CardTitle>
           <CardDescription className="text-base mt-2">
-            Form filled  on {new Date().toLocaleDateString()}
+           {t("tran.formFilled")} {new Date().toLocaleDateString()}
           </CardDescription>
         </CardHeader>
         
@@ -211,13 +211,13 @@ consult with governance and compliance experts.
             <Card>
               <CardContent className="p-4 text-center">
                 <div className="text-2xl font-bold text-primary">{completedQuestions}</div>
-                <div className="text-sm text-muted-foreground">Questions Completed</div>
+                <div className="text-sm text-muted-foreground">{t("tran.questionCompleted")}</div>
               </CardContent>
             </Card>
             <Card>
               <CardContent className="p-4 text-center">
                 <div className="text-2xl font-bold text-accent">{totalQuestions - completedQuestions}</div>
-                <div className="text-sm text-muted-foreground">Questions Skipped</div>
+                <div className="text-sm text-muted-foreground">{t("tran.questionSkipped")}</div>
               </CardContent>
             </Card>
             <Card>
@@ -225,14 +225,14 @@ consult with governance and compliance experts.
                 <div className="text-2xl font-bold text-success">
                   {responses.filter(r => !r.skipped && r.fileUploaded).length}
                 </div>
-                <div className="text-sm text-muted-foreground">Files Uploaded</div>
+                <div className="text-sm text-muted-foreground">{t("tran.filesUploaded")}</div>
               </CardContent>
             </Card>
           </div>
 
           {/* Question Breakdown */}
-          <div>
-            <h3 className="text-lg font-semibold mb-4">Question Breakdown</h3>
+          <div className="max-h-[300px] overflow-y-auto">
+            <h3 className="text-lg font-semibold mb-4">{t("tran.questionBreakdown")}</h3>
             <div className="space-y-3">
               {questions.map((question, index) => {
                 const response = responses.find(r => r.id === question.id);
@@ -267,7 +267,7 @@ consult with governance and compliance experts.
 
           {/* Recommendations */}
           <div>
-            <h3 className="text-lg font-semibold mb-4">Recommendations</h3>
+            <h3 className="text-lg font-semibold mb-4 capitalize">{t("tran.recommendation")}</h3>
             <div className="bg-transparency-light p-4 rounded-lg border border-primary/20">
               <ul className="space-y-2">
                 {getRecommendations(score, responses, questions).map((recommendation, index) => (
@@ -287,14 +287,14 @@ consult with governance and compliance experts.
               onClick={onClose}
               className="flex-1"
             >
-              Close Results
+              {t("tran.closeResults")}
             </Button>
             <Button
               onClick={downloadReport}
               className="flex-1 bg-gradient-to-l from-secondary to-primary hover:opacity-90"
             >
               <Download className="h-4 w-4 mr-2" />
-              Download Report
+              {t("tran.downloadReport")}
             </Button>
           </div>
         </CardContent>

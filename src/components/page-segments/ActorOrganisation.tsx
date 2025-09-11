@@ -6,6 +6,7 @@ import { getCategoryTitle, organizations } from "@/data/organisation";
 import Link from "next/link";
 import ProjectCard from "../ProjectCard";
 import { getMockProjects } from "@/data/mockProjects";
+import { useTranslation } from "@/hooks/useTranslation";
 
 const ActorOrganisation = () => {
   const mockProjects =  getMockProjects();
@@ -16,6 +17,7 @@ const ActorOrganisation = () => {
   );
   //@ts-ignore
   const categoryTitle = getCategoryTitle(organization.category);
+  const {t} = useTranslation();
 
   return (
     <div className="">
@@ -26,7 +28,7 @@ const ActorOrganisation = () => {
             className="inline-flex items-center gap-2 font-bold text-muted-foreground hover:text-primary transition-fast mb-4"
           >
             <ArrowLeft className="h-7 w-7" />
-            Back to {categoryTitle}
+            {t("actor.backTo")}{' '} {categoryTitle}
           </Link>
         </div>
       </div>
@@ -34,13 +36,16 @@ const ActorOrganisation = () => {
       <main className="min-h-screen max-w-5xl mx-auto  mt-5 px-4 lg:px-8 py-8">
         <div className="mb-8 ">
           <div className="mt-4 font-semibold text-muted-foreground">
-           A Total of {mockProjects.length} projects found
+          {t("actor.total")}{' '} {mockProjects.length} {t('actor.projectFound')}
           </div>
         </div>
         <div className="grid grid-cols-2 gap-5 items-center">
           {mockProjects.map((project) => (
             <div key={project.id} className="animate-fade-in">
               <ProjectCard
+                category={organization && organization.category}
+                id={organization && organization.id}
+
                 //@ts-ignore
                 project={project}
               />

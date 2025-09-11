@@ -32,7 +32,7 @@ interface ProjectCardProps {
   };
 }
 
-const ProjectCard = ({ project }: ProjectCardProps) => {
+const ProjectCard = ({ project, category, id }:any) => {
   const { t } = useTranslation();
   
   const getStatusIcon = () => {
@@ -111,7 +111,10 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
             <span>{t('project.keyActors')} ({project.actors &&project.actors.length})</span>
           </div>
           <div className="flex flex-wrap gap-1">
-            { project.actors && project.actors.slice(0, 3).map((actor, index) => (
+            
+            {
+            //@ts-ignore
+            project.actors && project.actors.slice(0, 3).map((actor, index) => (
               <Badge key={index} variant="secondary" className="text-xs">
                 {actor}
               </Badge>
@@ -129,7 +132,9 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
           <div className="space-y-2">
             <div className="text-xs text-muted-foreground">{t('project.programs')}</div>
             <div className="flex flex-wrap gap-1">
-              {project.programs && project.programs.slice(0, 2).map((program, index) => (
+              {
+              //@ts-ignore
+              project.programs && project.programs.slice(0, 2).map((program, index) => (
                 <Badge key={index} variant="outline" className="text-xs bg-accent/30">
                   {program}
                 </Badge>
@@ -146,7 +151,7 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
         {/* Action Button */}
         <div className="pt-3 border-t border-border">
           <Link
-          href ={`/project/${project.id}`}
+          href ={`/actor/${category}/${id}/${project.id}`}
           className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-orange-500 to-green-500 text-white text-sm font-medium rounded-lg hover:from-orange-600 hover:to-green-600 transition-all duration-200 transform hover:scale-105"
         >
             {t('project.viewDetails')}

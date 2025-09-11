@@ -1,3 +1,5 @@
+'use client';
+
 import Footer from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -23,7 +25,9 @@ import gda from "@/assets/GDA.png";
 import said from "@/assets/Said.png";
 import aboutImage from "@/assets/about.jpg";
 import Image from "next/image";
+import { useTranslation } from "@/hooks/useTranslation";
 const About = () => {
+  const {t} = useTranslation()
   return (
     <div className="min-h-screen bg-background">
       {/* Enhanced Hero Section */}
@@ -46,21 +50,20 @@ const About = () => {
               className="mb-6 bg-primary/10 text-primary border-primary/20"
               variant="outline"
             >
-              Leading Climate Action in Cameroon
+              {t("about.subTitle")}
             </Badge>
             <h1 className="text-5xl md:text-6xl lg:text-6xl font-bold text-foreground mb-8 tracking-tight">
-              Fixing Climate Change <br /> One Project at a time
+              {t("about.heroTitle1")} <br />{t("about.heroTitle2")}
             </h1>
             <p className="text-xl md:text-2xl  max-w-4xl mx-auto leading-relaxed">
-              Promoting transparency and accountability in climatic endeavors in
-              Cameroon.
+              {t("about.desc")}
             </p>
             <div className="mt-12 flex flex-col sm:flex-row gap-4 justify-center">
               <Button
                 size="lg"
                 className="bg-primary hover:bg-primary/90 text-primary-foreground"
               >
-                See all projects
+                {t("common.allProjects")}
               </Button>
             </div>
           </div>
@@ -72,7 +75,7 @@ const About = () => {
         <div className="max-w-[1350px]  mx-auto px-4 sm:px-6 lg:px-8">
           <div className="bg-card rounded-2xl flex flex-col justify-center items-center shadow border-border py-8 px-4">
             <h2 className="text-lg font-bold text-center text-foreground mb-5">
-              Founding Organisations
+            {t("about.foundersTitle")}
             </h2>
             <div className="flex items-center flex-wrap gap-12 lg:gap-20">
               <div className="relative text-center w-20 h-20 rounded-full ">
@@ -111,14 +114,13 @@ const About = () => {
               className="mb-4 bg-secondary/10 text-secondary border-secondary/20"
               variant="outline"
             >
-              Our Foundation
+            {t("about.foundation")}
             </Badge>
             <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
-              Driving Climate Transparency
+              {t("about.driving")}
             </h2>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              Built on the pillars of transparency, accountability, and
-              sustainable development
+             {t("about.pillars")}
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -127,13 +129,11 @@ const About = () => {
                 <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-primary/20 transition-colors">
                   <Target className="h-8 w-8 text-primary" />
                 </div>
-                <CardTitle className="text-xl">Our Mission</CardTitle>
+                <CardTitle className="text-xl">{t("about.missionTitle")}</CardTitle>
               </CardHeader>
               <CardContent className="text-center">
                 <p className="text-muted-foreground leading-relaxed">
-                  To enhance transparency in climate finance and ensure
-                  effective implementation of environmental projects across
-                  Cameroon.
+                  {t("about.enhance")}
                 </p>
               </CardContent>
             </Card>
@@ -143,12 +143,11 @@ const About = () => {
                 <div className="w-16 h-16 bg-secondary/10 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-secondary/20 transition-colors">
                   <Eye className="h-8 w-8 text-secondary" />
                 </div>
-                <CardTitle className="text-xl">Our Vision</CardTitle>
+                <CardTitle className="text-xl">{t("about.visoionTitle")}</CardTitle>
               </CardHeader>
               <CardContent className="text-center">
                 <p className="text-muted-foreground leading-relaxed">
-                  A transparent and accountable climate action ecosystem that
-                  promotes sustainable development and environmental resilience.
+                  {t("about.vision")}
                 </p>
               </CardContent>
             </Card>
@@ -158,12 +157,11 @@ const About = () => {
                 <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-primary/20 transition-colors">
                   <Users className="h-8 w-8 text-primary" />
                 </div>
-                <CardTitle className="text-xl">Our Community</CardTitle>
+                <CardTitle className="text-xl">{t("about.communityTitle")}</CardTitle>
               </CardHeader>
               <CardContent className="text-center">
                 <p className="text-muted-foreground leading-relaxed">
-                  Bringing together government agencies, NGOs, private sector,
-                  and local communities for collaborative climate action.
+                  {t("about.community")}
                 </p>
               </CardContent>
             </Card>
@@ -171,7 +169,7 @@ const About = () => {
         </div>
       </section>
 
-      {/* Our Story */}
+      {/* Our Story - to be translated */}
       <section className="py-20 bg-accent/30">
         <div className="max-w-[1350px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-28">
@@ -287,19 +285,18 @@ const About = () => {
               className="mb-4 bg-primary/10 text-primary border-primary/20"
               variant="outline"
             >
-              Our Network
+              {t('about.ourNetwork')}
             </Badge>
             <h2 className="text-4xl font-bold text-foreground mb-6">
-              Financial and Technical Partners
+              {t('about.financialPartner')}
               </h2>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              Working together with leading organizations to drive climate
-              transparency
+              {t("about.working")}
             </p>
           </div>
            <div className="text-center">
             <h3 className="text-2xl font-semibold text-foreground mb-8">
-              Government Partners
+              {t("about.govtPartners")}
             </h3>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
               <div className="bg-card rounded-lg p-6 shadow">
@@ -329,7 +326,7 @@ const About = () => {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+          <div className="grid mt-10 grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
             <Card className="group hover:shadow-lg transition-all duration-300 bg-gradient-to-br from-primary/5 to-primary/10">
               <CardContent className="p-8 text-center">
                 <Globe className="h-12 w-12 text-primary mx-auto mb-4" />
@@ -431,11 +428,10 @@ const About = () => {
             Join the Movement
           </Badge> */}
           <h2 className="text-4xl font-bold text-foreground mb-6">
-            Join us to make a difference for the planet
+           {t("about.joinUs")}
           </h2>
           <p className="text-lg  mb-12 max-w-3xl mx-auto">
-            Be part of building a more transparent and effective climate action
-            ecosystem in Cameroon.
+            {t("about.build")}
           </p>
           <div className="flex flex-col sm:flex-row gap-6 justify-center">
             <Button
@@ -443,11 +439,11 @@ const About = () => {
               className="bg-primary hover:bg-primary/90 text-primary-foreground"
             >
               <Users className="mr-2 h-5 w-5" />
-              Project Transparency
+              {t("common.transparent")}
             </Button>
             <Button size="lg" variant="outline">
               <Calendar className="mr-2 h-5 w-5" />
-              Add your project
+             {t("common.addProject")}
             </Button>
             {/* <Button size="lg" variant="secondary">
               <Globe className="mr-2 h-5 w-5" />

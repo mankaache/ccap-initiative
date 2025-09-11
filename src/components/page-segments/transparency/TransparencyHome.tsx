@@ -1,10 +1,13 @@
+'use client';
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { useTranslation } from "@/hooks/useTranslation";
 import { Shield, CheckCircle, FileText, TrendingUp, ArrowRight } from "lucide-react";
 import Link from "next/link";
 
 const TransparencyHome = () => {
+  const {t} = useTranslation()
   return (
     <div className="min-h-screen max-w-[1300px] mx-auto bg-gradient-subtle">
       {/* Hero Section */}
@@ -16,15 +19,14 @@ const TransparencyHome = () => {
             </div>
           </div>
           <h1 className="text-5xl font-bold bg-gradient-to-b from-secondary to-primary bg-clip-text text-transparent mb-6">
-            Transparency Demonstration Tool
+            {t("tran.title")}
           </h1>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto mb-8">
-            Demonstrate your organization's transparency practices with our comprehensive assessment platform. 
-            Build trust, demonstrate accountability, and identify areas for improvement.
+           {t("tran.subTitle")}
           </p>
           <Link href="/project-transparency/demonstration">
             <Button size="lg" className=" bg-gradient-to-r from-orange-500 to-green-500 hover:opacity-90 text-lg px-8 py-4">
-              Start 
+              {t("common.start")}
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
           </Link>
@@ -37,11 +39,11 @@ const TransparencyHome = () => {
               <div className="p-3 bg-primary/10 rounded-full w-fit mx-auto mb-4">
                 <CheckCircle className="h-8 w-8 text-primary" />
               </div>
-              <CardTitle>Build Trust & Credibility</CardTitle>
+              <CardTitle>{t("tran.build")}</CardTitle>
             </CardHeader>
             <CardContent>
               <CardDescription className="text-center">
-                Demonstrate your commitment to openness and accountability to the public.
+                {t("tran.demon")}
               </CardDescription>
             </CardContent>
           </Card>
@@ -51,11 +53,11 @@ const TransparencyHome = () => {
               <div className="p-3 bg-secondary/60 rounded-full w-fit mx-auto mb-4">
                 <TrendingUp className="h-8 w-8 text-accent" />
               </div>
-              <CardTitle>Identify Improvements</CardTitle>
+              <CardTitle>{t("tran.identify")} </CardTitle>
             </CardHeader>
             <CardContent>
               <CardDescription className="text-center">
-                Get actionable insights and personalized recommendations to enhance your transparency practices.
+               {t("tran.action")}
               </CardDescription>
             </CardContent>
           </Card>
@@ -65,11 +67,11 @@ const TransparencyHome = () => {
               <div className="p-3 bg-success/10 rounded-full w-fit mx-auto mb-4">
                 <FileText className="h-8 w-8 text-success" />
               </div>
-              <CardTitle>Downloadable Reports</CardTitle>
+              <CardTitle>{t("tran.download")}</CardTitle>
             </CardHeader>
             <CardContent>
               <CardDescription className="text-center">
-                Receive comprehensive reports with detailed analysis and benchmarking data.
+               {t("tran.report")}
               </CardDescription>
             </CardContent>
           </Card>
@@ -77,13 +79,13 @@ const TransparencyHome = () => {
 
         {/* How It Works */}
         <div className="text-center mb-16">
-          <h2 className="text-3xl font-bold mb-8">How It Works</h2>
+          <h2 className="text-3xl font-bold mb-8">{t("tran.work")}</h2>
           <div className="grid md:grid-cols-4 gap-8">
             {[
-              { step: "1", title: "Start Demonstation process", description: "Click to begin your transparency evaluation" },
-              { step: "2", title: "Answer Questions", description: "Complete multi-part questions about your practices" },
-              { step: "3", title: "Get Scored", description: "Receive real-time scoring and progress tracking" },
-              { step: "4", title: "Download Report", description: "Get detailed results and recommendations" }
+              { step: "1", title: t("tran.startProcess"), description: t("tran.desc1") },
+              { step: "2", title: t("tran.ans"), description: t("tran.desc2") },
+              { step: "3", title: t("tran.score"), description: t("tran.desc3") },
+              { step: "4", title: t("tran.downloadReport"), description: t("tran.desc4") },
             ].map((item, index) => (
               <div key={index} className="text-center">
                 <div className="w-12 h-12  bg-gradient-to-b from-secondary/80 to-primary/85 text-white rounded-full flex items-center justify-center font-bold text-lg mx-auto mb-4">
@@ -98,13 +100,13 @@ const TransparencyHome = () => {
 
         {/* CTA Section */}
         <div className="text-center bg-transparency-light p-8 rounded-lg border border-primary/20">
-          <h2 className="text-2xl font-bold mb-4">Ready to Assess Your Transparency?</h2>
+          <h2 className="text-2xl font-bold mb-4">{t("tran.readyToAccess")}</h2>
           <p className="text-muted-foreground mb-6">
-            Take the first step towards building greater trust and accountability in your organization and in the public.
+            {t("tran.takeAstep")}
           </p>
           <Link href="/project-transparency/demonstration">
             <Button size="lg" className=" bg-gradient-to-l from-secondary to-primary hover:opacity-90">
-              Begin Now
+              {t("common.begin") }
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
           </Link>

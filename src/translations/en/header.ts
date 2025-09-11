@@ -3,13 +3,22 @@ export const header = {
   'header.home': 'Home',
   'header.news': 'News', 
   'header.actor': 'Actors', 
+  'header.actor.State':'State',
+  'header.actor.ONGI':'ONGI',
+  'header.actor.OSC':'OSC',
+  'header.actor.OBC':'OBC',
+  'header.actor.secteur-privee':'PRIVATE SECTOR',
+
   'header.news.international': 'International',
   'header.news.regional': 'Regional',
   'header.news.national': 'National',
+
   'header.climateDocuments': 'Documents',
+
   'header.documents.international': 'International Policies',
-  'header.documents.regulation': 'Regulations', 
+  'header.documents.regulations': 'Regulations', 
   'header.documents.national': 'National Policies',
+
   'header.projectTransparency': 'Project Transparency',
   'header.transparency.adaptation': 'Adaptation Projects',
   'header.transparency.mitigation': 'Mitigation Projects',
