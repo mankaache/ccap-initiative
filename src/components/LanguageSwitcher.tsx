@@ -9,11 +9,11 @@ import { ChevronDown, Globe, Check } from "lucide-react";
 import { useTranslation } from "@/hooks/useTranslation";
 
 const LanguageSwitcher = () => {
-  const { language, setLanguage, t } = useTranslation();
+  const { language, setLanguage} = useTranslation();
 
   const languages = [
-    { code: "en", name: "English", nativeName: "English" },
-    { code: "fr", name: "Français", nativeName: "Français" }
+    { code: "fr", name: "Français", nativeName: "Français" },
+    { code: "en", name: "English", nativeName: "English" }
   ];
 
   return (

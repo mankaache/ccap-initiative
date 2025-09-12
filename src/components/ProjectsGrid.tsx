@@ -37,14 +37,6 @@ const ProjectsGrid = ({ projects }: ProjectsGridProps) => {
   return (
     <section className="py-16">
       <div className="max-w-[1350px]  mx-auto px-4 sm:px-6 lg:px-8">
-    
-      
-
-        {/* Results Count */}
-        
-          
-          
-        
 
         {/* Projects Grid/List */}
 
@@ -99,7 +91,8 @@ const ProjectsGrid = ({ projects }: ProjectsGridProps) => {
         }>
           {projects.map((project) => (
             <div key={project.id} className="animate-fade-in">
-              <ProjectCard project={project} />
+              <ProjectCard
+               project={project} />
             </div>
           ))}
         </div>
