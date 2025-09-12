@@ -148,7 +148,7 @@ const CreateProject = () => {
   };
 const {t} = useTranslation()
   return (
-    <Card className="max-w-4xl">
+    <Card className="max-w-4xl mx-auto py-12 md:py-20">
       <CardHeader>
         <CardTitle className="flex text-2xl font-semibold items-center space-x-2">
           <Briefcase className="w-6 h-6 text-primary" />

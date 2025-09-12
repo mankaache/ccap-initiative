@@ -91,7 +91,7 @@ const HeroSection = () => {
                 <Button
                   variant="outline"
                   size="lg"
-                  className="border-white text-white hover:bg-white hover:text-secondary"
+                  className=" border-white bg-transparent text-white hover:bg-white hover:text-secondary"
                 >
                   {t("hero.viewMap")}
                 </Button>

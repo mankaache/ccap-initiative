@@ -6,18 +6,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Eye, EyeOff, Mail, Lock, User, Building } from "lucide-react";
+import { Eye, EyeOff, Mail, Lock, User, LogIn } from "lucide-react";
 import { toast } from "sonner";
 import Link from "next/link";
 import { useTranslation } from "@/hooks/useTranslation";
-// import { signUpWithEmail } from "@/firebase/authApi";
+import { signUpWithEmail } from "@/firebase/authApi";
 
 const SignUp = () => {
   const { t } = useTranslation();
@@ -39,7 +32,6 @@ const SignUp = () => {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [confirm, setConfirm] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
@@ -47,7 +39,9 @@ const SignUp = () => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
-  const handleSubmit = async(e: React.FormEvent) => {
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (password !== formData.confirmPassword) {
@@ -64,24 +58,29 @@ const SignUp = () => {
       return;
     }
 
-    setError(""); setSuccess("");
-    // if (password !== confirm) return setError("Passwords do not match");
-    // if (password.length < 6) return setError("Password must be at least 6 chars");
+    setError("");
+    setSuccess("");
 
-    // const name = firstName + ' ' + lastName 
+    if (password.length < 6)
+      return setError("Password must be at least 6 chars");
+
+    const name = firstName + " " + lastName;
 
     // try {
+    //setLoading(true);
     //   const user = await signUpWithEmail({name, email, password });
     //   setSuccess("Account created — verification email sent. Check your inbox.");
     //   toast.success(success)
     //   console.log("New user:", user);
     // } catch (err:any) {
-      
     //   setError(err.message);
-    //   toast.error(error)
+    //   // toast.error(err.message)
     //   console.error(err);
-    // }
+    // }finally {
+    //  setLoading(false);
+    //}
 
+    console.log("User Error", error);
     // Mock registration - in real app, this would call an API
     toast.success(t("auth.actSuccess"), {
       description: t("auth.actSucessDesc"),
@@ -121,9 +120,7 @@ const SignUp = () => {
                         id="firstName"
                         type="text"
                         value={firstName}
-                        onChange={(e) =>
-                          setFirstName(e.target.value)
-                        }
+                        onChange={(e) => setFirstName(e.target.value)}
                         placeholder={t("auth.first_name")}
                         className="pl-10"
                         required
@@ -138,9 +135,7 @@ const SignUp = () => {
                         id="lastName"
                         type="text"
                         value={lastName}
-                        onChange={(e) =>
-                          setLastName(e.target.value)
-                        }
+                        onChange={(e) => setLastName(e.target.value)}
                         placeholder={t("auth.last_name")}
                         className="pl-10"
                         required
@@ -157,9 +152,7 @@ const SignUp = () => {
                       id="email"
                       type="email"
                       value={email}
-                      onChange={(e) =>
-                        setEmail(e.target.value)
-                      }
+                      onChange={(e) => setEmail(e.target.value)}
                       placeholder={t("auth.email")}
                       className="pl-10"
                       required
@@ -175,9 +168,7 @@ const SignUp = () => {
                       id="password"
                       type={showPassword ? "text" : "password"}
                       value={password}
-                      onChange={(e) =>
-                        setPassword(e.target.value)
-                      }
+                      onChange={(e) => setPassword(e.target.value)}
                       placeholder="*******"
                       className="pl-10 pr-10"
                       required
@@ -229,8 +220,8 @@ const SignUp = () => {
                   </div>
                 </div>
 
-                <div className="space-y-3">
-                  <div className="flex items-center space-x-2">
+                <div className="space-y-3 mt-4">
+                  {/* <div className="flex items-center space-x-2">
                     <Checkbox
                       id="agreeToTerms"
                       checked={formData.agreeToTerms}
@@ -257,7 +248,7 @@ const SignUp = () => {
                         {t("auth.privacyPolicy")}
                       </Link>
                     </Label>
-                  </div>
+                  </div> */}
 
                   {/* <div className="flex items-center space-x-2">
                     <Checkbox
@@ -277,6 +268,19 @@ const SignUp = () => {
                 >
                   {t("auth.button1")}
                 </Button>
+
+                {/* {loading ? (
+                  <div className="flex items-center space-x-2">
+                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                    <span>Signing in...</span>
+                  </div>
+                ) : (
+                  <div className="flex items-center space-x-2">
+                    <LogIn className="w-4 h-4" />
+                    <span>Sign In</span>
+                  </div>
+                )} */}
+
                 <div className="mt-6">
                   <div className="relative">
                     <div className="absolute inset-0 flex items-center">
