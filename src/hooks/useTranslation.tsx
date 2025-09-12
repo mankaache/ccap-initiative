@@ -40,6 +40,8 @@ export function TranslationProviderClient({
 }) {
   const [language, setLanguageState] = useState<Language>(initialLang);
 
+  
+
   const setLanguage = (lang: Language) => {
     setLanguageState(lang);
     Cookies.set("lang", lang, { path: "/" });
