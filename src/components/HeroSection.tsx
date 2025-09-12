@@ -60,11 +60,11 @@ const HeroSection = () => {
       </div>
 
       <div className="max-w-[1350px] mx-auto px-4 sm:px-6 lg:px-8 w-full">
-        <div className="max-w-3xl">
+        <div className="max-w-4xl">
           <div className="relative">
             {/* Hero Content */}
             <div className="animate-fade-in">
-              <h1 className="text-4xl text-white sm:text-5xl lg:text-6xl font-bold  mb-6 leading-tight">
+              <h1 className="text-4xl capitalize text-white sm:text-5xl lg:text-6xl font-bold  mb-6 leading-tight">
                 {t("hero.title")}
               </h1>
               <p className="text-xl text-white  leading-relaxed">
@@ -72,7 +72,7 @@ const HeroSection = () => {
               </p>
 
               <p className="text-xl text-white mb-8 leading-relaxed">
-              Our platform helps you stay informed, hold projects accountable, and most importantly, see how transparent climate projects are.
+              {t("hero.description2")}
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 mb-12">

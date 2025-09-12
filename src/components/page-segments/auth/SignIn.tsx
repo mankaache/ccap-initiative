@@ -28,7 +28,7 @@ const SignIn = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Mock authentication - in real app, this would call an API
+    
     toast(t("auth.welcome"), {
       description: t("auth.welcomeDesc"),
     });

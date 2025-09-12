@@ -4,6 +4,7 @@ import { useState, useMemo } from "react";
 import FilterBar from "./FilterBar";
 import ProjectsGrid from "./ProjectsGrid";
 import { getMockProjects } from "@/data/mockProjects";
+import { organizations } from "@/data/organisation";
 
 // Mock project data - replace with your actual data source
 
@@ -61,6 +62,8 @@ const FilteredProjects = () => {
         );
         if (!hasMatchingActor) return false;
       }
+
+
 
       // Check locations filter
       if (activeFilters.locations.length > 0 && !activeFilters.locations.includes(project.region.toLowerCase().replace(/\s+/g, '-'))) {
