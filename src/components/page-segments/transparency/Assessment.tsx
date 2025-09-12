@@ -177,9 +177,9 @@ const TransparencyAssessment = () => {
 
   const currentScore = calculateScore();
 
-  if (showInitialModal && !hasCompletedOnce) {
-    return <InitialModal onContinue={handleContinue} onGoBack={handleGoBack} />;
-  }
+  // if (showInitialModal && !hasCompletedOnce) {
+  //   return <InitialModal onContinue={handleContinue} onGoBack={handleGoBack} />;
+  // }
 
   return (
     <div className="min-h-screen  bg-secondary/5">

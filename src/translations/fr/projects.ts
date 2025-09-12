@@ -52,7 +52,7 @@ export const projects = {
      'project.orgName':'Nom de L’Organization',
       'project.orgStructure':'Nom de laStructure/Ministere',
       'project.orgStructureDesc':'Entre le nom de la structure',
-    
+      'project.timeline': 'Timeline',
      'project.orgNameDesc':'Entre le nom de l\'organisation',
      'project.projectTitle':'Titre du Projet ',
      'project.projectDescription':'Entrez le titre du projet ',

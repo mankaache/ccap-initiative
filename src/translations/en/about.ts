@@ -1,6 +1,6 @@
 export const about ={
 'about.subTitle': 'Leading Climate Action in Cameroon',
-'about.heroTitle1': 'Fixing Climate Change ',
+'about.heroTitle1': 'Monitoring Climate Change',
 'about.heroTitle2': 'One Project at a time',
 'about.desc':' Promoting transparency and accountability in climatic endeavors in Cameroon.',
 'about.foundersTitle':'Founding Organisations',

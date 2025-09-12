@@ -7,7 +7,7 @@ export async function ServerTranslationProvider({
   children: React.ReactNode;
 }) {
       const cookieStore = await cookies();
-  const lang = (cookieStore.get("lang")?.value || "en") as "en" | "fr";
+  const lang = (cookieStore.get("lang")?.value || "fr") as "en" | "fr";
 
   return (
     <TranslationProviderClient initialLang={lang}>
