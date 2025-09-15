@@ -1,23 +1,31 @@
 "use client";
 
 import { useState } from "react";
-import { Menu, X, ChevronDown, ChevronRight, Globe } from "lucide-react";
+import { Menu, X, ChevronDown, ChevronRight, Globe, User, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
 import { useTranslation } from "@/hooks/useTranslation";
 import LanguageSwitcher from "../LanguageSwitcher";
 import { getSubcategories } from "@/data/organisation";
+import { useAuth } from "@/firebase/useAuth";
+import { Avatar, AvatarFallback } from "../ui/avatar";
+import { useRouter } from "next/navigation";
+import { signOut } from "firebase/auth";
+import { auth } from "@/firebase/firebaseConfig";
+
 
 // Recursive dropdown component for nested menus
 const NestedDropdown = ({ item , level = 0 }:any) => {
   const [open, setOpen] = useState(false);
-  
+   
+
   return (
     <DropdownMenu open={open} onOpenChange={setOpen}>
       <DropdownMenuTrigger className={`flex items-center justify-between w-full text-left ${
@@ -88,7 +96,16 @@ const MobileNestedItem = ({ item, level = 0 }:any) => {
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { t } = useTranslation();
-
+ const {  loading, user } = useAuth();
+ const navigate = useRouter()
+      const getInitials = (name: string) => {
+    return name && name
+      .split(" ")
+      .map((n) => n[0])
+      .join("")
+      .toUpperCase();
+  };
+  
   const navigation = [
     { name: t('header.home'), href: "/" },
     { name: t('header.about'), href: "/about" },
@@ -144,6 +161,20 @@ const Header = () => {
     },
   ];
 
+ 
+const handleLogout = async () => {
+    try {
+    await signOut(auth);
+    console.log("User signed out successfully");
+    alert("You have been logged out.");
+    localStorage.removeItem("userProfile");
+   navigate.push('/');
+  } catch (error) {
+    console.error("Error signing out:", error);
+    alert("Failed to log out. Please try again.");
+  }
+};
+
   return (
     <header className="bg-background/95 backdrop-blur-md border-b border-border sticky top-0 z-50 shadow-elegant">
       <div className="max-w-[1350px] mx-auto px-4 sm:px-6 lg:px-8">
@@ -197,12 +228,56 @@ const Header = () => {
             {/* Language Switcher */}
             <LanguageSwitcher/>
             
-            <Link href='/auth/signin' className="w-full px-3 py-2 bg-transparent border-2 text-primary border-primary rounded-md text-sm whitespace-nowrap">
-              {t('header.signIn')}
-            </Link>
-            <Link href='/auth/signup' className="w-full px-3 py-2 text-white bg-primary rounded-md text-sm whitespace-nowrap">
-              {t('header.signUp')}
-            </Link>
+           
+      {loading ? (
+        // show nothing or a spinner while loading
+        <div className="w-8 h-8 rounded-full bg-gray-200 animate-pulse" />
+      ) : user ? (
+        
+       
+          <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" className="h-10 w-10 rounded-full p-0">
+                    <Avatar className="w-10 h-10">
+                      <AvatarFallback className="bg-gradient-to-r from-secondary to-primary text-white font-semibold">
+                        { getInitials(user.firstName) || user.email!.split("@")[0]}
+                      </AvatarFallback>
+                    </Avatar>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-56">
+                  <div className="px-2 py-1.5 text-sm">
+                    <div className="font-medium">{user?.firstName}</div>
+                    <div className="text-muted-foreground">{user?.email}</div>
+                    <div className="text-xs bg-primary/10 text-primary px-2 py-1 rounded-full mt-1 inline-block">
+                      {user?.role}
+                    </div>
+                  </div>
+                 
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={handleLogout} className="text-destructive">
+                    <LogOut className="mr-2 h-4 w-4" />
+                    Log out
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+      ) : (
+        // Not authenticated: show login/signup buttons
+        <>
+          <Link
+            href="/auth/signin"
+            className="w-full px-3 py-2 bg-transparent border-2 text-primary border-primary rounded-md text-sm whitespace-nowrap"
+          >
+            Sign In
+          </Link>
+          <Link
+            href="/auth/signup"
+            className="w-full px-3 py-2 text-white bg-primary rounded-md text-sm whitespace-nowrap"
+          >
+            Sign Up
+          </Link>
+        </>
+      )}
           </div>
 
           {/* Mobile menu button */}

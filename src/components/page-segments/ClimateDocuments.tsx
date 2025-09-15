@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import Footer from "@/components/layout/Footer";
 import { useParams } from "next/navigation";
 import Link from "next/link";
+import { useAuth } from "@/firebase/useAuth";
 
 const ClimateDocuments = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -261,6 +262,7 @@ const ClimateDocuments = () => {
     };
     return colors[type] || "bg-muted text-muted-foreground";
   };
+   const {  loading, user } = useAuth();
 
   return (
     <div className="min-h-screen bg-background">
@@ -348,7 +350,7 @@ const ClimateDocuments = () => {
                       View
                     </Link>
 
-                    {document.restricted && !isAuthenticated ? (
+                    { !user ? (
                       <button
                         disabled
                         className="flex items-center px-3 py-2 bg-gray-300 text-gray-500 rounded cursor-not-allowed text-sm"
@@ -366,7 +368,7 @@ const ClimateDocuments = () => {
                     )}
                   </div>
 
-                  {!isAuthenticated && (
+                  {!user && (
                     <p className="text-xs text-red-600 text-center mt-2">
                       <Lock className="h-3 w-3 inline mr-1" />
                       login to download this document

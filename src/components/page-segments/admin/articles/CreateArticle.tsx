@@ -8,10 +8,15 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { RichTextEditor } from '@/components/ui/rich-text-editor';
 import { ArrowLeft, FileText, Upload, Save, Image } from 'lucide-react';
-import { useRouter } from 'next/router';
+
 import { toast } from 'sonner';
+import { useRouter } from 'next/navigation';
+import { useAuth } from '@/firebase/useAuth';
+
 
 export default function CreateArticle() {
+
+  const {user} = useAuth();
   const navigate = useRouter();
   const [formData, setFormData] = useState({
     title: '',
@@ -49,22 +54,27 @@ export default function CreateArticle() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center space-x-4">
-        <Button
-          variant="ghost"
-          onClick={() => navigate.push('/admin/articles')}
-          className="hover:bg-accent"
-        >
-          <ArrowLeft className="w-4 h-4 mr-2" />
-          Back to Articles
-        </Button>
-      </div>
+      { 
+        user?.role === 'admin' && (
+          <div className="flex items-center space-x-4">
+            <Button
+              variant="ghost"
+              onClick={() => navigate.push('/admin/articles')}
+              className="hover:bg-accent"
+            >
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Back to Articles
+            </Button>
+          </div>
+        )
+      }
+     
 
-      <Card className="max-w-4xl">
+      <Card className="max-w-4xl mx-auto my-10">
         <CardHeader>
           <CardTitle className="flex items-center space-x-2">
             <FileText className="w-6 h-6 text-primary" />
-            <span>Create New Article</span>
+            <span className='text-lg'>Create New Article</span>
           </CardTitle>
           <CardDescription>
             Publish a new article or upload a document

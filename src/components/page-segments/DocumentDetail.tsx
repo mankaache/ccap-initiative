@@ -15,7 +15,10 @@ import Link from "next/link";
 import { Button } from "../ui/button";
 import { Badge } from "../ui/badge";
 import { toast } from "sonner";
+import { useAuth } from "@/firebase/useAuth";
 // import { useAuth } from '../contexts/AuthContext';`
+
+
 
 const mockDocuments = {
   international: [
@@ -429,7 +432,7 @@ const DocumentDetail = () => {
   const { category } = param;
   const [isAuthenticated] = useState(false);
   const [isDownloading] = useState(false);
-
+ const {  loading, user } = useAuth();
   const categoryDocuments =
     mockDocuments[param.category as keyof typeof mockDocuments] || [];
   const documentData = categoryDocuments.find(
@@ -447,7 +450,7 @@ const DocumentDetail = () => {
     document.body.removeChild(link);
   };
 
-  if (!document) {
+  if (!documentData) {
     return (
       <div className="min-h-screen bg-background flex flex-col items-center justify-center">
         <div className="text-center">
@@ -511,7 +514,7 @@ const DocumentDetail = () => {
                   </span>
                 </div>
               </div>
-              {documentData && documentData.restricted && !isAuthenticated && (
+              {!user && (
                 <Lock className="h-6 w-6 text-gray-400" />
               )}
             </div>
@@ -557,7 +560,7 @@ const DocumentDetail = () => {
               </div>
 
               <div className="flex items-center space-x-3">
-                {documentData && documentData.restricted && !isAuthenticated ? (
+                {!user ? (
                   <div>
                     <button
                       disabled
@@ -604,7 +607,7 @@ const DocumentDetail = () => {
               }}
             />
 
-            {documentData && documentData.restricted && !isAuthenticated && (
+            {!user && (
               <div className="mt-8 p-4 bg-orange-50 border border-orange-200 rounded-lg">
                 <div className="flex items-center">
                   <Lock className="h-5 w-5 text-orange-500 mr-2" />

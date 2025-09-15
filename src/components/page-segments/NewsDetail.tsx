@@ -10,10 +10,8 @@ import { getClimateNews } from "./GetClimateNews";
 import { InewType } from "@/data/mockNews";
 const NewsDetail = async ({
   article,
-  category,
 }: {
-  article: InewType;
-  category: string;
+  article: any;
 }) => {
   console.log("article details", article);
 
@@ -49,11 +47,11 @@ const NewsDetail = async ({
         }  mx-auto px-4 sm:px-6 lg:px-8`}
       >
         <Link
-          href={`/news/${category}`}
+          href={`/news/national`}
           className="inline-flex items-center text-orange-600 hover:text-orange-700 mb-6"
         >
           <ArrowLeft className="h-4 w-4 mr-2" />
-          Back to {category} news
+          Back to national news
         </Link>
 
         <article className="bg-white rounded-lg shadow-lg overflow-hidden">

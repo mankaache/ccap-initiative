@@ -1,9 +1,6 @@
   import image from "@/assets/vegetation.jpg";
 
-  export const mockNewsDetails = {
-    international: [],
-    regional: [],
-    national: [
+  export const mockNewsDetails =  [
       {
         id: "1",
         title:
@@ -50,5 +47,4 @@
         author: "Climate News Team",
         source: "L’ONACC ",
       },
-    ],
-  };
+    ]
