@@ -25,13 +25,14 @@ import {
   Calendar as CalendarIcon
 } from 'lucide-react';
 import Link from 'next/link';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 const ProjectDetails = () => {
      const mockProjects = getMockProjects();
-  const {projectId, id, category } = useParams();
+    const router = useRouter();
+    const {projectId, id, category } = useParams()
 
-  const router = useRouter();
     const project = mockProjects.find((p) => p.id === projectId);
 
   if (!project) {

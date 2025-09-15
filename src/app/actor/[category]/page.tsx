@@ -1,3 +1,5 @@
+'use client'
+
 import ActorCategory from '@/components/page-segments/ActorCategory'
 import React from 'react'
 

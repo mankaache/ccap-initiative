@@ -1,3 +1,5 @@
+'use client'
+
 import TransparencyAssessment from '@/components/page-segments/transparency/Assessment'
 import React from 'react'
 

@@ -144,3 +144,22 @@
 .prose p {
   margin-bottom: 1em;
 }
+
+.prose {
+  line-height: 1.7;
+}
+
+.prose h2 {
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+  font-weight: 600;
+}
+
+.prose p {
+  margin-bottom: 1em;
+}
+
+.ql-editor {
+  unicode-bidi: plaintext;
+  text-align: left;
+}

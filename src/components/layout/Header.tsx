@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Menu, X, ChevronDown, Globe } from "lucide-react";
+import { Menu, X, ChevronDown, ChevronRight, Globe } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -12,6 +12,78 @@ import {
 import Link from "next/link";
 import { useTranslation } from "@/hooks/useTranslation";
 import LanguageSwitcher from "../LanguageSwitcher";
+import { getSubcategories } from "@/data/organisation";
+
+// Recursive dropdown component for nested menus
+const NestedDropdown = ({ item , level = 0 }:any) => {
+  const [open, setOpen] = useState(false);
+  
+  return (
+    <DropdownMenu open={open} onOpenChange={setOpen}>
+      <DropdownMenuTrigger className={`flex items-center justify-between w-full text-left ${
+        level > 0 ? 'text-sm pl-4' : ''
+      }`}>
+        <span className="text-sm outline-none focus:outline-none pl-2 py-2 border-b border-gray-100 w-full">{item.name}</span>
+        <ChevronRight className="h-4 w-4 ml-2" />
+      </DropdownMenuTrigger>
+      <DropdownMenuContent 
+        className="bg-background py-3 border-border shadow-elegant min-w-[200px]"
+        side={level > 4 ? "left" : "bottom"}
+        align={level > 4 ? "start" : "center"}
+      >
+        {item.dropdown.map((subItem:any, idx:any) => (
+          <div key={idx}>
+            {subItem.dropdown ? (
+              <NestedDropdown item={subItem} level={level + 1} />
+            ) : (
+              <DropdownMenuItem className="text-foreground border-b py-2 border-gray-100 hover:bg-accent hover:text-accent-foreground cursor-pointer">
+                <a href={subItem.href} className="w-full">
+                  {subItem.name}
+                </a>
+              </DropdownMenuItem>
+            )}
+          </div>
+        ))}
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+};
+
+// Mobile nested navigation component
+const MobileNestedItem = ({ item, level = 0 }:any) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+  
+  return (
+    <div className={`${level > 0 ? 'ml-4' : ''}`}>
+      <div 
+        className="flex items-center justify-between px-3 py-2 text-foreground hover:text-primary hover:bg-accent/50 rounded-md transition-colors cursor-pointer"
+        onClick={() => setIsExpanded(!isExpanded)}
+      >
+        <span className={level > 0 ? 'text-sm' : ''}>{item.name}</span>
+        <ChevronDown className={`h-4 w-4 transition-transform ${isExpanded ? 'rotate-180' : ''}`} />
+      </div>
+      
+      {isExpanded && (
+        <div className="ml-2 space-y-1 border-l border-border pl-2 mt-1">
+          {item.dropdown.map((subItem:any, idx:any) => (
+            <div key={idx}>
+              {subItem.dropdown ? (
+                <MobileNestedItem item={subItem} level={level + 1} />
+              ) : (
+                <a
+                  href={subItem.href}
+                  className="block px-3 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/30 rounded-md transition-colors"
+                >
+                  {subItem.name}
+                </a>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -20,40 +92,55 @@ const Header = () => {
   const navigation = [
     { name: t('header.home'), href: "/" },
     { name: t('header.about'), href: "/about" },
-    {
-      name: t('header.actor'),
-      href: "#",
-      dropdown: [
-        { name: t('header.actor.State'), href: "/actor/etatiques" },
-        { name: t("header.actor.ONGI"), href: "/actor/ongi" },
-        { name: t("header.actor.OSC"), href: "/actor/osc" },
-        { name: t("header.actor.OBC"), href: "/actor/obc" },
-        { name: t("header.actor.secteur-privee"), href: "/actor/secteur-privee" },
-        { name: 'CL', href: "/actor/cl" },
-      ],
-    },
+   {
+    name: t('header.actor'),
+    href: "#",
+    dropdown: [
+      { name: t('header.actor.State'), 
+        
+        href: "#",
+        dropdown: getSubcategories('etatiques').map(subcat => ({
+          name: subcat.name,
+          href: `/actor/etatiques/${subcat.slug}`
+        }))
+      },
+      { 
+        name: t("header.actor.ONGI"), 
+        href: "#",
+        dropdown: getSubcategories('ongi').map(subcat => ({
+          name: subcat.name,
+          href: `/actor/ongi/${subcat.slug}`
+        }))
+      },
+      { name: t("header.actor.OSC"), href: "/actor/osc" },
+      { name: t("header.actor.OBC"), href: "/actor/obc" },
+      { 
+        name: t("header.actor.secteur-privee"), 
+        href: "#",
+        dropdown: getSubcategories('secteur-privee').map(subcat => ({
+          name: subcat.name,
+          href: `/actor/secteur-privee/${subcat.slug}`
+        }))
+      },
+      { name: 'CL', href: "/actor/cl" },
+    ],
+  },
     {
       name: t('header.news'),
-      href: "#",
-      dropdown: [
-        { name: t('header.news.international'), href: "/news/international" },
-        { name: t('header.news.regional'), href: "/news/regional" },
-        { name: t('header.news.national'), href: "/news/national" },
-      ],
+      href: "/news/national",
     },
     {
       name: t('header.climateDocuments'),
       href: "#",
       dropdown: [
         { name: t('header.documents.international'), href: "/documents/international" },
-        { name: t('header.documents.regulations'), href: "/documents/regulation" },
+        { 
+          name: t('header.documents.regulations'), 
+          href: '/documents/regulation',
+         
+        },
         { name: t('header.documents.national'), href: "/documents/national" },
       ],
-    },
-    {
-      name: t('header.projectTransparency'),
-      href: "/project-transparency",
-     
     },
   ];
 
@@ -70,23 +157,26 @@ const Header = () => {
 
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center space-x-8">
-            {navigation.map((item,idx) =>
+            {navigation.map((item, idx) =>
               item.dropdown ? (
-                <DropdownMenu key={idx + .5} >
+                <DropdownMenu key={idx}>
                   <DropdownMenuTrigger className="nav-link flex items-center gap-1 focus:outline-hidden">
                     <span>{item.name}</span>
                     <ChevronDown className="h-4 w-4" />
                   </DropdownMenuTrigger>
                   <DropdownMenuContent className="bg-background py-3 border-border shadow-elegant min-w-[200px]">
-                    {item.dropdown.map((subItem) => (
-                      <DropdownMenuItem
-                        key={subItem.name}
-                        className="text-foreground border-b py-2 border-gray-100 hover:bg-accent hover:text-accent-foreground cursor-pointer"
-                      >
-                        <a href={subItem.href} className="w-full">
-                          {subItem.name}
-                        </a>
-                      </DropdownMenuItem>
+                    {item.dropdown.map((subItem, subIdx) => (
+                      <div key={subIdx}>
+                        {subItem.dropdown ? (
+                          <NestedDropdown item={subItem} />
+                        ) : (
+                          <DropdownMenuItem className="text-foreground border-b py-2 border-gray-100 hover:bg-accent hover:text-accent-foreground cursor-pointer">
+                            <a href={subItem.href} className="w-full">
+                              {subItem.name}
+                            </a>
+                          </DropdownMenuItem>
+                        )}
+                      </div>
                     ))}
                   </DropdownMenuContent>
                 </DropdownMenu>
@@ -107,9 +197,12 @@ const Header = () => {
             {/* Language Switcher */}
             <LanguageSwitcher/>
             
-
-             <Link href='/auth/signin'  className="w-full px-3 py-2 bg-transparent border-2 text-primary border-primary rounded-md text-sm whitespace-nowrap">{t('header.signIn')}</Link>
-                <Link href='/auth/signup'  className="w-full px-3 py-2 text-white bg-primary rounded-md text-sm whitespace-nowrap">{t('header.signUp')}</Link>
+            <Link href='/auth/signin' className="w-full px-3 py-2 bg-transparent border-2 text-primary border-primary rounded-md text-sm whitespace-nowrap">
+              {t('header.signIn')}
+            </Link>
+            <Link href='/auth/signup' className="w-full px-3 py-2 text-white bg-primary rounded-md text-sm whitespace-nowrap">
+              {t('header.signUp')}
+            </Link>
           </div>
 
           {/* Mobile menu button */}
@@ -128,32 +221,27 @@ const Header = () => {
         {isMenuOpen && (
           <div className="lg:hidden border-t border-border mt-2 pt-4 pb-4 animate-slide-up">
             <div className="space-y-2">
-              {navigation.map((item) => (
-                <div key={item.name}>
-                  <a
-                    href={item.href}
-                    className="block px-3 py-2 text-foreground hover:text-primary hover:bg-accent/50 rounded-md transition-colors"
-                  >
-                    {item.name}
-                  </a>
-                  {item.dropdown && (
-                    <div className="ml-4 space-y-1">
-                      {item.dropdown.map((subItem) => (
-                        <a
-                          key={subItem.name}
-                          href={subItem.href}
-                          className="block px-3 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/30 rounded-md transition-colors"
-                        >
-                          {subItem.name}
-                        </a>
-                      ))}
-                    </div>
+              {navigation.map((item, idx) => (
+                <div key={idx}>
+                  {item.dropdown ? (
+                    <MobileNestedItem item={item} />
+                  ) : (
+                    <a
+                      href={item.href}
+                      className="block px-3 py-2 text-foreground hover:text-primary hover:bg-accent/50 rounded-md transition-colors"
+                    >
+                      {item.name}
+                    </a>
                   )}
                 </div>
               ))}
               <div className="pt-4 space-y-2">
-             <Link href='/auth/signin'  className="w-full px-4 py-2 bg-transparent border-2 text-primary border-primary rounded-md text-base whitespace-nowrap">{t('header.signIn')}</Link>
-                <Link href='/auth/signup'  className="w-full px-4 py-2 text-white bg-primary rounded-md text-base whitespace-nowrap">{t('header.signUp')}</Link>
+                <Link href='/auth/signin' className="w-full px-4 py-2 bg-transparent border-2 text-primary border-primary rounded-md text-base whitespace-nowrap">
+                  {t('header.signIn')}
+                </Link>
+                <Link href='/auth/signup' className="w-full px-4 py-2 text-white bg-primary rounded-md text-base whitespace-nowrap">
+                  {t('header.signUp')}
+                </Link>
               </div>
             </div>
           </div>

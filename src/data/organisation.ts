@@ -2,6 +2,7 @@ export interface IOrganization {
   id: string;
   name: string;
   category: string;
+  subcategory?: string;
   description: string;
   founded: string;
   location: string;
@@ -12,7 +13,7 @@ export interface IOrganization {
   logo?: string;
 }
 
-export const organizations: IOrganization[] = [
+export const organizations = [
   // etatiques
   {
     id: 'gohze',
@@ -80,6 +81,7 @@ export const organizations: IOrganization[] = [
     id: 'green-future',
     name: 'Green Future Foundation',
     category: 'ongi',
+    subcategory: 'international',
     description: 'Environmental NGO dedicated to promoting sustainable practices and climate action.',
     founded: '2010',
     location: 'Seattle, WA',
@@ -92,6 +94,7 @@ export const organizations: IOrganization[] = [
     id: 'hope-alliance',
     name: 'Hope Alliance',
     category: 'ongi',
+    subcategory: 'local',
     description: 'Non-profit organization focused on poverty alleviation and community development.',
     founded: '2008',
     location: 'Chicago, IL',
@@ -176,7 +179,24 @@ export const organizations: IOrganization[] = [
   }
 ];
 
-export const getCategoryTitle = (category: string): string => {
+export const getCategoryTitle = (category: string, subcategory?: string): string => {
+  // If we have a subcategory, handle it first
+  if (subcategory) {
+    switch (subcategory) {
+      case 'international':
+        return 'International NGOs';
+      case 'local':
+        return 'Local NGOs';
+      case 'large':
+        return 'Large Private Enterprises';
+      case 'sme':
+        return 'Small & Medium Enterprises';
+      default:
+        return subcategory.toUpperCase();
+    }
+  }
+  
+  // Handle main categories
   switch (category) {
     case 'etatiques':
       return 'Etatiques';
@@ -205,5 +225,33 @@ export const getCategoryDescription = (category: string): string => {
       return 'Social good corporations driving positive impact';
     default:
       return '';
+  }
+};
+
+
+export const hasSubcategories = (category: string): boolean => {
+  const categoriesWithSubcategories = ['ongi', 'secteur-privee'];
+  return categoriesWithSubcategories.includes(category);
+};
+
+export const getSubcategories = (category: string): Array<{name: string, slug: string}> => {
+  switch (category) {
+    case 'etatiques': 
+    return [
+        { name: 'Ministries', slug: 'ministries' },
+        { name: 'Institutions', slug: 'institions' },
+    ]
+    case 'ongi':
+      return [
+        { name: 'International NGOs', slug: 'international' },
+        { name: 'Local NGOs', slug: 'local' },
+      ];
+    case 'secteur-privee':
+      return [
+        { name: 'Large Enterprises', slug: 'large' },
+        { name: 'SMEs', slug: 'sme' },
+      ];
+    default:
+      return [];
   }
 };

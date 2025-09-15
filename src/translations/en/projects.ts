@@ -79,6 +79,8 @@ export const projects = {
   'project.projectDescription':'Enter project title',
   'project.orgaDesc':'Brief Description of the Organization',
   'project.orgaDesc2':'Describe your organization',
+  'project.Desc':'Brief Description du projet',
+  'project.Desc2':'Describe your project',
   'project.projectDesc':'Brief Description of the Project',
   
   'project.projectDetails':'Project Details',
@@ -91,7 +93,7 @@ export const projects = {
   'project.fundingSource':'Funding Source',
   'project.actor_category':'Actor Category',
   'project.partners':'Partners (Technical and Financial)',
-  'project.goal':'Goal of this Project',
+  'project.goal':'Project Type',
     'project.goal1':'Mitigation',
      'project.goal2':'Adaptation',
      'project.goal3':'Finance',

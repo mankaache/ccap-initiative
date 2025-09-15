@@ -54,8 +54,9 @@ const TransparencyAssessment = () => {
   specificObjectives: "",
   interventionLogic: "",
   results: "",
-  Goal: "",
+  projectType: "",
   organizationType: "",
+  projectDescription:'',
   programs: [],
   isOngoing: false,
   status:t('tran.planned') as 'ongoing' | 'completed' | 'planned'
@@ -156,7 +157,8 @@ const TransparencyAssessment = () => {
     setOrganizationData({
       organizationName: "",
       organizationType: "",
-      Goal: "",
+      projectType: "",
+      projectDescription:"",
       description:"",
       ProjectTitle:"",
       specificLocation:"",region: [],

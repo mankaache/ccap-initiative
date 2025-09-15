@@ -17,7 +17,9 @@ import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
+  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
@@ -32,6 +34,7 @@ const CreateProject = () => {
   const [organizationData, setOrganizationData] = useState<OrganizationData>({
     organizationName: "",
     description: "",
+    projectDescription: "",
     ProjectTitle: "",
     specificLocation: "",
     region: [],
@@ -44,7 +47,7 @@ const CreateProject = () => {
     specificObjectives: "",
     interventionLogic: "",
     results: "",
-    Goal: "",
+    projectType: "",
     images: [],
     organizationType: "",
     programs: [],
@@ -76,14 +79,29 @@ const CreateProject = () => {
   const [newProgram, setNewProgram] = useState("");
   const [newRegion, setNewRegion] = useState("");
   const availableActors = [
-    "Etatiques",
-    "ONGI",
-    "OSC",
-    "OBC",
-    "SECTEUR PRIVEE",
-    "CL",
+    {
+      category: "Etatiques",
+      subcategories: ["Ministry of Health", "Ministry of Education"],
+    },
+    {
+      category: "ONGI",
+      subcategories: ["Doctors Without Borders", "Red Cross"],
+    },
+    {
+      category: "OSC",
+      subcategories: ["Local Associations", "Youth Groups"],
+    },
+    {
+      category: "OBC",
+    },
+    {
+      category: "SECTEUR PRIVEE",
+      subcategories: ["Banks", "Tech Companies", "Retail"],
+    },
+    {
+      category: "CL", // no subcategories
+    },
   ];
-
   const regions = [
     "Central Region",
     "Northern Region",
@@ -146,7 +164,7 @@ const CreateProject = () => {
       region: prevData.region.filter((region) => region !== regiontoRemove),
     }));
   };
-const {t} = useTranslation()
+  const { t } = useTranslation();
   return (
     <Card className="max-w-4xl mx-auto py-12 md:py-20">
       <CardHeader>
@@ -154,9 +172,7 @@ const {t} = useTranslation()
           <Briefcase className="w-6 h-6 text-primary" />
           <h1>{t("project.createNew")}</h1>
         </CardTitle>
-        <CardDescription>
-          {t("project.createNewDesc")}
-          </CardDescription>
+        <CardDescription>{t("project.createNewDesc")}</CardDescription>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-8">
@@ -169,37 +185,61 @@ const {t} = useTranslation()
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Actors */}
               <div className="space-y-2">
-                <Label className=" capitalize ">{t("project.actor_category")} *</Label>
+                <Label className=" capitalize ">
+                  {t("project.actor_category")} *
+                </Label>
 
                 <div className="space-y-4">
                   <div className="flex space-x-2">
                     <Select value={newActor} onValueChange={setNewActor}>
                       <SelectTrigger className="flex-1">
-                        <SelectValue placeholder="" />
+                        <SelectValue placeholder={t("project.anOption")}/>
                       </SelectTrigger>
                       <SelectContent>
-                        {availableActors.map((actor) => (
-                          <SelectItem key={actor} value={actor}>
-                            {actor}
-                          </SelectItem>
-                        ))}
+                        {availableActors.map((actor) =>
+                          actor.subcategories &&
+                          actor.subcategories.length > 0 ? (
+                            <SelectGroup key={actor.category}>
+                              <SelectLabel  className="font-semibold text-sm">{actor.category}</SelectLabel>
+                              {actor.subcategories.map((sub) => (
+                                <SelectItem
+                              
+                                className="pl-4"
+                                  key={`${actor.category}-${sub}`}
+                                  value={`${actor.category}:${sub}`}
+                                >
+                                  {sub}
+                                </SelectItem>
+                              ))}
+                            </SelectGroup>
+                          ) : (
+                            <SelectItem
+                            className="font-semibold text-sm"
+                              key={actor.category}
+                              value={actor.category}
+                            >
+                              {actor.category}
+                            </SelectItem>
+                          )
+                        )}
                       </SelectContent>
                     </Select>
                   </div>
                 </div>
               </div>
+            
 
               <div className="space-y-2">
                 <Label className="capitalize" htmlFor="title">
-                  {newActor === availableActors[0]
+                  {newActor === availableActors[0].category
                     ? `${t("project.orgStructure")} *`
                     : `${t("project.orgName")} *`}
                 </Label>
                 <Input
                   id="title"
                   placeholder={`${
-                    newActor === availableActors[0]
-                      ?  `${t("project.orgStructureDesc")} *`
+                    newActor === availableActors[0].category
+                      ? `${t("project.orgStructureDesc")} *`
                       : `${t("project.orgNameDesc")} *`
                   }`}
                   value={organizationData.organizationName}
@@ -210,24 +250,9 @@ const {t} = useTranslation()
                 />
               </div>
             </div>
-            <div className="space-y-2">
-              <Label className="" htmlFor="title">
-               {t("project.projectTitle")} *
-              </Label>
-              <Input
-                id="title"
-                placeholder= {t("project.projectDescription")}
-                value={organizationData.ProjectTitle}
-                onChange={(e) =>
-                  handleInputChange("ProjectTitle", e.target.value)
-                }
-                required
-              />
-            </div>
-
-            <div className="space-y-2">
+               <div className="space-y-2">
               <Label className="" htmlFor="description">
-               {t("project.orgaDesc")} *
+                {t("project.orgaDesc")} *
               </Label>
               <Textarea
                 id="description"
@@ -240,6 +265,61 @@ const {t} = useTranslation()
                 rows={4}
               />
             </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="space-y-2">
+                <Label className="" htmlFor="title">
+                  {t("project.projectTitle")} *
+                </Label>
+                <Input
+                  id="title"
+                  placeholder={t("project.projectDescription")}
+                  value={organizationData.ProjectTitle}
+                  onChange={(e) =>
+                    handleInputChange("ProjectTitle", e.target.value)
+                  }
+                  required
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label className="" htmlFor="description">
+                  {t("project.goal")} *
+                </Label>
+                <Select>
+                  <SelectTrigger className="flex-1 w-full ">
+                    <SelectValue placeholder={t("project.anOption")} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value={"atténuation"}>
+                      {t("project.goal1")}
+                    </SelectItem>
+                    <SelectItem value={"adaptation"}>
+                      {t("project.goal2")}
+                    </SelectItem>
+                    <SelectItem value={"finance"}>
+                      {t("project.goal3")}
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <Label className="" htmlFor="description">
+                {t("project.Desc")} *
+              </Label>
+              <Textarea
+                id="description"
+                placeholder={t("project.Desc2")}
+                value={organizationData.projectDescription}
+                onChange={(e) =>
+                  handleInputChange("projectDescription", e.target.value)
+                }
+                required
+                rows={4}
+              />
+            </div>
+           
           </div>
 
           {/* Project Details */}
@@ -328,16 +408,22 @@ const {t} = useTranslation()
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="planned">{t("projects.planned")}</SelectItem>
-                    <SelectItem value="ongoing">{t("projects.ongoing")}</SelectItem>
-                    <SelectItem value="completed">{t("projects.completed")}</SelectItem>
+                    <SelectItem value="planned">
+                      {t("projects.planned")}
+                    </SelectItem>
+                    <SelectItem value="ongoing">
+                      {t("projects.ongoing")}
+                    </SelectItem>
+                    <SelectItem value="completed">
+                      {t("projects.completed")}
+                    </SelectItem>
                   </SelectContent>
                 </Select>
               </div>
 
               <div className="space-y-2">
                 <Label className="" htmlFor="budget">
-                {t("project.Budget")} (XAF) *
+                  {t("project.Budget")} (XAF) *
                 </Label>
                 <Input
                   id="budget"
@@ -349,21 +435,20 @@ const {t} = useTranslation()
                   required
                 />
               </div>
-
-              <div className="space-y-2">
-                <Label className="" htmlFor="fundingSource">
+            </div>
+            <div className="space-y-2">
+              <Label className="" htmlFor="fundingSource">
                 {t("project.fundingSource")} *
-                </Label>
-                <Input
-                  id="fundingSource"
-                  placeholder="e.g., World Bank, Government"
-                  value={organizationData.fundingSource}
-                  onChange={(e) =>
-                    handleInputChange("fundingSource", e.target.value)
-                  }
-                  required
-                />
-              </div>
+              </Label>
+              <Input
+                id="fundingSource"
+                placeholder="e.g., World Bank, Government"
+                value={organizationData.fundingSource}
+                onChange={(e) =>
+                  handleInputChange("fundingSource", e.target.value)
+                }
+                required
+              />
             </div>
           </div>
 
@@ -376,7 +461,7 @@ const {t} = useTranslation()
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
                 <Label className="" htmlFor="startDate">
-                {t("project.start_date")} *
+                  {t("project.start_date")} *
                 </Label>
                 <Input
                   id="startDate"
@@ -420,9 +505,7 @@ const {t} = useTranslation()
 
           {/* Programs */}
           <div className="space-y-2">
-            <Label className="   pb-2">
-              {t("project.partners")}
-            </Label>
+            <Label className="   pb-2">{t("project.partners")}</Label>
 
             <div className="space-y-4">
               <div className="flex space-x-2">
@@ -458,25 +541,6 @@ const {t} = useTranslation()
             </div>
           </div>
 
-          <div className="space-y-2">
-            <Label className="" htmlFor="description">
-              {t("project.goal")} *
-              </Label>
-              <Select>
-              <SelectTrigger className="flex-1 w-full ">
-                <SelectValue placeholder={t("project.anOption")} />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value={"atténuation"}>
-                  {t("project.goal1")}
-                </SelectItem>
-                <SelectItem value={"adaptation"}>
-                  {t("project.goal2")}
-                </SelectItem>
-                <SelectItem value={"finance"}>{t("project.goal3")}</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
           <div className="space-y-2">
             <Label className="" htmlFor="description">
               {t("project.specific_objective")} *

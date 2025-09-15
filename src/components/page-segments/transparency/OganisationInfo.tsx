@@ -20,6 +20,7 @@ import { useTranslation } from "@/hooks/useTranslation";
 export interface OrganizationData {
   organizationName: string;
   ProjectTitle: string;
+  projectDescription:string;
   description: string;
   status: string;
   isOngoing: boolean;
@@ -36,7 +37,7 @@ export interface OrganizationData {
   results: string;
   programs: string[];
   actors: string[];
-  Goal: string;
+  projectType: string;
   organizationType: string;
 }
 

@@ -1,3 +1,4 @@
+'use client'
 import CreateProject from '@/components/page-segments/auth/CreateProject'
 import React from 'react'
 

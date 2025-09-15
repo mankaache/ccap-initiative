@@ -59,6 +59,8 @@ export const projects = {
 
      'project.orgaDesc':'Bref Description de L’Organization',
      'project.orgaDesc2':'Décrivez votre organisation',
+     'project.Desc':'Bref Description du projet',
+     'project.Desc2':'Décrivez votre projet',
      'project.projectDesc':'Bref Description du Projet',
 
      'project.projectDetails':'Détails du projet',
@@ -76,7 +78,7 @@ export const projects = {
      'project.end_date':'Fin de Mise en Oeuvre ',
        'project.actor_category':'Catégorie d\'acteur',
      'project.partners':'Partenaires (Technique et Financier)',
-     'project.goal':'But de ce Projet',
+     'project.goal':'Type de Projet',
      'project.goal1':'Atténuation',
      'project.goal2':'Adaptation',
      'project.goal3':'Finance',

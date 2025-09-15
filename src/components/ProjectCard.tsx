@@ -32,7 +32,7 @@ interface ProjectCardProps {
   };
 }
 
-const ProjectCard = ({ project, category, id }:any) => {
+const ProjectCard = ({ project, category, subcategory, id }:any) => {
   const { t } = useTranslation();
   
   const getStatusIcon = () => {
@@ -151,7 +151,12 @@ const ProjectCard = ({ project, category, id }:any) => {
         {/* Action Button */}
         <div className="pt-3 border-t border-border">
           <Link
-          href ={`/actor/${category}/${id}/${project.id}`}
+          // href ={`/actor/${category}/${id}/${project.id}`}
+          href={
+            subcategory
+              ? `/actor/${category}/${subcategory}/${id}/${project.id}`
+              : `/actor/${category}/details/${id}/${project.id}`
+          }
           className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-orange-500 to-green-500 text-white text-sm font-medium rounded-lg hover:from-orange-600 hover:to-green-600 transition-all duration-200 transform hover:scale-105"
         >
             {t('project.viewDetails')}

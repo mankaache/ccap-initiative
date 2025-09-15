@@ -1,3 +1,5 @@
+'use client'
+
 import ActorOrganisation from '@/components/page-segments/ActorOrganisation'
 import React from 'react'
 

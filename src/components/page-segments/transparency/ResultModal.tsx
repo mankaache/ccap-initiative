@@ -39,7 +39,7 @@ const {t} = useTranslation()
         startDate: organizationData.startDate,
         endDate: organizationData.endDate,
         organizationType: organizationData.organizationType,
-        goal: organizationData.Goal
+        goal: organizationData.projectType
       },
       assessmentDate: new Date().toISOString().split('T')[0],
       overallScore: score,

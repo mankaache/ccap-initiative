@@ -82,19 +82,19 @@ const HeroSection = () => {
                 >
                   {t("hero.exploreProjects")}
                 </Button> */}
-                <Button
+                {/* {/* <Button
                   size="lg"
                   className="bg-primary hover:opacity-90 shadow-climate"
                 >
                   {t("hero.projectTransparency")}
-                </Button>
+                </Button> */}
                 <Button
                   variant="outline"
                   size="lg"
                   className=" border-white bg-transparent text-white hover:bg-white hover:text-secondary"
                 >
                   {t("hero.viewMap")}
-                </Button>
+                </Button> 
               </div>
             </div>
           </div>

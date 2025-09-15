@@ -21,6 +21,7 @@ const ActorCategory = () => {
     (org) => org.category === category
   );
   const title = getCategoryTitle(category);
+  
 
   return (
     <>
