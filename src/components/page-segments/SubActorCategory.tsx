@@ -1,45 +1,70 @@
 "use client";
-import { getCategoryTitle, getSubcategories, hasSubcategories, organizations } from '@/data/organisation';
+import { getCategoryTitle, getSubcategories, hasSubcategories } from '@/data/organisation';
 import { useTranslation } from '@/hooks/useTranslation';
 import { useParams } from 'next/navigation';
 import OrganizationCard from '../OrganizationCard';
+import Link from 'next/link';
+import { ActorButtons } from './ActorButtons';
+import { useAuth } from '@/firebase/useAuth';
+import { useEffect, useState } from 'react';
+import {  fetchAllOrganisations, fetchOrganisationsWithSubcategory, OrganisationDoc } from '@/firebase/services/projectService';
+import { toast } from 'react-toastify';
+import FullPageLoader from '../layout/FullPageLoader';
 // ... other imports
 
 const SubActorCategory = () => {
   const { category, subcategory } = useParams<{ category: string; subcategory?: string }>();
   const { t } = useTranslation();
 
-  // Filter organizations based on whether we're viewing a category or subcategory
+   const [orga, setOrga] = useState<OrganisationDoc[]>([]);
+      const [loading, setLoading] = useState(true);
+    
+      useEffect(() => {
+        const loadOrg = async () => {
+          try {
+            setLoading(true);
+            const allOrga = await fetchOrganisationsWithSubcategory();
+            const allOrga2 = await fetchAllOrganisations()
+            setOrga(allOrga as any);
+            console.log('allOrga', allOrga, 'allOrga2', allOrga2);
+          } catch (err) {
+            console.error(err);
+            toast.error("Failed to fetch articles");
+          } finally {
+            setLoading(false);
+          }
+        };
+    
+        loadOrg();
+      }, []);
+
   const filteredOrganizations = subcategory 
-    ? organizations.filter(
+    ? orga?.filter(
         //@ts-ignore
-        (org) => org.category === category && org.subcategory === subcategory
+        (org) => org.category.toLowerCase() === category && org.subcategory.toLowerCase() === subcategory
       )
-    : organizations.filter(
-        (org) => org.category === category
+    : orga?.filter(
+        (org) => org.category.toLowerCase() === category
       );
 
   const title = getCategoryTitle(category, subcategory);
   const parentTitle = subcategory ? getCategoryTitle(category) : null;
+
+       if (loading) {
+        return (
+          <div className="min-h-screen">
+    
+            <FullPageLoader/>
+          </div>
+        );
+      }
 
   return (
     <>
       <div className="bg-gradient-to-r from-secondary/60 to-primary/60 via-accent/30 flex justify-center items-center h-40 w-full">
         <div className="max-w-5xl pt-5 flex h-full items-center px-4 flex-col gap-2">
           {/* Breadcrumb navigation */}
-          {subcategory && (
-            <div className="self-start text-sm text-muted-foreground">
-              <a href="/actor" className="hover:text-foreground">
-                {t('header.actor')}
-              </a>
-              {' > '}
-              <a href={`/actor/${category}`} className="hover:text-foreground">
-                {getCategoryTitle(category)}
-              </a>
-              {' > '}
-              <span className="text-foreground">{title}</span>
-            </div>
-          )}
+          
           
           <h1 className="text-3xl font-bold capitalize text-left text-foreground mb-2">
             {title === "Etatiques"
@@ -63,7 +88,7 @@ const SubActorCategory = () => {
           )}
         </div>
       </div>
-      
+       <ActorButtons/>
       <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
         {/* Show subcategories if we're on a category page that has subcategories */}
         {!subcategory && hasSubcategories(category) && (

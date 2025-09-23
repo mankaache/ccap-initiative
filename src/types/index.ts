@@ -19,10 +19,10 @@ export interface Article {
   id: string;
   type: "text" | "pdf";
   content?: string | null;
-  document?: string | null;
+  documentUrl?: string | null;
   title: string;
   date: string;
-  image?: string;
+  imageUrl?: string;
   category: "national" | "regional";
   source: string;
   description: string;

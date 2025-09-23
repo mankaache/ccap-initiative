@@ -10,7 +10,7 @@ const NewsDetailsPage = ( ) => {
 
   return (
     <div>
-        <NewsDetail article={mockNewsDetails} />
+        <NewsDetail />
     </div>
   )
 }

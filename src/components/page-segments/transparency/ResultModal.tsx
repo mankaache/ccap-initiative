@@ -10,6 +10,10 @@ import { toast } from "sonner";
 import { QuestionData } from "@/data/AssessmentQuestions";
 import { start } from "repl";
 import { useTranslation } from "@/hooks/useTranslation";
+import pdfMake from '@/types/pdfFonts';
+import { useEffect, useState } from "react";
+import { fetchProjectById } from "@/firebase/services/projectService";
+import { useParams } from "next/navigation";
 
 
 interface ResultsModalProps {
@@ -21,8 +25,32 @@ interface ResultsModalProps {
 }
 
 export const ResultsModal = ({ score, responses, questions, organizationData, onClose }: ResultsModalProps) => {
+const [project,setProject] = useState<any>(null);
  
 const {t} = useTranslation()
+  const { projectId, id} = useParams();
+
+  useEffect(() => {
+    const loadProject = async () => {
+      try {
+        const proj = await fetchProjectById(projectId as string);
+
+        // Optional: check if project belongs to the correct organisation
+        if (proj.organizationId !== id) {
+          toast.error("Project does not belong to this organisation");
+          setProject(null);
+          return;
+        }
+
+        setProject(proj);
+      } catch (err: any) {
+        console.error(err);
+        toast.error(err.message || "Failed to load project");
+      } 
+    };
+
+    loadProject();
+  }, [projectId, id]);
   const getScoreCategory = (score: number) => {
     if (score >= 80) return { label: t("tran.excellent") , color: "default", icon: Trophy };
     if (score >= 60) return { label: t('tran.good') , color: "secondary", icon: TrendingUp };
@@ -35,11 +63,12 @@ const {t} = useTranslation()
   const generateReportData = () => {
     const reportData = {
       organizationInfo: {
-        name: organizationData.organizationName,
-        startDate: organizationData.startDate,
-        endDate: organizationData.endDate,
-        organizationType: organizationData.organizationType,
-        goal: organizationData.projectType
+        name: (project && project.organizationName).toUpperCase(),
+        startDate: project && project.startDate,
+        endDate: project && project.endDate,
+        organizationType: (project && project.category).toUpperCase(),
+        orgDescription: (project && project.orgdescription),
+        goal: (project && project.projectType).toUpperCase(),
       },
       assessmentDate: new Date().toISOString().split('T')[0],
       overallScore: score,
@@ -48,23 +77,30 @@ const {t} = useTranslation()
         const response = responses.find(r => r.id === question.id);
         if (!response) return null;
 
-        let questionScore = 0;
-        if (response.skipped) {
-          questionScore = 0;
-        } else {
-          if (response.yesNoAnswer === true) questionScore += 1;
-          if (response.checkboxAnswers.some((checked:any) => checked)) questionScore += 1;
-          if (response.fileUploaded) questionScore += 1;
-        }
+                let questionScore = 0;
+          if (response.skipped) {
+            questionScore = 0;
+          } else {
+            if (response.yesNoAnswer === true) questionScore += 1;
+            if (response.checkboxAnswers.some((checked:any) => checked)) questionScore += 1;
+            if (response.fileUploaded) questionScore += 1;
+          }
+
 
         return {
           question: question.title,
-          yesNoQuestion: question.yesNoQuestion,
-          yesNoAnswer: response.skipped ? t("tran.skipped") : (response.yesNoAnswer === true ? t("tran.yes") : response.yesNoAnswer === false ? t('tran.no') : t("tran.notAnswered")),
-          checkboxAnswers: response.skipped ? t("tran.skipped") : question.checkboxOptions.filter((_, index:any) => response.checkboxAnswers[index]).join(", ") || t("tran.noneSelected"),
-          fileUploaded: response.skipped ? t("tran.skipped") : (response.fileUploaded ? response.fileUploaded.name : t("tran.noFile")),
-          questionScore: `${questionScore}/3`,
-          skipped: response.skipped
+            yesNoQuestion: question.yesNoQuestion,
+            yesNoAnswer: response.skipped
+              ? t("tran.skipped")
+              : (response.yesNoAnswer === true ? t("tran.yes") : response.yesNoAnswer === false ? t("tran.no") : t("tran.notAnswered")),
+            checkboxAnswers: response.skipped
+              ? t("tran.skipped")
+              : question.checkboxOptions.filter((_, index:any) => response.checkboxAnswers[index]).join(", ") || t("tran.noneSelected"),
+            fileUploaded: response.skipped
+              ? t("tran.skipped")
+              : (response.fileUploaded ? response.fileUploaded.name : t("tran.noFile")),
+            questionScore: response.skipped ? "0/3 (Skipped)" : `${questionScore}/3`,
+            skipped: response.skipped
         };
       }).filter(Boolean),
       recommendations: getRecommendations(score, responses, questions)
@@ -104,67 +140,77 @@ const {t} = useTranslation()
 
     return recommendations.slice(0, 5); // Limit to top 5 recommendations
   };
+ // adjust path
 
-  const downloadReport = () => {
-    const reportData = generateReportData();
-    
-    // Create a comprehensive text report
-    const reportText = `
-${t("tran.demonstrationReport")}
-${t("tran.generated")}: ${reportData.assessmentDate}
+const downloadReport = () => {
+  const reportData = generateReportData();
 
-${t("tran.orgInfo")}
-========================
-${t("tran.orgName")}: ${reportData.organizationInfo.name}
-${t("tran.orgType")}: ${reportData.organizationInfo.organizationType || t("tran.notSpecified")}
+  const docDefinition: any = {
+    content: [
+      { text: t("tran.demonstrationReport"), style: "header" },
+      { text: `${t("tran.generated")}: ${reportData.assessmentDate}`, margin: [0, 0, 0, 20] },
 
-${t("orgDescription")}:
-${reportData.organizationInfo.goal || t("tran.NoOrgDescription")}
+      { text: t("tran.orgInfo"), style: "subheader" },
+      {
+        table: {
+          widths: ["auto", "*"],
+          body: [
+            [t("tran.orgName"), reportData.organizationInfo.name],
+            [t("tran.orgType"), reportData.organizationInfo.organizationType || t("tran.notSpecified")],
+            [t("project.type_info"), reportData.organizationInfo.goal || ''],
+            [t("tran.orgDescription"), reportData.organizationInfo.orgDescription || t("tran.NoOrgDescription")],
+          ],
+        },
+        margin: [0, 0, 0, 20],
+      },
 
-${t("tran.overallResults")}
-===============
-${t("tran.Rscore")}: ${reportData.overallScore}%
-${t("tran.category")}: ${reportData.scoreCategory}
+      { text: t("tran.overallResults"), style: "subheader" },
+      { text: `${t("tran.Rscore")}: ${reportData.overallScore}%`, bold: true },
+      { text: `${t("tran.category")}: ${reportData.scoreCategory}`, margin: [0, 0, 0, 20] },
 
-${t("tran.responses")}
-==================
-${reportData.questionResponses.map((response:any, index) => `
-${index + 1}. ${response.question}
-   ${t("tran.questions")}: ${response.yesNoQuestion}
-   ${t("tran.answer")}: ${response.yesNoAnswer}
-   
-   ${t("tran.selectedOptions")}: ${response.checkboxAnswers}
-   
-   ${t("tran.uploadedFile")}: ${response.fileUploaded}
-   
-   ${t("tran.Rscore")}: ${response.questionScore}
-   ${response.skipped ? (`${t("tran.skipped")}`): ''}
-`).join('\n')}
+      { text: t("tran.responses"), style: "subheader" },
+      {
+        ol: reportData.questionResponses.map((res: any) => {
+          return [
+            { text: res.question, bold: true },
+            { text: `${t("tran.questions")}: ${res.yesNoQuestion}` },
+            { text: `${t("tran.answer")}: ${res.yesNoAnswer}` },
+            { text: `${t("tran.selectedOptions")}: ${res.checkboxAnswers}` },
+            { text: `${t("tran.uploadedFile")}: ${res.fileUploaded}` },
+            { text: `${t("tran.Rscore")}: ${res.questionScore}` },
+            res.skipped ? { text: t("tran.skipped"), italics: true, color: "red" } : {},
+            { text: " " },
+          ];
+        }),
+        margin: [0, 0, 0, 20],
+      },
 
-${t("tran.recommendation")}
-===============
-${reportData.recommendations.map((rec, index) => `${index + 1}. ${rec}`).join('\n')}
+      { text: t("tran.recommendation"), style: "subheader" },
+      {
+        ul: reportData.recommendations.map((rec: any) => rec),
+        margin: [0, 0, 0, 20],
+      },
 
----
-${t("tran.recoDesc")}
-`.trim();
-
-    // Create and download the file
-    const blob = new Blob([reportText], { type: 'text/plain' });
-    const url = window.URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = `${t("tran.assessment")}-${reportData.organizationInfo.name.replace(/[^a-zA-Z0-9]/g, '-')}-${reportData.assessmentDate}.txt`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    window.URL.revokeObjectURL(url);
-
-    toast.success(t("tran.downloadedReport"),{
-      
-      description: t("tran.downloadDesc"),  
-    });
+      { text: t("tran.recoDesc"), italics: true, fontSize: 10 },
+    ],
+    styles: {
+      header: { fontSize: 20, bold: true, margin: [0, 0, 0, 10] },
+      subheader: { fontSize: 14, bold: true, margin: [0, 10, 0, 5] },
+    },
+    defaultStyle: {
+      fontSize: 11,
+    },
   };
+
+  pdfMake.createPdf(docDefinition).download(
+    `${t("tran.assessment")}-${reportData.organizationInfo.name.replace(/[^a-zA-Z0-9]/g, "-")}-${reportData.assessmentDate}.pdf`
+  );
+
+  toast.success(t("tran.downloadedReport"), {
+    description: t("tran.downloadDesc"),
+  });
+};
+
 
   const completedQuestions = responses.filter(r => !r.skipped).length;
   const totalQuestions = questions.length;
@@ -216,7 +262,7 @@ ${t("tran.recoDesc")}
             </Card>
             <Card>
               <CardContent className="p-4 text-center">
-                <div className="text-2xl font-bold text-accent">{totalQuestions - completedQuestions}</div>
+                <div className="text-2xl text-foreground font-bold ">{totalQuestions - completedQuestions}</div>
                 <div className="text-sm text-muted-foreground">{t("tran.questionSkipped")}</div>
               </CardContent>
             </Card>
@@ -252,12 +298,12 @@ ${t("tran.recoDesc")}
                       <div>
                         <div className="font-medium">{question.title}</div>
                         <div className="text-sm text-muted-foreground">
-                          {response.skipped ? 'Skipped' : `${questionScore}/3 points earned`}
+                          {response.skipped ? '0/3 (Skipped)' : `${questionScore}/3 points earned`}
                         </div>
                       </div>
                     </div>
                     <Badge variant={response.skipped ? "destructive" : questionScore >= 2 ? "default" : "secondary"}>
-                      {response.skipped ? "Skipped" : `${questionScore}/3`}
+                      {response.skipped ? "0/3 (Skipped)" : `${questionScore}/3`}
                     </Badge>
                   </div>
                 );

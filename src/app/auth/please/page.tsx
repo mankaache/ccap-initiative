@@ -1,8 +1,12 @@
 'use client'
+
+import { useTranslation } from "@/hooks/useTranslation"
+
 const Please = () => {
+  const {t} = useTranslation()
   return (
     <div className='h-[70vh] text-center text-2xl flex justify-center items-center max-w-lg mx-auto w-full'>
-        Please check your email, and click the link in your email to verify your account
+       {t('auth.please')}
     </div>
   )
 }

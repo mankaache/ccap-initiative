@@ -4,10 +4,18 @@ import React from "react";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "../ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import Footer from "./Footer";
-import Header from "./Header";
+import { NewBaseLayout } from "./NewBaseLayout";
+import { toast, ToastContainer } from "react-toastify";
+import { initializeCleanupScheduler } from "@/lib/cleanupScheduler";
+import { useNetworkStatus } from "@/lib/network";
+import { useTranslation } from "@/hooks/useTranslation";
 
 const BaseLayout = ({ children }: { children: React.ReactNode }) => {
+  initializeCleanupScheduler();
+  const {t} = useTranslation();
+
+
+
   const queryClient = new QueryClient();
   return (
     <div>
@@ -15,10 +23,11 @@ const BaseLayout = ({ children }: { children: React.ReactNode }) => {
      
           <TooltipProvider>
             <Sonner position="top-center"   />
-            <Header/>
+            <NewBaseLayout>
             {children}
-            <Footer/>
+            </NewBaseLayout>
           </TooltipProvider>
+          <ToastContainer theme="light" />
       </QueryClientProvider>
     </div>
   );

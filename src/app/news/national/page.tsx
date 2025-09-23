@@ -8,10 +8,11 @@ import React from 'react'
 const NewsPage =  () => {
   
 
+
    
 
   return (
-   <News newsItems={mockNews} />
+   <News  />
   )
 }
 

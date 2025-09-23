@@ -1,5 +1,6 @@
-import React from "react";
-import { Calendar, ArrowRight } from "lucide-react";
+'use client';
+import React, { useEffect, useState } from "react";
+import { Calendar, ArrowRight, Edit2Icon } from "lucide-react";
 import Link from "next/link";
 import NewsHero from "./News-hero";
 import intlImage from "@/assets/intl-news.jpg";
@@ -7,11 +8,49 @@ import national from "@/assets/national-news.jpg";
 import Image from "next/image";
 import { Button } from "../ui/button";
 import { useAuth } from "@/firebase/useAuth";
+import { Article } from "@/types";
+import { fetchAllArticles } from "@/firebase/services/adminService";
+import { toast } from "react-toastify";
+import FullPageLoader from "../layout/FullPageLoader";
+import nationalnewimage from '@/assets/national-news.jpg'
+import { useTranslation } from "@/hooks/useTranslation";
 
-const News = ({ newsItems }: { newsItems: any[] }) => {
+const News = () => {
+const { t } = useTranslation();
+  const [articles, setArticles] = useState<Article[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadArticles = async () => {
+      try {
+        setLoading(true);
+        const allArticles = await fetchAllArticles();
+        setArticles(allArticles as Article[]);
+        console.log('allArticles', allArticles);
+      } catch (err) {
+        console.error(err);
+        console.error("Failed to fetch articles");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadArticles();
+  }, []);
   
     const {user} = useAuth();
-  if (!newsItems.length) {
+
+      if (loading) {
+    return (
+      <div className="min-h-screen">
+
+        <FullPageLoader/>
+      </div>
+    );
+  }
+
+    
+  if (articles?.length === 0) {
     return (
       <>
         <NewsHero
@@ -28,32 +67,31 @@ const News = ({ newsItems }: { newsItems: any[] }) => {
         }
        
         <div className="text-center h-[80vh] flex items-center justify-center text-gray-500">
-          No news found
+          {t('actor.newsNone')}
         </div>
       </>
     );
   }
-  //  newsItems = mockNews[category as keyof typeof mockNews] || [];
 
   return (
     <>
       <NewsHero
         image={national}
-        title={"National News"}
+        title={`${t('actor.newstitle')}`}
         desc="Stay updated with the latest climate change news and developments in Cameroon"
       />
 
       <div className="min-h-screen bg-gray-50 py-12">
         <div className="max-w-[1350px]  mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {newsItems.map((article: any) => (
+            {articles.map((article: any) => (
               <article
                 key={article.id}
                 className="bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden"
               >
                 <div className="relative w-full h-48 ">
                   <Image
-                    src={article.image}
+                    src={article.imageUrl ?? nationalnewimage}
                     placeholder="blur"
                     blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII="
                     fill
@@ -62,13 +100,21 @@ const News = ({ newsItems }: { newsItems: any[] }) => {
                   />
                 </div>
                 <div className="p-6">
-                  <div className="flex items-center text-sm text-gray-500 mb-3">
+                  <div className="flex items-center justify-between flex-wrap">
+<div className="flex items-center text-sm text-gray-500 mb-3">
                     <Calendar className="h-4 w-4 mr-2" />
                     {new Date(article.date).toLocaleDateString()}
-                    <span className="ml-4 px-2 py-1 bg-orange-100 text-orange-700 rounded-full text-xs">
-                      {article.category}
-                    </span>
+                    
                   </div>
+                   {user && (user.uid === article.authorId) && (
+                    <Link
+                      href={`/news/national/edit/${article.id}`}
+                      className=" flex items-center gap-1 text-sm text-orange-600 hover:text-orange-700 font-medium">
+                          <Edit2Icon className="w-4 h-4"/>{t('actor.edit')}
+                      </Link>
+                      )} 
+                  </div>
+                  
                   <h2 className="text-xl font-semibold text-gray-900 mb-3">
                     {article.title}
                   </h2>
@@ -80,7 +126,7 @@ const News = ({ newsItems }: { newsItems: any[] }) => {
                       href={`/news/national/${article.id}`}
                       className="inline-flex items-center text-orange-600 hover:text-orange-700 font-medium"
                     >
-                      Read more
+                      {t('actor.readMore')}
                       <ArrowRight className="h-4 w-4 ml-1" />
                     </Link>
                   ) : article.type === "pdf" ? (
@@ -88,7 +134,7 @@ const News = ({ newsItems }: { newsItems: any[] }) => {
                       href={`/news/national/${article.id}/`}
                       className="inline-flex items-center text-orange-600 hover:text-orange-700 font-medium"
                     >
-                      Read more
+                      {t('actor.readMore')}
                       <ArrowRight className="h-4 w-4 ml-1" />
                     </Link>
                   ) : null}
@@ -102,13 +148,6 @@ const News = ({ newsItems }: { newsItems: any[] }) => {
             ))}
           </div>
 
-          {newsItems.length === 0 && (
-            <div className="text-center py-12">
-              <p className="text-gray-500 text-lg">
-                No news articles available in this category.
-              </p>
-            </div>
-          )}
         </div>
       </div>
     </>

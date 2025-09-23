@@ -3,8 +3,9 @@ import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
 import VerifyEmailPage from "../verify-email/page";
 import ResetPasswordPage from "../reset-password/page";
+import FullPageLoader from "@/components/layout/FullPageLoader";
 
-export default function ActionPage() {
+function ActionContent() {
   const searchParams = useSearchParams();
   const mode = searchParams.get("mode");
 
@@ -14,5 +15,15 @@ export default function ActionPage() {
       {mode === "resetPassword" && <ResetPasswordPage />}
       {!mode && <p>Invalid action link</p>}
     </Suspense>
+  );
+}
+
+
+export default function ActionPage() {
+
+  return (
+   <Suspense fallback={<FullPageLoader/>}>
+     <ActionContent />
+   </Suspense>
   );
 }

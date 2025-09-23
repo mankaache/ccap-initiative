@@ -9,34 +9,64 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Bell, Search, Menu, LogOut, Settings, User } from 'lucide-react';
-import { useState } from 'react';
-import { toast } from 'sonner';
+import { LogOut, Settings, User } from 'lucide-react';
+import { useEffect, useState } from 'react';
 import { Sidebar } from './Sidebar';
-import { useAuth } from '@/contexts/AuthContexta';
-import { useRouter } from 'next/router';
+import Link from 'next/link';
 
+import { useAuth } from "@/firebase/useAuth";
+import { signOut } from '@firebase/auth';
+import { auth } from '@/firebase/firebaseConfig';
+import { useRouter } from 'next/navigation';
+import FullPageLoader from './FullPageLoader';
+import { useTranslation } from '@/hooks/useTranslation';
+import { toast } from 'react-toastify';
 
 export function DashboardLayout({ children }: { children: React.ReactNode }) {
   const [sidebarOpen, setSidebarOpen] = useState(true);
-  const { user, logout } = useAuth();
-  const navigate = useRouter();
+ const {user, loading} = useAuth();
+ const router= useRouter();
+const {t} = useTranslation()
+ 
+  useEffect(() => {
+    // wait until auth loads
+    if (!loading) {
+      if (!user || user.role !== "admin") {
+        // Not admin, redirect to home page
+        router.push("/");
+      }
+    }
+  }, [user, loading, router]);
+  if (loading || !user) {
+    return <FullPageLoader/>;
+  }
 
-  const handleLogout = () => {
-    logout();
-    toast.success("Logged out",{
-      
-      description: "You have been successfully logged out.",
-    });
-    navigate.push('/');
-  };
+
+
+
 
   const getInitials = (name: string) => {
     return name.split(' ').map(n => n[0]).join('').toUpperCase();
   };
+  const handleLogout = async () => {
+    try {
+    await signOut(auth);
+    console.log(`${t('auth.signOutSuccess')}`);
+    toast.success(`${t('auth.logoutSuccess')}`);
+    localStorage.removeItem("userProfile");
+   router.push('/auth/signin');
+  } catch (error) {
+    console.error(`${t('auth.signOutError')}`, error);
+    toast.error(`${t('auth.logoutError')}`);
+  }
+};
+
 
   return (
-    <div className="min-h-screen bg-primary/5">
+    <>
+    {
+      user?.role === "admin" ? (
+        <div className="min-h-screen bg-primary/5">
       <div className="flex">
         <Sidebar isOpen={sidebarOpen} onToggle={() => setSidebarOpen(!sidebarOpen)} />
         
@@ -68,33 +98,35 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
                 <DropdownMenuTrigger asChild>
                   <Button variant="ghost" className="h-10 w-10 rounded-full p-0">
                     <Avatar className="w-10 h-10">
-                      <AvatarFallback className="bg-gradient-to-r from-secondary to-primary text-white font-semibold">
-                        {user ? getInitials(user.name) : 'U'}
+                      <AvatarFallback className="bg-gradient-to-r from-secondary to-primary text-white font-semibold capitalize">
+                        {user ? getInitials(user.firstName) : 'U'}
                       </AvatarFallback>
                     </Avatar>
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-56">
                   <div className="px-2 py-1.5 text-sm">
-                    <div className="font-medium">{user?.name}</div>
-                    <div className="text-muted-foreground">{user?.email}</div>
+                    <div className="font-medium">
+                      {user?.firstName} {user?.lastName}
+                      </div>
+                    <div className="text-muted-foreground">
+                      {user?.email}
+                      </div>
                     <div className="text-xs bg-primary/10 text-primary px-2 py-1 rounded-full mt-1 inline-block">
                       {user?.role}
                     </div>
                   </div>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={() => navigate.push('/admin/profile')}>
-                    <User className="mr-2 h-4 w-4" />
-                    Profile
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => navigate.push('/admin/settings')}>
+                  
+                  <DropdownMenuItem >
                     <Settings className="mr-2 h-4 w-4" />
-                    Settings
+                    <Link href="/admin/settings">{t("auth.settings")}</Link>
+                    
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem onClick={handleLogout} className="text-destructive">
                     <LogOut className="mr-2 h-4 w-4" />
-                    Log out
+                    {t("common.logout")}
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
@@ -108,5 +140,8 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
         </div>
       </div>
     </div>
+      ): null
+    }
+    </>
   );
 }

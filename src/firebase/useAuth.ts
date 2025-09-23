@@ -3,6 +3,7 @@ import { useRouter } from "next/navigation";
 import { onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 import { auth, db } from "./firebaseConfig";
+import { verify } from "crypto";
 
 export function useAuth() {
   const [user, setUser] = useState<any>(null);
@@ -62,11 +63,11 @@ export function useAuth() {
     // only redirect from login or signup pages
     const path = window.location.pathname;
     if (path.startsWith("/auth")) {
-      if (userData.role === "admin") {
+      if (userData.role === "admin" && userData.emailVerified === true) {
         router.replace("/admin/dashboard");
-      } else {
-        router.replace("/actor/dashboard");
-      }
+      } else if (userData.role === "actor" && userData.emailVerified === true) {
+        router.replace("/");
+      }else return null
     }
   }
 

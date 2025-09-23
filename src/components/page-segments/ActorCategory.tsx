@@ -8,8 +8,14 @@ import {
 } from "@/data/organisation";
 
 import { useTranslation } from "@/hooks/useTranslation";
+import Link from "next/link";
 
 import { useParams } from "next/navigation";
+import { ActorButtons } from "./ActorButtons";
+import { useEffect, useState } from "react";
+import { fetchOrganisationsWithoutSubcategory, OrganisationDoc } from "@/firebase/services/projectService";
+import { toast } from "react-toastify";
+import FullPageLoader from "../layout/FullPageLoader";
 
 
 
@@ -17,11 +23,43 @@ const ActorCategory = () => {
   const { category } = useParams<{ category: string }>();
   const { t } = useTranslation();
 
-  const categoryOrganizations = organizations.filter(
-    (org) => org.category === category
+
+  const [orga, setOrga] = useState<OrganisationDoc[]>([]);
+    const [loading, setLoading] = useState(true);
+  
+    useEffect(() => {
+      const loadOrg = async () => {
+        try {
+          setLoading(true);
+          const allOrga = await fetchOrganisationsWithoutSubcategory();
+          setOrga(allOrga as any);
+          console.log('allOrga', allOrga);
+        } catch (err) {
+          console.error(err);
+          toast.error("Failed to fetch articles");
+        } finally {
+          setLoading(false);
+        }
+      };
+  
+      loadOrg();
+    }, []);
+
+
+    
+  const categoryOrganizations = orga?.filter(
+    (org) => org.category.toLowerCase() === category
   );
   const title = getCategoryTitle(category);
   
+       if (loading) {
+        return (
+          <div className="min-h-screen">
+    
+            <FullPageLoader/>
+          </div>
+        );
+      }
 
   return (
     <>
@@ -48,6 +86,8 @@ const ActorCategory = () => {
           </p>
         </div>
       </div>
+
+      <ActorButtons/>
       <main className=" max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
         <div className="mb-8 ">
           <div className="mt-4 font-semibold text-muted-foreground">

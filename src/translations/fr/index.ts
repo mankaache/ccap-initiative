@@ -9,6 +9,7 @@ import { actor } from "./actor";
 import { transparency } from "./transparency";
 import { auth } from "./auth";
 import { footer } from "./footer";
+import { dashboard } from "./dashboard";
 
 
 export const fr = {
@@ -22,5 +23,6 @@ export const fr = {
   ...actor,
   ...transparency,
   ...auth,
-  ...footer
+  ...footer,
+  ...dashboard
 };

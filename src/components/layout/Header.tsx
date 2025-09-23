@@ -13,12 +13,13 @@ import {
 import Link from "next/link";
 import { useTranslation } from "@/hooks/useTranslation";
 import LanguageSwitcher from "../LanguageSwitcher";
-import { getSubcategories } from "@/data/organisation";
+import { getAllCategories, getSubcategories } from "@/data/organisation";
 import { useAuth } from "@/firebase/useAuth";
 import { Avatar, AvatarFallback } from "../ui/avatar";
 import { useRouter } from "next/navigation";
 import { signOut } from "firebase/auth";
 import { auth } from "@/firebase/firebaseConfig";
+import { toast } from "react-toastify";
 
 
 // Recursive dropdown component for nested menus
@@ -106,72 +107,114 @@ const Header = () => {
       .toUpperCase();
   };
   
-  const navigation = [
-    { name: t('header.home'), href: "/" },
-    { name: t('header.about'), href: "/about" },
-   {
+  // const navigation = [
+  //   { name: t('header.home'), href: "/" },
+  //   { name: t('header.about'), href: "/about" },
+  //  {
+  //   name: t('header.actor'),
+  //   href: "#",
+  //   dropdown: [
+  //     { name: t('header.actor.State'), 
+        
+  //       href: "#",
+  //       dropdown: getSubcategories('etatiques').map(subcat => ({
+  //         name: subcat.name,
+  //         href: `/actor/etatiques/${subcat.slug}`
+  //       }))
+  //     },
+  //     { 
+  //       name: t("header.actor.ONGI"), 
+  //       href: "#",
+  //       dropdown: getSubcategories('ongi').map(subcat => ({
+  //         name: subcat.name,
+  //         href: `/actor/ongi/${subcat.slug}`
+  //       }))
+  //     },
+  //     { name: t("header.actor.OSC"), href: "/actor/osc" },
+  //     { name: t("header.actor.OBC"), href: "/actor/obc" },
+  //     { 
+  //       name: t("header.actor.secteur-privee"), 
+  //       href: "#",
+  //       dropdown: getSubcategories('secteur-privee').map(subcat => ({
+  //         name: subcat.name,
+  //         href: `/actor/secteur-privee/${subcat.slug}`
+  //       }))
+  //     },
+  //     { name: 'CL', href: "/actor/cl" },
+  //   ],
+  // },
+  //   {
+  //     name: t('header.news'),
+  //     href: "/news/national",
+  //   },
+  //   {
+  //     name: t('header.climateDocuments'),
+  //     href: "#",
+  //     dropdown: [
+  //       { name: t('header.documents.international'), href: "/documents/international" },
+  //       { 
+  //         name: t('header.documents.regulations'), 
+  //         href: '/documents/regulation',
+         
+  //       },
+  //       { name: t('header.documents.national'), href: "/documents/national" },
+  //     ],
+  //   },
+  // ];
+// components/Header.tsx
+
+// First, update your navigation configuration to use the new structure:
+const navigation = [
+  { name: t('header.home'), href: "/" },
+  { name: t('header.about'), href: "/about" },
+  {
     name: t('header.actor'),
     href: "#",
+    dropdown: getAllCategories().map(category => {
+      // For categories with subcategories, create nested dropdown
+      if (category.hasSubcategories) {
+        return {
+          name: category.name, // or use translation: t(`header.actor.${category.slug}`)
+          href: "#",
+          dropdown: category.subcategories?.map(subcat => ({
+            name: subcat.name,
+            href: `/actor/${category.slug}/${subcat.slug}`
+          })) || []
+        };
+      }
+      
+      // For categories without subcategories, direct link
+      return {
+        name: category.name,
+        href: `/actor/${category.slug}`
+      };
+    })
+  },
+  {
+    name: t('header.news'),
+    href: "/news/national",
+  },
+  {
+    name: t('header.climateDocuments'),
+    href: "#",
     dropdown: [
-      { name: t('header.actor.State'), 
-        
-        href: "#",
-        dropdown: getSubcategories('etatiques').map(subcat => ({
-          name: subcat.name,
-          href: `/actor/etatiques/${subcat.slug}`
-        }))
-      },
-      { 
-        name: t("header.actor.ONGI"), 
-        href: "#",
-        dropdown: getSubcategories('ongi').map(subcat => ({
-          name: subcat.name,
-          href: `/actor/ongi/${subcat.slug}`
-        }))
-      },
-      { name: t("header.actor.OSC"), href: "/actor/osc" },
-      { name: t("header.actor.OBC"), href: "/actor/obc" },
-      { 
-        name: t("header.actor.secteur-privee"), 
-        href: "#",
-        dropdown: getSubcategories('secteur-privee').map(subcat => ({
-          name: subcat.name,
-          href: `/actor/secteur-privee/${subcat.slug}`
-        }))
-      },
-      { name: 'CL', href: "/actor/cl" },
+      { name: t('header.documents.international'), href: "/documents/international" },
+      { name: t('header.documents.regulations'), href: '/documents/regulation' },
+      { name: t('header.documents.national'), href: "/documents/national" },
     ],
   },
-    {
-      name: t('header.news'),
-      href: "/news/national",
-    },
-    {
-      name: t('header.climateDocuments'),
-      href: "#",
-      dropdown: [
-        { name: t('header.documents.international'), href: "/documents/international" },
-        { 
-          name: t('header.documents.regulations'), 
-          href: '/documents/regulation',
-         
-        },
-        { name: t('header.documents.national'), href: "/documents/national" },
-      ],
-    },
-  ];
-
+];
  
 const handleLogout = async () => {
     try {
     await signOut(auth);
     console.log("User signed out successfully");
-    alert("You have been logged out.");
+    toast.success(`${t('common.logout.success')}`);
     localStorage.removeItem("userProfile");
    navigate.push('/');
   } catch (error) {
     console.error("Error signing out:", error);
-    alert("Failed to log out. Please try again.");
+    toast.error(`${t('common.logout.error')}`);
   }
 };
 
@@ -187,42 +230,41 @@ const handleLogout = async () => {
           </div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center space-x-8">
-            {navigation.map((item, idx) =>
-              item.dropdown ? (
-                <DropdownMenu key={idx}>
-                  <DropdownMenuTrigger className="nav-link flex items-center gap-1 focus:outline-hidden">
-                    <span>{item.name}</span>
-                    <ChevronDown className="h-4 w-4" />
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent className="bg-background py-3 border-border shadow-elegant min-w-[200px]">
-                    {item.dropdown.map((subItem, subIdx) => (
-                      <div key={subIdx}>
-                        {subItem.dropdown ? (
-                          <NestedDropdown item={subItem} />
-                        ) : (
-                          <DropdownMenuItem className="text-foreground border-b py-2 border-gray-100 hover:bg-accent hover:text-accent-foreground cursor-pointer">
-                            <a href={subItem.href} className="w-full">
-                              {subItem.name}
-                            </a>
-                          </DropdownMenuItem>
-                        )}
-                      </div>
-                    ))}
-                  </DropdownMenuContent>
-                </DropdownMenu>
+         <nav className="hidden lg:flex items-center space-x-8">
+  {navigation.map((item, idx) =>
+    item.dropdown ? (
+      <DropdownMenu key={idx}>
+        <DropdownMenuTrigger className="nav-link flex items-center gap-1 focus:outline-hidden">
+          <span>{item.name}</span>
+          <ChevronDown className="h-4 w-4" />
+        </DropdownMenuTrigger>
+        <DropdownMenuContent className="bg-background py-3 border-border shadow-elegant min-w-[200px]">
+          {item.dropdown.map((subItem, subIdx) => (
+            <div key={subIdx}>
+              {subItem.dropdown ? (
+                <NestedDropdown item={subItem} />
               ) : (
-                <a
-                  key={item.name}
-                  href={item.href}
-                  className="text-foreground hover:text-primary transition-colors nav-link flex items-center gap-1"
-                >
-                  {item.name}
-                </a>
-              )
-            )}
-          </nav>
-
+                <DropdownMenuItem className="text-foreground border-b py-2 border-gray-100 hover:bg-accent hover:text-accent-foreground cursor-pointer">
+                  <a href={subItem.href} className="w-full">
+                    {subItem.name}
+                  </a>
+                </DropdownMenuItem>
+              )}
+            </div>
+          ))}
+        </DropdownMenuContent>
+      </DropdownMenu>
+    ) : (
+      <a
+        key={item.name}
+        href={item.href}
+        className="text-foreground hover:text-primary transition-colors nav-link flex items-center gap-1"
+      >
+        {item.name}
+      </a>
+    )
+  )}
+</nav>
           {/* Actions */}
           <div className="hidden lg:flex items-center space-x-4">
             {/* Language Switcher */}
@@ -232,10 +274,8 @@ const handleLogout = async () => {
       {loading ? (
         // show nothing or a spinner while loading
         <div className="w-8 h-8 rounded-full bg-gray-200 animate-pulse" />
-      ) : user ? (
-        
-       
-          <DropdownMenu>
+      ) : user && user.emailVerified === true ? (
+        <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="ghost" className="h-10 w-10 rounded-full p-0">
                     <Avatar className="w-10 h-10">
@@ -257,10 +297,10 @@ const handleLogout = async () => {
                   <DropdownMenuSeparator />
                   <DropdownMenuItem onClick={handleLogout} className="text-destructive">
                     <LogOut className="mr-2 h-4 w-4" />
-                    Log out
+                    {t('common.logout')}
                   </DropdownMenuItem>
                 </DropdownMenuContent>
-              </DropdownMenu>
+        </DropdownMenu>
       ) : (
         // Not authenticated: show login/signup buttons
         <>
@@ -268,13 +308,13 @@ const handleLogout = async () => {
             href="/auth/signin"
             className="w-full px-3 py-2 bg-transparent border-2 text-primary border-primary rounded-md text-sm whitespace-nowrap"
           >
-            Sign In
+            {t('auth.signIn')}
           </Link>
           <Link
             href="/auth/signup"
             className="w-full px-3 py-2 text-white bg-primary rounded-md text-sm whitespace-nowrap"
           >
-            Sign Up
+           {t('auth.signUp')}
           </Link>
         </>
       )}

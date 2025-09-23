@@ -4,10 +4,11 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Grid, Grid3X3, List, SlidersHorizontal } from "lucide-react";
 import { useTranslation } from "@/hooks/useTranslation";
-import { Project } from "./FilteredProjects";
+import { ProjectInput } from "@/firebase/services/projectService";
 
 interface ProjectsGridProps {
-  projects: Project[];
+  
+  projects: ProjectInput[] ;
 }
 
 const ProjectsGrid = ({ projects }: ProjectsGridProps) => {
@@ -90,6 +91,7 @@ const ProjectsGrid = ({ projects }: ProjectsGridProps) => {
             : "space-y-4"
         }>
           {projects.map((project) => (
+            //@ts-ignore
             <div key={project.id} className="animate-fade-in">
               <ProjectCard
                project={project} />

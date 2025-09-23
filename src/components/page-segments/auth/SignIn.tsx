@@ -1,42 +1,42 @@
 "use client";
 
 import { useState } from "react";
-import Header from "@/components/layout/Header";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Eye, EyeOff, Mail, Lock } from "lucide-react";
-import { toast } from "sonner";
+import { Eye, EyeOff, Mail, Lock, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useTranslation } from "@/hooks/useTranslation";
 import { loginUser } from "@/firebase/authService";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 const SignIn = () => {
   const { t } = useTranslation();
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
-    const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
 
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   async function handleSubmit(e: React.FormEvent) {
 
     e.preventDefault();
 
     console.log('form data login', formData);
+    setLoading(true);
 
     try {
       const user = await loginUser(formData.email.trim().toLowerCase(), formData.password);
       console.log("user", user);
        localStorage.setItem("userProfile", JSON.stringify(user));
+        toast.success(`${t("auth.signinSucess")}`);
+       
 
         //@ts-ignore
       if (user.role === "admin") {
@@ -47,6 +47,8 @@ const SignIn = () => {
       }
     } catch (err: any) {
       setError(err.message);
+       setLoading(false);
+       toast.error(`${t("auth.error")}`);
       console.error(err.message);
     }
   }  
@@ -130,13 +132,13 @@ const SignIn = () => {
                     {t("auth.forgotPassword")}
                   </Link>
                 </div>
-                {error && <p className="text-red-500">{error}</p>}
 
                 <Button
                   type="submit"
+                  disabled={loading}
                   className="w-full bg-gradient-hero hover:opacity-90 shadow-climate"
                 >
-                  {t("auth.signIn")}
+                 {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />} {t("auth.signIn")}
                 </Button>
               </form>
 
@@ -168,7 +170,7 @@ const SignIn = () => {
                   {t("auth.DontAcctAlready")}{" "}
                 </span>
                 <Link
-                  href="/signup"
+                  href="/auth/signup"
                   className="text-primary hover:text-primary-hover font-medium"
                 >
                   {t("auth.signUp")}
@@ -186,14 +188,14 @@ const SignIn = () => {
               >
                 {t("auth.agree")}{" "}
                 <Link
-                  href="/terms"
+                  href="#"
                   className="text-primary md:whitespace-nowrap hover:text-primary-hover"
                 >
                   {t("auth.termsAndConditions")}
                 </Link>{" "}
                 {t("auth.and")}{" "}
                 <Link
-                  href="/privacy"
+                  href="#"
                   className="text-primary hover:text-primary-hover"
                 >
                   {t("auth.privacyPolicy")}

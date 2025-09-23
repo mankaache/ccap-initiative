@@ -1,77 +1,84 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
-import { Plus, Search, FileText, Calendar, User, ExternalLink } from 'lucide-react';
-import { useRouter } from 'next/router';
+import { Plus, Search, FileText, Calendar, User, ExternalLink, Edit2Icon } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import FullPageLoader from '@/components/layout/FullPageLoader';
+import { useAuth } from '@/firebase/useAuth';
+import { toast } from 'react-toastify';
+import { fetchAllArticles } from '@/firebase/services/adminService';
+import { Article } from '@/types';
+import Link from 'next/link';
+import { useTranslation } from '@/hooks/useTranslation';
 
 export default function ArticlesList() {
   const navigate = useRouter();
   const [searchTerm, setSearchTerm] = useState('');
+const{t} = useTranslation()
 
-  // Mock data
-  const articles = [
-    {
-      id: '1',
-      title: 'New Infrastructure Development Initiative',
-      description: 'Comprehensive overview of the new infrastructure projects planned for the Central Region.',
-      type: 'text' as const,
-      category: 'national' as const,
-      source: 'Government Press',
-      date: '2024-01-15',
-      author: 'GU Group',
-    },
-    {
-      id: '2',
-      title: 'Community Development Report 2024',
-      description: 'Annual report on community development activities and achievements.',
-      type: 'pdf' as const,
-      category: 'regional' as const,
-      source: 'SU Organization',
-      date: '2024-01-10',
-      author: 'SU Organization',
-    },
-    {
-      id: '3',
-      title: 'Economic Growth Projections',
-      description: 'Analysis of economic trends and growth projections for the next fiscal year.',
-      type: 'text' as const,
-      category: 'national' as const,
-      source: 'Economic Times',
-      date: '2024-01-08',
-      author: 'Admin',
-    },
-  ];
+  const [articles, setArticles] = useState<Article[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const filteredArticles = articles.filter(article =>
-    article.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    article.description.toLowerCase().includes(searchTerm.toLowerCase())
+  useEffect(() => {
+    const loadArticles = async () => {
+      try {
+        setLoading(true);
+        const allArticles = await fetchAllArticles();
+        setArticles(allArticles as Article[]);
+        console.log('allArticles', allArticles);
+      } catch (err) {
+        console.error(err);
+        console.error("Failed to fetch articles");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadArticles();
+  }, []);
+
+     const filteredArticles = articles?.filter((doc) =>
+    [doc.title, doc.source, doc.date]
+      .join(" ")
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase())
   );
+  
+    const {user} = useAuth();
+
+      if (loading) {
+    return (
+      <div className="min-h-screen">
+
+        <FullPageLoader/>
+      </div>
+    );
+  }
+
+
+
 
   const getTypeIcon = (type: 'text' | 'pdf') => {
     return type === 'pdf' ? '📄' : '📝';
-  };
-
-  const getCategoryColor = (category: 'national' | 'regional') => {
-    return category === 'national' ? 'bg-primary/10 text-primary' : 'bg-secondary/10 text-secondary';
   };
 
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-3xl font-bold">Articles</h1>
-          <p className="text-muted-foreground">Manage news articles and publications</p>
+          <h1 className="text-3xl font-bold">{t('admin.articles.title')}</h1>
+          <p className="text-muted-foreground">{t('admin.articles.titleDesc')}</p>
         </div>
         <Button
           onClick={() => navigate.push('/admin/articles/create')}
           className="bg-gradient-to-r from-primary to-secondary hover:opacity-90"
         >
           <Plus className="w-4 h-4 mr-2" />
-          Add Article
+        {t('admin.articles.add')}
         </Button>
       </div>
 
@@ -79,14 +86,14 @@ export default function ArticlesList() {
         <div className="relative flex-1 max-w-md">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
           <Input
-            placeholder="Search articles..."
+            placeholder={t('admin.articles.search')}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="pl-9"
           />
         </div>
         <Badge variant="outline">
-          {filteredArticles.length} article{filteredArticles.length !== 1 ? 's' : ''}
+          {filteredArticles.length} {t('admin.articles.article')} {filteredArticles.length !== 1 ? 's' : ''}
         </Badge>
       </div>
 
@@ -99,9 +106,11 @@ export default function ArticlesList() {
                   <FileText className="w-5 h-5 text-primary" />
                   <span className="text-lg">{getTypeIcon(article.type)}</span>
                 </div>
-                <Badge className={getCategoryColor(article.category)}>
-                  {article.category}
-                </Badge>
+                 <Link
+                      href={`/admin/articles/edit/${article.id}`}
+                      className=" flex items-center gap-1 text-sm text-orange-600 hover:text-orange-700 font-medium">
+                          <Edit2Icon className="w-4 h-4"/>{t('admin.articles.edit')}
+                      </Link>
               </div>
               <CardTitle className="text-lg line-clamp-2">{article.title}</CardTitle>
               <CardDescription className="line-clamp-2">
@@ -113,7 +122,7 @@ export default function ArticlesList() {
                 <div className="flex items-center justify-between text-sm text-muted-foreground">
                   <div className="flex items-center space-x-1">
                     <User className="w-4 h-4" />
-                    <span>{article.author}</span>
+                    <span>{article.source}</span>
                   </div>
                   <div className="flex items-center space-x-1">
                     <Calendar className="w-4 h-4" />
@@ -122,7 +131,7 @@ export default function ArticlesList() {
                 </div>
                 
                 <div className="text-sm text-muted-foreground">
-                  <span>Source: {article.source}</span>
+                  <span>{t('admin.articles.source')}: {article.source}</span>
                 </div>
 
                 <Button
@@ -131,7 +140,7 @@ export default function ArticlesList() {
                   onClick={() => navigate.push(`/admin/articles/${article.id}`)}
                 >
                   <ExternalLink className="w-4 h-4 mr-2" />
-                  Read Article
+                  {t('admin.articles.readArticle')}
                 </Button>
               </div>
             </CardContent>
@@ -142,14 +151,14 @@ export default function ArticlesList() {
       {filteredArticles.length === 0 && (
         <div className="text-center py-12">
           <FileText className="w-12 h-12 mx-auto text-muted-foreground mb-4" />
-          <h3 className="text-lg font-semibold mb-2">No articles found</h3>
+          <h3 className="text-lg font-semibold mb-2">{t('admin.articles.noArticles')}</h3>
           <p className="text-muted-foreground mb-4">
-            {searchTerm ? 'Try adjusting your search terms.' : 'Get started by creating your first article.'}
+            {searchTerm ? `${t('admin.articles.adjustSearch')}` : `${t('admin.articles.adjustSearchOr')}`}
           </p>
           {!searchTerm && (
             <Button onClick={() => navigate.push('/admin/articles/create')}>
               <Plus className="w-4 h-4 mr-2" />
-              Create First Article
+              {t('admin.articles.createArticle')}
             </Button>
           )}
         </div>

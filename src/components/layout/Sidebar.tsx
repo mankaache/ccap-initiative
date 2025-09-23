@@ -1,5 +1,5 @@
 
-import { useAuth } from '@/contexts/AuthContexta';
+import { useTranslation } from '@/hooks/useTranslation';
 import { cn } from '@/lib/utils';
 
 import {
@@ -21,34 +21,29 @@ interface SidebarProps {
 }
 
 export function Sidebar({ isOpen }: SidebarProps) {
-  const { user } = useAuth();
-
+  // const { user } = useAuth();
+const {t} = useTranslation()
   const pathname = usePathname();
   const adminNavItems = [
-    { icon: LayoutDashboard, label: 'Dashboard', href: '/admin/dashboard' },
-    { icon: Users, label: 'Actors', href: '/admin/actors' },
-    { icon: FileText, label: 'Articles', href: '/admin/articles' },
-    { icon: FolderOpen, label: 'Documents', href: '/admin/documents' },
-    { icon: Briefcase, label: 'Projects', href: '/admin/projects' },
+    { icon: LayoutDashboard, label: `${t('auth.sidebar.dashboard')}`, href: '/admin/dashboard' },
+    // { icon: Users, label: 'Actors', href: '/admin/actors' },
+    { icon: FileText, label: `${t('auth.sidebar.articles')}`, href: '/admin/articles' },
+    { icon: FolderOpen, label: `${t('auth.sidebar.documents')}`, href: '/admin/documents' },
+    { icon: Briefcase, label: `${t('auth.sidebar.actors')}`, href: '/admin/actors' },
+  
+    { icon: Briefcase, label: `${t('auth.sidebar.projects')}`, href: '/admin/projects' },
+    { icon: Briefcase, label: `${t('auth.sidebar.underReview')}`, href: '/admin/under-review'},
   ];
 
-  const actorNavItems = [
-    { icon: LayoutDashboard, label: 'Dashboard', href: '/admin/dashboard' },
-    { icon: FileText, label: 'Articles', href: '/admin/articles' },
-    { icon: Briefcase, label: 'Projects', href: '/admin/projects' },
-  ];
 
-  const createItems = user?.role === 'admin' ? [
-    { icon: Users, label: 'Create Actor', href: '/admin/actors/create' },
-    { icon: FileText, label: 'Add Article', href: '/admin/articles/create' },
-    { icon: FolderOpen, label: 'Add Document', href: '/admin/documents/create' },
-    { icon: Briefcase, label: 'Create Project', href: '/admin/projects/create' },
-  ] : [
-    { icon: FileText, label: 'Add Article', href: '/admin/articles/create' },
-    { icon: Briefcase, label: 'Create Project', href: '/admin/projects/create' },
-  ];
+  const createItems = [
+    // { icon: Users, label: 'Create Actor', href: '/admin/actors/create' },
+    { icon: FileText, label: `${t('auth.sidebar.createArticle')}`, href: '/admin/articles/create' },
+    { icon: FolderOpen, label: `${t('auth.sidebar.createDocument')}`, href: '/admin/documents/create' },
+    { icon: Briefcase, label: `${t('auth.sidebar.createProject')}`, href: '/admin/projects/create' },
+  ] 
 
-  const navItems = user?.role === 'admin' ? adminNavItems : actorNavItems;
+  // const navItems = user?.role === 'admin' ? adminNavItems : actorNavItems;
 
   return (
     <aside className={cn(
@@ -62,9 +57,9 @@ export function Sidebar({ isOpen }: SidebarProps) {
           </div>
           {isOpen && (
             <div>
-              <h1 className="font-bold text-lg">Dashboard</h1>
+              <h1 className="font-bold text-lg">{t('auth.sidebar.dashboard')}</h1>
               <p className="text-xs text-muted-foreground">
-                {user?.role === 'admin' ? 'Admin Panel' : 'Actor Portal'}
+                {/* {user?.role === 'admin' ? 'Admin Panel' : 'Actor Portal'} */}
               </p>
             </div>
           )}
@@ -74,7 +69,7 @@ export function Sidebar({ isOpen }: SidebarProps) {
       <nav className="p-4 space-y-2">
         {/* Main Navigation */}
         <div className="space-y-1">
-          {navItems.map((item) => {
+          {adminNavItems.map((item) => {
             const isActive = pathname === item.href;
                 return(
             <Link
@@ -102,7 +97,7 @@ export function Sidebar({ isOpen }: SidebarProps) {
         {isOpen && (
           <div className="pt-6">
             <div className="px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-              Create
+              {t('auth.sidebar.createSection')}
             </div>
             <div className="space-y-1">
               {createItems.map((item) => {

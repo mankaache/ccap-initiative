@@ -34,17 +34,22 @@ export async function signUpActor({ firstName, lastName, email, password, actorC
 export async function loginUser(email: string, password: string) {
   const userCredential = await signInWithEmailAndPassword(auth, email, password);
   const user = userCredential.user;
+  const {t} = useTranslation();
 
 
-    if (!user.emailVerified) {
-      alert("Please verify your email before logging in.");
-    throw new Error("Please verify your email before logging in.");
+  if (!user.emailVerified) {
+    // immediately sign them out
+    await signOut(auth);
+    throw new Error(`${t("auth.pleaseVerify")}`);
   }
   // fetch role from Firestore
   const docRef = doc(db, "users", user.uid);
   const snap = await getDoc(docRef);
 
-  if (!snap.exists()) throw new Error("User not found in database");
+   if (!snap.exists()) {
+    await signOut(auth);
+    throw new Error(`${t("auth.nouser")}`);
+  }
 
   return { ...user, ...snap.data() };
 }
@@ -61,6 +66,7 @@ export async function logout() {
 
 //whenever you need logged in user 
 import { onAuthStateChanged } from "firebase/auth";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export function watchUser(callback: (user: any | null) => void) {
   return onAuthStateChanged(auth, async (user) => {

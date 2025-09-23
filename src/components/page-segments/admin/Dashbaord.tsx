@@ -14,63 +14,87 @@ import {
   Clock,
   Target,
 } from 'lucide-react'
-import { useRouter } from 'next/router';
-import { useAuth } from '@/contexts/AuthContexta';
+import { useRouter } from 'next/navigation';
+import { useAuth } from '@/firebase/useAuth';
+import { useEffect, useState } from 'react';
+import { fetchAllArticles, fetchAllDocuments } from '@/firebase/services/adminService';
+import { toast } from 'sonner';
+import { fetchAllProjects } from '@/firebase/services/projectService';
+import { useTranslation } from '@/hooks/useTranslation';
 
 export default function Dashboard() {
-  const { user } = useAuth();
+  // const { user } = useAuth();
   const navigate = useRouter();
 
+   const [loading, setLoading] = useState(true);
+   const[articles, setArticles] = useState([]);
+   const[projects, setProjects] = useState([]);
+   const [documents, setDocuments] = useState([]);
+  
+    useEffect(() => {
+      const loadArticles = async () => {
+        try {
+          setLoading(true);
+          const allArticles = await fetchAllArticles();
+          const allProjects = await fetchAllProjects();
+          const allDocuments = await fetchAllDocuments();
+          setArticles(allArticles as any);
+          setProjects(allProjects as any);
+          setDocuments(allDocuments as any);
+          console.log('allArticles', allArticles);
+        } catch (err) {
+          console.error('Failed to fetch',err);
+        
+        } finally {
+          setLoading(false);
+        }
+      };
+  
+      loadArticles();
+    }, []);
+    const {t} = useTranslation();
+
   const adminStats = [
-    { label: 'Total Users', value: '12', icon: Users, color: 'text-primary' },
-    { label: 'Articles Published', value: '48', icon: FileText, color: 'text-secondary' },
-    { label: 'Active Projects', value: '6', icon: Briefcase, color: 'text-info' },
-    { label: 'Documents', value: '24', icon: FolderOpen, color: 'text-warning' },
+    { label:  `${t('admin.dashboard.totalUSers')}`, value:'12' , icon: Users, color: 'text-primary' },
+    { label: `${t('admin.dashboard.totalArticles')}`, value: projects.length, icon: FileText, color: 'text-secondary' },
+    { label: `${t('admin.dashboard.totalProjects')}`, value: articles.length, icon: Briefcase, color: 'text-info' },
+    { label: `${t('admin.dashboard.totalDocuments')}`, value: documents.length, icon: FolderOpen, color: 'text-warning' },
   ];
 
-  const actorStats = [
-    { label: 'My Articles', value: '8', icon: FileText, color: 'text-primary' },
-    { label: 'My Projects', value: '3', icon: Briefcase, color: 'text-secondary' },
-    { label: 'This Month', value: '2', icon: Calendar, color: 'text-info' },
-    { label: 'In Progress', value: '1', icon: Clock, color: 'text-warning' },
-  ];
-
-  const stats = user?.role === 'admin' ? adminStats : actorStats;
-
-  const recentActivities = [
-    { action: 'New article published', user: 'GU Group', time: '2 hours ago', type: 'article' },
-    { action: 'Project updated', user: 'SU Group', time: '4 hours ago', type: 'project' },
-    { action: 'Document uploaded', user: 'Admin', time: '1 day ago', type: 'document' },
-    { action: 'New actor created', user: 'Admin', time: '2 days ago', type: 'actor' },
-  ];
-
-  const quickActions = user?.role === 'admin' ? [
-    { label: 'Create Actor', href: '/dashboard/actors/create', icon: Users },
-    { label: 'Add Article', href: '/dashboard/articles/create', icon: FileText },
-    { label: 'Upload Document', href: '/dashboard/documents/create', icon: FolderOpen },
-    { label: 'New Project', href: '/dashboard/projects/create', icon: Briefcase },
-  ] : [
-    { label: 'Add Article', href: '/dashboard/articles/create', icon: FileText },
-    { label: 'New Project', href: '/dashboard/projects/create', icon: Briefcase },
-  ];
+ 
+  
+ 
+  const quickActions =[
+    // { label: 'Create Actor', href: '/dashboard/actors/create', icon: Users },
+    { label: `${t('admin.dashboard.addArticles')}`, href: '/dashboard/articles/create', icon: FileText },
+    { label: `${t('admin.dashboard.addDocuments')}`, href: '/dashboard/documents/create', icon: FolderOpen },
+    { label: `${t('admin.dashboard.addProjects')}`, href: '/dashboard/projects/create', icon: Briefcase },
+  ] 
+  const { user } = useAuth();
 
   return (
     <div className="space-y-6">
       {/* Welcome Header */}
       <div className="bg-gradient-hero rounded-xl p-6 text-white">
-        <h1 className="text-3xl font-bold mb-2">
-          Welcome back, {user?.name}!
+        <h1 className="text-3xl capitalize font-bold mb-2">
+          {t('admin.dashboard.welcome')}, 
+          {user?.firstName}!
         </h1>
         <p className="text-white/80">
-          {user?.role === 'admin' 
-            ? 'Manage your organizational dashboard and oversee all activities.' 
-            : 'Track your contributions and manage your projects.'}
+          {t('admin.dashboard.desc')}
         </p>
       </div>
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {stats.map((stat, index) => (
+        {
+          loading && (
+            <div className="col-span-4 flex justify-center items-center">
+              <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-primary"></div>
+            </div>
+          )
+        }
+        {adminStats.map((stat, index) => (
           <Card key={index} className="hover:shadow-medium transition-smooth">
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
@@ -91,7 +115,7 @@ export default function Dashboard() {
           <CardHeader>
             <CardTitle className="flex items-center space-x-2">
               <Target className="w-5 h-5" />
-              <span>Quick Actions</span>
+              <span>{t('admin.dashboard.quickActions')}</span>
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
@@ -110,7 +134,7 @@ export default function Dashboard() {
         </Card>
 
         {/* Recent Activity */}
-        <Card className="lg:col-span-2">
+        {/* <Card className="lg:col-span-2">
           <CardHeader>
             <CardTitle className="flex items-center space-x-2">
               <TrendingUp className="w-5 h-5" />
@@ -136,57 +160,11 @@ export default function Dashboard() {
               ))}
             </div>
           </CardContent>
-        </Card>
+        </Card> */}
       </div>
 
       {/* Additional Admin Stats */}
-      {user?.role === 'admin' && (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Platform Growth</CardTitle>
-              <CardDescription>User engagement metrics</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div>
-                <div className="flex justify-between text-sm mb-2">
-                  <span>Active Users</span>
-                  <span>75%</span>
-                </div>
-                <Progress value={75} className="h-2" />
-              </div>
-              <div>
-                <div className="flex justify-between text-sm mb-2">
-                  <span>Content Created</span>
-                  <span>60%</span>
-                </div>
-                <Progress value={60} className="h-2" />
-              </div>
-              <div>
-                <div className="flex justify-between text-sm mb-2">
-                  <span>Project Completion</span>
-                  <span>80%</span>
-                </div>
-                <Progress value={80} className="h-2" />
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>Transparency Score</CardTitle>
-              <CardDescription>Projects reviewed for transparency</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="text-center space-y-2">
-                <div className="text-4xl font-bold text-secondary">89%</div>
-                <p className="text-muted-foreground">of projects reviewed</p>
-                <Badge className="bg-secondary/10 text-secondary">Excellent</Badge>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      )}
+    
     </div>
   );
 }

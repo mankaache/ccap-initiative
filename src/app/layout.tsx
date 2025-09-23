@@ -1,7 +1,9 @@
 'use client';
+
 import type { Metadata } from "next";
 import "./globals.css";
 import BaseLayout from "@/components/layout/BaseLayout";
+
 
 import { Poppins } from "next/font/google";
 import { ServerTranslationProvider } from "@/hooks/ServerTranslationProvider";

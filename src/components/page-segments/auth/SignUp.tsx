@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Eye, EyeOff, Mail, Lock, User, LogIn } from "lucide-react";
-import { toast } from "sonner";
+
 import Link from "next/link";
 import { useTranslation } from "@/hooks/useTranslation";
 import {
@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/select";
 import { signUpActor } from "@/firebase/authService";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 const SignUp = () => {
   const { t } = useTranslation();
@@ -40,7 +41,7 @@ const SignUp = () => {
     "OSC",
     "OBC",
     "CL",
-    "SECTEUR PRIVEE",
+    "SECTEUR-PRIVEE",
     "other",
   ];
 
@@ -56,7 +57,7 @@ const SignUp = () => {
     console.log("form data", formData);
 
     if (formData.password !== formData.confirmPassword) {
-      setError("Passwords do not match");
+      setError(`${t("auth.noMatch")}`);
       return;
     }
 
@@ -64,10 +65,11 @@ const SignUp = () => {
     try {
       const res = await signUpActor(formData);
       console.log('res sign up', res);
-      alert("Account created! Please check your email to verify.");
+      toast.success(`${t("auth.signupSucess")}`);
       router.push("/auth/please");
     } catch (err: any) {
       setError(err.message);
+      toast.error(`${t("auth.error")}`);
       console.log(err);
     } finally {
       setLoading(false);
@@ -156,7 +158,7 @@ const SignUp = () => {
                   </div>
                 </div>
 
-                <Label className="mb-1 text-sm">Actor Category</Label>
+                <Label className="mb-1 text-sm">{t('auth.actor')}</Label>
 
                 <Select
                   value={formData.actorCategory}
@@ -165,11 +167,11 @@ const SignUp = () => {
                   }
                 >
                   <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Select an option" />
+                    <SelectValue placeholder={t('auth.actorDesc')} />
                   </SelectTrigger>
                   <SelectContent>
                     {actorCategories.map((cat) => (
-                      <SelectItem key={cat} value={cat}>
+                      <SelectItem key={cat} value={cat.toLowerCase()}>
                         {cat}
                       </SelectItem>
                     ))}
@@ -290,7 +292,6 @@ const SignUp = () => {
                   </div>*/}
                 </div>
 
-                {error && <p className="text-red-500">{error}</p>}
 
                 <Button
                   type="submit"
@@ -298,7 +299,7 @@ const SignUp = () => {
                   className="w-full bg-gradient-hero hover:opacity-90 shadow-climate"
                 >
                   {/* {t("auth.button1")} */}
-                  {loading ? "Creating..." : "Sign Up"}
+                  {loading ? t('auth.creating') : t('auth.signUp')}
                 </Button>
 
                 {/* {loading ? (
@@ -342,7 +343,7 @@ const SignUp = () => {
                   {t("auth.haveAcctAlready")}{" "}
                 </span>
                 <Link
-                  href="/signin"
+                  href="/auth/signin"
                   className="text-primary hover:text-primary-hover font-medium"
                 >
                   {t("auth.signIn")}

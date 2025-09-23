@@ -5,20 +5,37 @@ import { Card, CardContent } from "@/components/ui/card";
 import { TrendingUp, MapPin, Users, DollarSign, Globe } from "lucide-react";
 import { useTranslation } from "@/hooks/useTranslation";
 import heroimage from "@/assets/heroimage.png";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import { fetchAllProjects } from "@/firebase/services/projectService";
 
 const HeroSection = () => {
   const { t } = useTranslation();
 
+   const [projects, setProjects] = useState([]);
+      
+        useEffect(() => {
+
+          const loadArticles = async () => {
+            try {
+              const allArticles = await fetchAllProjects();
+              //@ts-ignore
+              setProjects(allArticles as Project[]);
+              console.log('allArticles', allArticles);
+            } catch (err) {
+              console.error(err);
+            }
+          };
+      
+          loadArticles();
+        }, []);
+  
+
   const stats = [
-    {
-      icon: DollarSign,
-      label: t("hero.stats.totalFunding"),
-      value: "XAF0",
-      description: t("hero.stats.fundingDesc"),
-    },
+   
     {
       icon: Globe,
-      value: "156",
+      value: projects && projects.length,
       label: t("hero.stats.activeProjects"),
       color: "text-secondary",
       description: t("hero.stats.projectsDesc"),
@@ -26,7 +43,7 @@ const HeroSection = () => {
     {
       icon: Users,
       label: t("hero.stats.activePartners"),
-      value: "89",
+      value: "10",
       description: t("hero.stats.partnersDesc"),
     },
     {
@@ -88,13 +105,12 @@ const HeroSection = () => {
                 >
                   {t("hero.projectTransparency")}
                 </Button> */}
-                <Button
-                  variant="outline"
-                  size="lg"
-                  className=" border-white bg-transparent text-white hover:bg-white hover:text-secondary"
+                <Link
+                href={'/map'}
+                  className=" border-white bg-white/40 border py-2 px-3 rounded-lg text-white hover:bg-white hover:text-secondary"
                 >
                   {t("hero.viewMap")}
-                </Button> 
+                </Link> 
               </div>
             </div>
           </div>
@@ -115,7 +131,7 @@ const HeroSection = () => {
                     >
                       {stat.value}
                     </div>
-                    <div className="text-sm lg:text-base text-muted-foreground font-medium">
+                    <div className="text-sm lg:text-lg text-muted-foreground font-medium">
                       {stat.label}
                     </div>
                   </div>
