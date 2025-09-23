@@ -1,7 +1,7 @@
 
 'use client'
 import { useTranslation } from '@/hooks/useTranslation';
-import { ArrowLeft, HelpCircle, Home, Search } from 'lucide-react';
+import { ArrowLeft, HelpCircle, Home } from 'lucide-react';
 import React from 'react'
 
 const NotFound = () => {
