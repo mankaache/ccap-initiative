@@ -49,7 +49,7 @@ const SignIn = () => {
       setError(err.message);
        setLoading(false);
        toast.error(`${t("auth.error")}`);
-      console.error(err.message);
+      console.log(err.message);
     }
   }  
 
