@@ -1,8 +1,7 @@
-import { useTranslation } from "@/hooks/useTranslation";
 
 // utils/cloudinary.ts
 export async function uploadFile(file: File, preset: string): Promise<string> {
-const { t } = useTranslation();
+
   const isRaw = file.type === "application/pdf"; // add other raw types if needed
   const resourceType = isRaw ? "raw" : "auto"; // 'auto' works for images
 
@@ -21,7 +20,7 @@ const { t } = useTranslation();
   });
 
   const data = await res.json();
-  if (!res.ok) throw new Error(data.error?.message || t("auth.uploadFailed") );
+  if (!res.ok) throw new Error(data.error?.message || 'Échec du téléchargement.');
   console.log('data', data);
   return data.secure_url; 
 }

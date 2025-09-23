@@ -5,9 +5,9 @@ import { doc, setDoc, updateDoc } from "firebase/firestore";
 import { auth, db } from "../firebaseConfig";
 
 export async function signUpAdmin({ firstName, lastName, email, password, inviteKey }: any) {
-  const {t} = useTranslation();
+
   if (inviteKey !== process.env.NEXT_PUBLIC_ADMIN_INVITE_KEY) {
-    throw new Error(`${t("auth.invalidKey")}`);
+    throw new Error(`Clé d\'invitation administrateur`);
   }
 
   const userCredential = await createUserWithEmailAndPassword(auth, email, password);
@@ -28,7 +28,7 @@ export async function signUpAdmin({ firstName, lastName, email, password, invite
 
 // ✅ Update project review (Accepted / Rejected)
 export async function updateProjectReview(projectId: string, reviewStatus: "Accepted" | "Rejected") {
-   const {t} = useTranslation();
+   
   const projectRef = doc(db, "projects", projectId);
 
 
@@ -36,13 +36,13 @@ export async function updateProjectReview(projectId: string, reviewStatus: "Acce
     projectReview: reviewStatus,
   });
 
-  return { success: true, message: `${t("auth.reviewUpdated")} ${reviewStatus}` };
+  return { success: true, message: `Révision du projet mise à jour vers ${reviewStatus}` };
 }
 // how to use 
 // await updateProjectReview("proj123", "Accepted");
 
 import { collection, getDocs, query, where, getDoc } from "firebase/firestore";
-import { useTranslation } from "@/hooks/useTranslation";
+
 
 // ✅ 1. Fetch ALL documents (with their IDs)
 export async function fetchAllDocuments() {

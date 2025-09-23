@@ -31,17 +31,17 @@ export async function signUpActor({ firstName, lastName, email, password, actorC
 }
 
 export async function loginUser(email: string, password: string) {
-  const {t} = useTranslation();
+  
    const userCredential = await signInWithEmailAndPassword(auth, email, password); 
    const user = userCredential.user; 
    if (!user.emailVerified) 
     { 
-      toast.error(`${t("auth.pleaseVerify")}`); 
-      throw new Error(`${t("auth.pleaseVerify")}`); } 
+      toast.error('vVeuillez vérifier votre adresse e-mail avant de vous connecter.'); 
+      throw new Error('Veuillez vérifier votre adresse e-mail avant de vous connecter.'); } 
       // fetch role from Firestore 
       const docRef = doc(db, "users", user.uid); 
       const snap = await getDoc(docRef); if (!snap.exists()) 
-        throw new Error(`${t("auth.nouser")}`); 
+        throw new Error('utilisateur introuvable'); 
         return { ...user, ...snap.data() }; 
     }
 
@@ -58,7 +58,6 @@ export async function logout() {
 
 //whenever you need logged in user 
 import { onAuthStateChanged } from "firebase/auth";
-import { useTranslation } from "@/hooks/useTranslation";
 import { toast } from "react-toastify";
 
 export function watchUser(callback: (user: any | null) => void) {
