@@ -13,8 +13,7 @@ const Index = () => {
       
       <HeroSection />
       <FilteredProjects/>
-      {/* <MapSection /> */}
-      <MapSection2 />
+      <MapSection />
     </div>
   );
 };

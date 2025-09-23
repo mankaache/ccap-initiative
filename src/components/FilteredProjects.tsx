@@ -1,102 +1,131 @@
-'use client';
+"use client";
 
-import { useState, useMemo } from "react";
+import { useEffect, useState, useMemo } from "react";
+import { toast } from "react-toastify";
 import FilterBar from "./FilterBar";
 import ProjectsGrid from "./ProjectsGrid";
-import { getMockProjects } from "@/data/mockProjects";
-import { organizations } from "@/data/organisation";
+import {
+  fetchAcceptedProjects,
+  ProjectInput,
+} from "@/firebase/services/projectService";
+import FullPageLoader from "./layout/FullPageLoader";
 
-// Mock project data - replace with your actual data source
-
-
-export interface Project {
-  id: string;
-  title: string;
-  description: string;
-  status: "ongoing" | "completed" | "planned";
-  budget: string;
-  fundingSource: string;
-  location: string;
-  region: string;
-  actors: string[];
-  startDate: string;
-  endDate?: string;
-  category: string;
-  programs: string[];
-}
-
-interface FilterState {
-  projects: string[];
-  actors: string[];
-  locations: string[];
+export type FilterState = {
+  projectType: string[];
+  categories: string[];
   funding: string[];
-}
+  regions: string[];
+};
 
-const FilteredProjects = () => {
-  const mockProjects =  getMockProjects();
+const ProjectsPage = () => {
+  const [loading, setLoading] = useState(false);
+  const [projects, setProjects] = useState<
+    (ProjectInput & { id: string; projectReview: string })[]
+  >([]);
   const [activeFilters, setActiveFilters] = useState<FilterState>({
-    projects: [],
-    actors: [],
-    locations: [],
-    funding: []
+    projectType: [],
+    categories: [],
+    funding: [],
+    regions: [],
   });
 
-  // Filter projects based on active filters
+  useEffect(() => {
+    const loadProjects = async () => {
+      try {
+        setLoading(true);
+        const accepted = await fetchAcceptedProjects();
+        setProjects(accepted);
+        console.log("acceptedProjects", accepted);
+      } catch (err) {
+        console.error(err);
+        toast.error("Failed to fetch projects");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadProjects();
+  }, []);
+
+  // 🔹 Extract unique values for dropdowns
+  const filterCategories = useMemo(() => {
+    const projectTypes = [...new Set(projects.map((p) => p.projectType))];
+    const categories = [...new Set(projects.map((p) => p.category))];
+    const fundingSources = [...new Set(projects.map((p) => p.fundingSource))];
+    const regions = [
+      ...new Set(projects.flatMap((p) => p.region || [])), // flatten array
+    ];
+
+    return {
+      projectTypes,
+      categories,
+      fundingSources,
+      regions,
+    };
+  }, [projects]);
+
+  // 🔹 Apply active filters
   const filteredProjects = useMemo(() => {
-    return mockProjects.filter(project => {
-      // If no filters are active, show all projects
-      const hasActiveFilters = Object.values(activeFilters).some(filters => filters.length > 0);
-      if (!hasActiveFilters) return true;
-
-      // Check project category filter
-      if (activeFilters.projects.length > 0 && !activeFilters.projects.includes(project.category)) {
+    return projects.filter((project) => {
+      // Project Type
+      if (
+        activeFilters.projectType.length > 0 &&
+        !activeFilters.projectType.includes(project.projectType)
+      ) {
         return false;
       }
 
-      // Check actors filter
-      if (activeFilters.actors.length > 0) {
-        const hasMatchingActor = project.actors.some(actor =>
-          activeFilters.actors.some(filterActor => 
-            actor.toLowerCase().includes(filterActor.toLowerCase())
-          )
-        );
-        if (!hasMatchingActor) return false;
-      }
-
-
-
-      // Check locations filter
-      if (activeFilters.locations.length > 0 && !activeFilters.locations.includes(project.region.toLowerCase().replace(/\s+/g, '-'))) {
+      // Category
+      if (
+        activeFilters.categories.length > 0 &&
+        !activeFilters.categories.includes(project.category)
+      ) {
         return false;
       }
 
-      // Check funding filter
-      if (activeFilters.funding.length > 0) {
-        const hasMatchingFunding = activeFilters.funding.some(funding =>
-          project.fundingSource.toLowerCase().includes(funding.toLowerCase().replace(/-/g, ' '))
-        );
-        if (!hasMatchingFunding) return false;
+      // Funding
+      if (
+        activeFilters.funding.length > 0 &&
+        !activeFilters.funding.some((fund) =>
+          project.fundingSource
+            .toLowerCase()
+            .includes(fund.toLowerCase().replace(/-/g, " "))
+        )
+      ) {
+        return false;
+      }
+
+      // Region (check against array of regions for each project)
+      if (
+        activeFilters.regions.length > 0 &&
+        !project.region.some((r) =>
+          activeFilters.regions.includes(r.toLowerCase().replace(/\s+/g, "-"))
+        )
+      ) {
+        return false;
       }
 
       return true;
     });
-  }, [activeFilters]);
-
-  const handleFilterChange = (newFilters: FilterState) => {
-    setActiveFilters(newFilters);
-  };
+  }, [projects, activeFilters]);
 
   return (
     <div className="min-h-screen bg-background">
-      <FilterBar 
+      <FilterBar
         activeFilters={activeFilters}
-        onFilterChange={handleFilterChange}
+        onFilterChange={setActiveFilters}
+        options={filterCategories}
       />
-      <ProjectsGrid
-      //@ts-expect-error error
-      projects={filteredProjects} />
+
+      {loading ? (
+        <div className="min-h-screen">
+          <FullPageLoader />
+        </div>
+      ) : (
+        <ProjectsGrid projects={filteredProjects} />
+      )}
     </div>
   );
 };
 
-export default FilteredProjects;
+export default ProjectsPage;

@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+
+import React, { useEffect, useState } from "react";
 import { Calendar, ArrowLeft, Share2 } from "lucide-react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
@@ -6,27 +8,59 @@ import { Button } from "../ui/button";
 import { ShareModal } from "../ShareModal";
 import image from "@/assets/vegetation.jpg";
 import Image from "next/image";
-import { getClimateNews } from "./GetClimateNews";
-import { InewType } from "@/data/mockNews";
-const NewsDetail = async ({
-  article,
-  category,
-}: {
-  article: InewType;
-  category: string;
-}) => {
-  console.log("article details", article);
+import { Article } from "@/types";
+import { fetchArticleById } from "@/firebase/services/adminService";
+import { toast } from "react-toastify";
+import FullPageLoader from "../layout/FullPageLoader";
+import { useAuth } from "@/firebase/useAuth";
+import DeleteArticleButton from "../DeleteButtons/DeleteArticle";
+import { useTranslation } from "@/hooks/useTranslation";
+const NewsDetail = () => {
+  const {t} = useTranslation()
+  const { id } = useParams(); 
+  const [article, setArticle] = useState<Article | null>(null);
+  const [loading, setLoading] = useState(true);
 
+  useEffect(() => {
+    const loadArticle = async () => {
+      try {
+        setLoading(true);
+        const data = await fetchArticleById(id as string);
+        if (!data) {
+          toast.error(`${t('admin.articles.notFound')}`)
+          return;
+        }
+        setArticle(data as Article);
+      } catch (err) {
+        console.error(err);
+        console
+        .error(`${t('admin.articles.notFound')}`);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (id) loadArticle();
+  }, [id]);
+  const {user } = useAuth();
+
+  if (loading) {
+    return (
+      <div className="min-h-screen">
+        <FullPageLoader />
+      </div>
+    );
+  }
   if (!article) {
     return (
       <div className="min-h-screen bg-background flex flex-col items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-bold mb-4">Article Not Found</h1>
+          <h1 className="text-2xl font-bold mb-4">{t("admin.articles.notFound")}</h1>
           <p className="text-muted-foreground mb-6">
-            The requested article could not be found.
+           {t("admin.articles.msg")}
           </p>
           <Link href="/news/national">
-            <Button>Back to national news</Button>
+            <Button>{t('admin.articles.msg2')}</Button>
           </Link>
         </div>
       </div>
@@ -34,32 +68,29 @@ const NewsDetail = async ({
   }
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    });
+    return new Date(dateString).toLocaleDateString();
   };
 
   return (
-    <div className="min-h-screen bg-secondary/5 py-12">
+    <div className="min-h-screen py-12">
       <div
         className={` ${
           article.type === "pdf" ? "max-w-6xl" : "max-w-4xl"
         }  mx-auto px-4 sm:px-6 lg:px-8`}
       >
         <Link
-          href={`/news/${category}`}
+        href={`${user.role==='admin'? '/admin/articles' :  `/news/national`}`}
+          
           className="inline-flex items-center text-orange-600 hover:text-orange-700 mb-6"
         >
           <ArrowLeft className="h-4 w-4 mr-2" />
-          Back to {category} news
+          {t('admin.articles.msg2')}
         </Link>
 
         <article className="bg-white rounded-lg shadow-lg overflow-hidden">
           <div className="relative w-full h-64 md:h-80">
             <Image
-              src={article && article.image}
+              src={article && article.imageUrl ? article.imageUrl : image}
               placeholder="blur"
               blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII="
               fill
@@ -73,21 +104,29 @@ const NewsDetail = async ({
               <div className="flex items-center">
                 <Calendar className="h-4 w-4 mr-2" />
                 {formatDate(article && article.date)}
-                <span className="ml-4 px-2 py-1 capitalize bg-orange-100 text-orange-700 rounded-full text-xs">
+                {/* <span className="ml-4 px-2 py-1 capitalize bg-orange-100 text-orange-700 rounded-full text-xs">
                   {article && article.category}
-                </span>
+                </span> */}
               </div>
-              <ShareModal
+              {
+                user.role === 'actor' && (
+                  <ShareModal
                 url={typeof window !== "undefined" ? window.location.href : ""}
                 title={article && article.title}
               />
+                )
+              }
+              
             </div>
+
 
             <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
               {article.title}
             </h1>
 
-            <p className="text-gray-600 mb-6">By {article && article.author}</p>
+            <p className="text-gray-600 mb-6">
+              {t('admin.articles.by')} {article && article.source}
+            </p>
             <p className="text-gray-600 mb-6">
               {article && article.description}
             </p>
@@ -149,9 +188,9 @@ const NewsDetail = async ({
                       </Button>
                     </div>
                     <div className="text-right">
-                      <p className="text-sm text-gray-600">Published on</p>
+                      <p className="text-sm text-gray-600">{t('admin.articles.publishedOn')} </p>
                       <p className="text-sm font-medium text-gray-900">
-                        {formatDate(article && article.date)}
+                        {(article && article.date)}
                       </p>
                     </div>
                   </div>
@@ -159,17 +198,22 @@ const NewsDetail = async ({
               </>
             )}
 
-            {article.type === "pdf" && article.document && (
+            {article.type === "pdf" && article.documentUrl && (
               <div className="w-full h-[100vh]">
                 <iframe
-                  src={`/api/pdf/${article.document}`}
+                  src={`https://docs.google.com/gview?url=${encodeURIComponent(
+                    article.documentUrl
+                  )}&embedded=true`}
                   className="w-full h-full border rounded-lg"
                   title={article.title}
                 />
               </div>
             )}
-            
           </div>
+          {
+            user && user.role==='admin' &&
+          <DeleteArticleButton articleId={article.id} />
+          }
         </article>
       </div>
     </div>

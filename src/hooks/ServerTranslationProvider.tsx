@@ -1,14 +1,22 @@
-import { cookies } from "next/headers";
-import { TranslationProviderClient } from "./useTranslation";
+'use client';
 
-export async function ServerTranslationProvider({
+import Cookies from "js-cookie";
+import { TranslationProviderClient } from "./useTranslation";
+import { useEffect, useState } from "react";
+
+export function ServerTranslationProvider({
   children,
 }: {
   children: React.ReactNode;
 }) {
-      const cookieStore = await cookies();
-  const lang = (cookieStore.get("lang")?.value || "fr") as "en" | "fr";
+       const [lang, setLang] = useState<"en" | "fr">("fr");
 
+   useEffect(() => {
+    const cookieLang = Cookies.get("lang") as "en" | "fr" | undefined;
+    if (cookieLang) {
+      setLang(cookieLang);
+    }
+  }, []);
   return (
     <TranslationProviderClient initialLang={lang}>
       {children}

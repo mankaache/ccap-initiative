@@ -1,38 +1,57 @@
 "use client";
 
 import { useState } from "react";
-import Header from "@/components/layout/Header";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Eye, EyeOff, Mail, Lock } from "lucide-react";
-import { toast } from "sonner";
+import { Eye, EyeOff, Mail, Lock, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useTranslation } from "@/hooks/useTranslation";
+import { loginUser } from "@/firebase/authService";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 const SignIn = () => {
   const { t } = useTranslation();
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
-    rememberMe: false,
   });
 
-  const handleInputChange = (field: string, value: string | boolean) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
-  };
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  async function handleSubmit(e: React.FormEvent) {
+
     e.preventDefault();
 
-    
-    toast(t("auth.welcome"), {
-      description: t("auth.welcomeDesc"),
-    });
-  };
+    console.log('form data login', formData);
+    setLoading(true);
+
+    try {
+      const user = await loginUser(formData.email.trim().toLowerCase(), formData.password);
+      console.log("user", user);
+       localStorage.setItem("userProfile", JSON.stringify(user));
+        toast.success(`${t("auth.signinSucess")}`);
+       
+
+        //@ts-ignore
+      if (user.role === "admin") {
+        router.push("/admin/dashboard");
+        //@ts-ignore
+      } else if (user.role === "actor") {
+        router.push("/");
+      }
+    } catch (err: any) {
+      setError(err.message);
+       setLoading(false);
+       toast.error(`${t("auth.error")}`);
+      console.error(err.message);
+    }
+  }  
 
   return (
     <div className="min-h-screen bg-background">
@@ -66,9 +85,9 @@ const SignIn = () => {
                       id="email"
                       type="email"
                       value={formData.email}
-                      onChange={(e) =>
-                        handleInputChange("email", e.target.value)
-                      }
+                     onChange={(e) =>
+                          setFormData({ ...formData, email: e.target.value })
+                        }
                       placeholder={t("auth.email")}
                       className="pl-10"
                       required
@@ -85,8 +104,8 @@ const SignIn = () => {
                       type={showPassword ? "text" : "password"}
                       value={formData.password}
                       onChange={(e) =>
-                        handleInputChange("password", e.target.value)
-                      }
+                          setFormData({ ...formData, password: e.target.value })
+                        }
                       placeholder="*******"
                       className="pl-10 pr-10"
                       required
@@ -107,7 +126,7 @@ const SignIn = () => {
 
                 <div className="flex items-center justify-between">
                   <Link
-                    href="/forgot-password"
+                    href="/auth/forgot-password"
                     className="text-sm text-primary hover:text-primary-hover"
                   >
                     {t("auth.forgotPassword")}
@@ -116,9 +135,10 @@ const SignIn = () => {
 
                 <Button
                   type="submit"
+                  disabled={loading}
                   className="w-full bg-gradient-hero hover:opacity-90 shadow-climate"
                 >
-                  {t("auth.signIn")}
+                 {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />} {t("auth.signIn")}
                 </Button>
               </form>
 
@@ -150,7 +170,7 @@ const SignIn = () => {
                   {t("auth.DontAcctAlready")}{" "}
                 </span>
                 <Link
-                  href="/signup"
+                  href="/auth/signup"
                   className="text-primary hover:text-primary-hover font-medium"
                 >
                   {t("auth.signUp")}
@@ -168,14 +188,14 @@ const SignIn = () => {
               >
                 {t("auth.agree")}{" "}
                 <Link
-                  href="/terms"
+                  href="#"
                   className="text-primary md:whitespace-nowrap hover:text-primary-hover"
                 >
                   {t("auth.termsAndConditions")}
                 </Link>{" "}
                 {t("auth.and")}{" "}
                 <Link
-                  href="/privacy"
+                  href="#"
                   className="text-primary hover:text-primary-hover"
                 >
                   {t("auth.privacyPolicy")}

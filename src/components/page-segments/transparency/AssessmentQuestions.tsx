@@ -117,17 +117,14 @@ export const AssessmentQuestion = ({
   };
 
   const calculateQuestionScore = () => {
-    if (response.skipped) return 0;
+    if (response?.skipped) return 0;
     
     let score = 0;
-    if (response.yesNoAnswer === true) score += 1;
-    if (response.checkboxAnswers.some(checked => checked)) score += 1;
-    if (response.fileUploaded) score += 1;
+    if (response?.yesNoAnswer === true) score += 1;
+    if (response?.checkboxAnswers.some(checked => checked)) score += 1;
+    if (response?.fileUploaded) score += 1;
     return score;
   };
-
-  const questionScore = calculateQuestionScore();
-  const maxScore = response.skipped ? 0 : 3;
 
   const {t} = useTranslation();
 
@@ -149,7 +146,7 @@ export const AssessmentQuestion = ({
         </Button>
       </div>
 
-      {!response.skipped && (
+      {!response?.skipped && (
         <>
           {/* Part 1: Yes/No Question */}
           <Card className="border border-gray-300">
@@ -162,7 +159,7 @@ export const AssessmentQuestion = ({
               
               <div className="flex gap-4">
                 <Button
-                  variant={response.yesNoAnswer === true ? "default" : "outline"}
+                  variant={response?.yesNoAnswer === true ? "default" : "outline"}
                   onClick={() => handleYesNoChange(true)}
                   className="flex items-center gap-2"
                 >
@@ -170,7 +167,7 @@ export const AssessmentQuestion = ({
                   {t("tran.yes")}
                 </Button>
                 <Button
-                  variant={response.yesNoAnswer === false ? "default" : "outline"}
+                  variant={response?.yesNoAnswer === false ? "default" : "outline"}
                   onClick={() => handleYesNoChange(false)}
                   className="flex items-center gap-2"
                 >
@@ -195,7 +192,7 @@ export const AssessmentQuestion = ({
                   <div key={index} className="flex items-center space-x-2">
                     <Checkbox
                       id={`checkbox-${question.id}-${index}`}
-                      checked={response.checkboxAnswers[index]}
+                      checked={response?.checkboxAnswers[index]}
                       onCheckedChange={(checked) => 
                         handleCheckboxChange(index, checked as boolean)
                       }
@@ -220,12 +217,12 @@ export const AssessmentQuestion = ({
                   {question.fileUploadLabel}
                 </Label>
                 
-                {response.fileUploaded ? (
+                {response?.fileUploaded ? (
                   <div className="flex items-center gap-3 p-3 bg-success/10 border border-success/20 rounded-lg">
                     <FileText className="h-5 w-5 text-success" />
                     <div className="flex-1">
                       <p className="text-sm font-medium text-success">{t("tran.uploadSuccess")}</p>
-                      <p className="text-xs text-muted-foreground">{response.fileUploaded.name}</p>
+                      <p className="text-xs text-muted-foreground">{response?.fileUploaded.name}</p>
                     </div>
                     <Button
                       variant="ghost"
@@ -276,7 +273,7 @@ export const AssessmentQuestion = ({
         </>
       )}
 
-      {response.skipped && (
+      {response?.skipped && (
         <Card className="border-destructive/20 bg-destructive/5">
           <CardContent className="p-4 text-center">
             <AlertCircle className="h-8 w-8 text-destructive mx-auto mb-2" />

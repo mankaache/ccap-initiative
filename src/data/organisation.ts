@@ -2,6 +2,7 @@ export interface IOrganization {
   id: string;
   name: string;
   category: string;
+  subcategory?: string;
   description: string;
   founded: string;
   location: string;
@@ -12,7 +13,7 @@ export interface IOrganization {
   logo?: string;
 }
 
-export const organizations: IOrganization[] = [
+export const organizations = [
   // etatiques
   {
     id: 'gohze',
@@ -80,6 +81,7 @@ export const organizations: IOrganization[] = [
     id: 'green-future',
     name: 'Green Future Foundation',
     category: 'ongi',
+    subcategory: 'international',
     description: 'Environmental NGO dedicated to promoting sustainable practices and climate action.',
     founded: '2010',
     location: 'Seattle, WA',
@@ -92,6 +94,7 @@ export const organizations: IOrganization[] = [
     id: 'hope-alliance',
     name: 'Hope Alliance',
     category: 'ongi',
+    subcategory: 'local',
     description: 'Non-profit organization focused on poverty alleviation and community development.',
     founded: '2008',
     location: 'Chicago, IL',
@@ -176,34 +179,147 @@ export const organizations: IOrganization[] = [
   }
 ];
 
-export const getCategoryTitle = (category: string): string => {
-  switch (category) {
-    case 'etatiques':
-      return 'Etatiques';
-    case 'ongi':
-      return 'ONGI';
-    case 'osc':
-      return 'OSC';
-    case 'obc':
-      return 'OBC';
-    case 'secteur-privee':
-      return 'SECTEUR PRIVEE';
-    case 'cl':
-      return 'CL';
-    default:
-      return category;
+
+// export const getCategoryTitle = (category: string, subcategory?: string): string => {
+//   // If we have a subcategory, handle it first
+//   if (subcategory) {
+//     switch (subcategory) {
+//       case 'ministries':
+//         return 'Ministries';
+//       case 'institions':
+//         return 'Institutions';
+//       case 'international':
+//         return 'International NGOs';
+//       case 'local':
+//         return 'Local NGOs';
+//       case 'large':
+//         return 'Large Private Enterprises';
+//       case 'sme':
+//         return 'Small & Medium Enterprises';
+//       default:
+//         return subcategory.toUpperCase();
+//     }
+//   }
+  
+//   // Handle main categories
+//   switch (category) {
+//     case 'etatiques':
+//       return 'Etatiques';
+//     case 'ongi':
+//       return 'ONGI';
+//     case 'osc':
+//       return 'OSC';
+//     case 'obc':
+//       return 'OBC';
+//     case 'secteur-privee':
+//       return 'SECTEUR PRIVEE';
+//     case 'cl':
+//       return 'CL';
+//     default:
+//       return category;
+//   }
+// };
+
+// export const getCategoryDescription = (category: string): string => {
+//   switch (category) {
+//     case 'etatiques':
+//       return 'Professional consulting and strategic advisory firms';
+//     case 'ongi':
+//       return 'Non-governmental organizations working for social causes';
+//     case 'osc':
+//       return 'Social good corporations driving positive impact';
+//     default:
+//       return '';
+//   }
+// };
+
+
+// export const hasSubcategories = (category: string): boolean => {
+//   const categoriesWithSubcategories = ['ongi', 'secteur-privee','etatiques'];
+//   return categoriesWithSubcategories.includes(category);
+// };
+
+// export const getSubcategories = (category: string): Array<{name: string, slug: string}> => {
+//   switch (category) {
+//     case 'etatiques': 
+//     return [
+//         { name: 'Ministries', slug: 'ministries' },
+//         { name: 'Institutions', slug: 'institions' },
+//     ]
+//     case 'ongi':
+//       return [
+//         { name: 'International NGOs', slug: 'international' },
+//         { name: 'Local NGOs', slug: 'local' },
+//       ];
+//     case 'secteur-privee':
+//       return [
+//         { name: 'Large Enterprises', slug: 'large' },
+//         { name: 'SMEs', slug: 'sme' },
+//       ];
+//     default:
+//       return [];
+//   }
+// };
+
+// export function parseCategoryValue(value: string) {
+//   if (value.includes(":")) {
+//     const [category, subcategory] = value.split(":");
+//     return { category, subcategory };
+//   }
+//   return { category: value, subcategory: null };
+// }
+
+// utils/categoryUtils.ts
+import { CATEGORIES_CONFIG } from '@/lib/categoriesConfig';
+
+export const getCategoryTitle = (category: string, subcategory?: string): string => {
+  if (subcategory) {
+    const categoryConfig = CATEGORIES_CONFIG[category];
+    if (categoryConfig?.subcategories) {
+      const subcategoryConfig = categoryConfig.subcategories.find(sub => sub.slug === subcategory);
+      if (subcategoryConfig) {
+        return subcategoryConfig.name;
+      }
+    }
+    return subcategory.toUpperCase();
   }
+  
+  return CATEGORIES_CONFIG[category]?.name || category;
 };
 
 export const getCategoryDescription = (category: string): string => {
-  switch (category) {
-    case 'etatiques':
-      return 'Professional consulting and strategic advisory firms';
-    case 'ongi':
-      return 'Non-governmental organizations working for social causes';
-    case 'osc':
-      return 'Social good corporations driving positive impact';
-    default:
-      return '';
+  return CATEGORIES_CONFIG[category]?.description || '';
+};
+
+export const hasSubcategories = (category: string): boolean => {
+  return CATEGORIES_CONFIG[category]?.hasSubcategories || false;
+};
+
+export const getSubcategories = (category: string): Array<{name: string, slug: string}> => {
+  return CATEGORIES_CONFIG[category]?.subcategories || [];
+};
+
+export function parseCategoryValue(value: string) {
+  if (value.includes(":")) {
+    const [category, subcategory] = value.split(":");
+    return { category, subcategory };
   }
+  return { category: value, subcategory: null };
+}
+
+// New utility functions
+export const getAllCategories = () => {
+  return Object.values(CATEGORIES_CONFIG);
+};
+
+export const getAvailableActors = () => {
+  return getAllCategories().map(category => ({
+    category: category.name,
+    subcategories: category.subcategories?.map(sub => sub.slug) || []
+  }));
+};
+
+export const isEtatiquesCategory = (actorValue: string): boolean => {
+  const { category } = parseCategoryValue(actorValue);
+  return category === 'etatiques';
 };

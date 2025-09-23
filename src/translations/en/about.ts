@@ -8,24 +8,43 @@ export const about ={
 'about.foundation': 'Our Foundation',
 'about.driving':'Driving Climate Transparency',
 'about.pillars':'Built on the pillars of transparency, accountability, and sustainable development',
-
 'about.missionTitle':'Our Mission',
-'about.enhance':' To enhance transparency in climate finance and ensure effective implementation of environmental projects across Cameroon.',
-
+'about.enhance':'To enhance transparency in climate change and ensure effective implementation of climate change projects across Cameroon.',
 'about.visoionTitle':'Our Vision',
-'about.vision':' A transparent and accountable climate action ecosystem that promotes sustainable development and environmental resilience.',
-
+'about.vision':'A transparent and accountable climate action ecosystem that promotes sustainable development and environmental resilience.',
 'about.communityTitle':'Our Community',
-'about.community':'Bringing together government agencies, NGOs, private sector,and local communities for collaborative climate action.',
-
+'about.community':'Bringing together communities for collaborative climate change action.',
 'about.ourNetwork':'Our Network',
 'about.financialPartner':'Financial and Technical Partners',
 'about.working':'Working together with leading organizations to drive climate transparency',
-
 'about.govtPartners':'Government Partners',
-
 'about.joinUs':'Join us to make a difference for the planet',
-'about.build':'Be part of building a more transparent and effective climate action cosystem in Cameroon.'
+'about.build':'Be part of building a more transparent and effective climate action cosystem in Cameroon.',
+
+'about.platform':'About the Platform',
+'about.platformDesc':'Our platform is built to make climate projects in Cameroon open and transparent. Many people hear about projects, policies, or news on climate change, but it is often hard to know what is real, what is working, and how money or resources are used. We want to change that.',
+'about.youcan':'On this platform, you can',
+'about.checkClimate':'Check climate projects',
+'about.checkClimateDesc':'See clear information about projects in Cameroon, including who is behind them, what they aim to do, and how they are  progressing.',
+'about.share':'Create and share projects',
+'about.shareDesc':' If you are working on a climate-related idea or activity, you can share it here and connect with others.',
+'about.read':'Read trusted climate news',
+'about.readDesc':' Stay updated with local climate stories that matter to Cameroon.',
+'about.access':'Access documents',
+
+'about.accessDesc':'Find government and private reports, studies, and policies related to climate. We believe this platform is important because climate change affects all of us, and the best way forward is to share knowledge openly. When projects are transparent, people can trust them more, and together we can take stronger action for Cameroon’s future.',
+'about.link':' Learn how to use the platform',
+'about.ministry1':'Ministry of Environment',
+'about.ministry2':'Ministry of Finance',
+'about.ministry3':'Environment Agency',
+'about.regional':'Regional Councils',
+'about.10':'10 regions',
+'about.country':'Cameroon',
+'about.createAcc':'Create an account',
+'about.updated':'Stay Updated',
+'about.subscribe':' Subscribe to our newsletter to get the latest climate news and project updates in Cameroon.',
+'about.email':'Enter your email',
+'about.btn':'Subscribe'
 
 
 }

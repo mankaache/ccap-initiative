@@ -7,85 +7,74 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Eye, EyeOff, Mail, Lock, User, LogIn } from "lucide-react";
-import { toast } from "sonner";
+
 import Link from "next/link";
 import { useTranslation } from "@/hooks/useTranslation";
-import { signUpWithEmail } from "@/firebase/authApi";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { signUpActor } from "@/firebase/authService";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 const SignUp = () => {
   const { t } = useTranslation();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
     email: "",
     password: "",
     confirmPassword: "",
-    organization: "",
-    organizationType: "",
-    agreeToTerms: false,
-    subscribeNewsletter: false,
+    actorCategory: "",
   });
 
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const actorCategories = [
+    "ETATIQUES",
+    "ONGI",
+    "OSC",
+    "OBC",
+    "CL",
+    "SECTEUR-PRIVEE",
+    "other",
+  ];
+
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-
-  const handleInputChange = (field: string, value: string | boolean) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
-  };
-
   const [loading, setLoading] = useState(false);
+  const router = useRouter()
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-
-    if (password !== formData.confirmPassword) {
-      toast.error(t("auth.passMissmatch"), {
-        description: t("auth.passMissmatchDesc"),
-      });
-      return;
-    }
-
-    if (!formData.agreeToTerms) {
-      toast.warning(t("auth.terms"), {
-        description: t("auth.termsDesc"),
-      });
-      return;
-    }
-
     setError("");
-    setSuccess("");
 
-    if (password.length < 6)
-      return setError("Password must be at least 6 chars");
+    console.log("form data", formData);
 
-    const name = firstName + " " + lastName;
+    if (formData.password !== formData.confirmPassword) {
+      setError(`${t("auth.noMatch")}`);
+      return;
+    }
 
-    // try {
-    //setLoading(true);
-    //   const user = await signUpWithEmail({name, email, password });
-    //   setSuccess("Account created — verification email sent. Check your inbox.");
-    //   toast.success(success)
-    //   console.log("New user:", user);
-    // } catch (err:any) {
-    //   setError(err.message);
-    //   // toast.error(err.message)
-    //   console.error(err);
-    // }finally {
-    //  setLoading(false);
-    //}
-
-    console.log("User Error", error);
-    // Mock registration - in real app, this would call an API
-    toast.success(t("auth.actSuccess"), {
-      description: t("auth.actSucessDesc"),
-    });
-  };
+    setLoading(true);
+    try {
+      const res = await signUpActor(formData);
+      console.log('res sign up', res);
+      toast.success(`${t("auth.signupSucess")}`);
+      router.push("/auth/please");
+    } catch (err: any) {
+      setError(err.message);
+      toast.error(`${t("auth.error")}`);
+      console.log(err);
+    } finally {
+      setLoading(false);
+    }
+  }
 
   return (
     <div className="min-h-screen bg-background">
@@ -119,8 +108,13 @@ const SignUp = () => {
                       <Input
                         id="firstName"
                         type="text"
-                        value={firstName}
-                        onChange={(e) => setFirstName(e.target.value)}
+                        value={formData.firstName}
+                        onChange={(e) =>
+                          setFormData({
+                            ...formData,
+                            firstName: e.target.value,
+                          })
+                        }
                         placeholder={t("auth.first_name")}
                         className="pl-10"
                         required
@@ -134,8 +128,10 @@ const SignUp = () => {
                       <Input
                         id="lastName"
                         type="text"
-                        value={lastName}
-                        onChange={(e) => setLastName(e.target.value)}
+                        value={formData.lastName}
+                        onChange={(e) =>
+                          setFormData({ ...formData, lastName: e.target.value })
+                        }
                         placeholder={t("auth.last_name")}
                         className="pl-10"
                         required
@@ -151,14 +147,36 @@ const SignUp = () => {
                     <Input
                       id="email"
                       type="email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
+                      value={formData.email}
+                      onChange={(e) =>
+                        setFormData({ ...formData, email: e.target.value })
+                      }
                       placeholder={t("auth.email")}
                       className="pl-10"
                       required
                     />
                   </div>
                 </div>
+
+                <Label className="mb-1 text-sm">{t('auth.actor')}</Label>
+
+                <Select
+                  value={formData.actorCategory}
+                  onValueChange={(value) =>
+                    setFormData({ ...formData, actorCategory: value })
+                  }
+                >
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder={t('auth.actorDesc')} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {actorCategories.map((cat) => (
+                      <SelectItem key={cat} value={cat.toLowerCase()}>
+                        {cat}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
 
                 <div>
                   <Label htmlFor="password">{t("auth.password")}</Label>
@@ -167,8 +185,10 @@ const SignUp = () => {
                     <Input
                       id="password"
                       type={showPassword ? "text" : "password"}
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
+                      value={formData.password}
+                      onChange={(e) =>
+                        setFormData({ ...formData, password: e.target.value })
+                      }
                       placeholder="*******"
                       className="pl-10 pr-10"
                       required
@@ -188,17 +208,20 @@ const SignUp = () => {
                 </div>
 
                 <div>
-                  <Label htmlFor="confirmPassword">
+                  <Label htmlFor="confirmPassword"  className="mb-2">
                     {t("auth.confirm_password")}
                   </Label>
-                  <div className="relative mt-1">
+                  <div className="relative mt-1 mb-0">
                     <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                     <Input
                       id="confirmPassword"
                       type={showConfirmPassword ? "text" : "password"}
                       value={formData.confirmPassword}
                       onChange={(e) =>
-                        handleInputChange("confirmPassword", e.target.value)
+                        setFormData({
+                          ...formData,
+                          confirmPassword: e.target.value,
+                        })
                       }
                       placeholder="*******"
                       className="pl-10 pr-10"
@@ -209,7 +232,7 @@ const SignUp = () => {
                       onClick={() =>
                         setShowConfirmPassword(!showConfirmPassword)
                       }
-                      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                      className="absolute right-3 top-1/2  transform -translate-y-1/2 text-muted-foreground hover:text-foreground"
                     >
                       {showConfirmPassword ? (
                         <EyeOff className="h-5 w-5" />
@@ -219,6 +242,13 @@ const SignUp = () => {
                     </button>
                   </div>
                 </div>
+
+                {/* <Link
+                  href="Forgot Password"
+                  className="text-sm text-primary mt-0 hover:text-primary-hover"
+                  >
+                    {t("auth.forgot_password")}
+                  </Link> */}
 
                 <div className="space-y-3 mt-4">
                   {/* <div className="flex items-center space-x-2">
@@ -262,11 +292,14 @@ const SignUp = () => {
                   </div>*/}
                 </div>
 
+
                 <Button
                   type="submit"
+                  disabled={loading}
                   className="w-full bg-gradient-hero hover:opacity-90 shadow-climate"
                 >
-                  {t("auth.button1")}
+                  {/* {t("auth.button1")} */}
+                  {loading ? t('auth.creating') : t('auth.signUp')}
                 </Button>
 
                 {/* {loading ? (
@@ -310,7 +343,7 @@ const SignUp = () => {
                   {t("auth.haveAcctAlready")}{" "}
                 </span>
                 <Link
-                  href="/signin"
+                  href="/auth/signin"
                   className="text-primary hover:text-primary-hover font-medium"
                 >
                   {t("auth.signIn")}

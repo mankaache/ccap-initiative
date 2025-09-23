@@ -12,7 +12,7 @@ export const projects = {
   'project.description5':'Developing green spaces and sustainable urban infrastructure in major cities.',
   'project.title6':'Climate Smart Agriculture',
   'project.description6':'Promoting climate-resilient agricultural practices among smallholder farmers.',
-  
+  'project.state':'Select the state of the project',
 
 
   'project.status.ongoing': 'Ongoing',
@@ -35,6 +35,7 @@ export const projects = {
   'project.startDate': 'Duration',
   'project.keyActors': 'Key Actors',
   'project.programs': 'Related Programs',
+  'project.program': 'Programs',
   'project.viewDetails': 'View Details',
 
   'project.start_date': 'Start Date',
@@ -57,28 +58,24 @@ export const projects = {
   'project.type.mitigation': 'mitigation',
   'project.type.finance': 'climate finance',
 
-
-
-  // create projects
   'project.creatingProject':'Creating Project',
   'project.added':'Project added successfully!',
   'project.createNew':'Create New Project',
   'project.createNewDesc':'Add a new project to track progress and transparency',
-  
-  
   'project.basicInformation':'Basic Information',
   'project.basicInfoDesc':'Before Starting we need a few details. ',
 
-  'project.orgName':'Name of Organization',
+  'project.orgName':'Name of Organization (Acronym e.g UNICEF)',
   'project.orgNameDesc':'Enter the name of the organization',
-'project.orgStructure':'Name of Ministry',
-'project.orgStructureDesc':'Enter the name of the structure',
-    
-  
+  'project.orgStructure':'Choose or enter Name of Ministry',
+  'project.orgStructureDesc':'Choose or enter the name of the structure',
+
   'project.projectTitle':'Project Title',
   'project.projectDescription':'Enter project title',
   'project.orgaDesc':'Brief Description of the Organization',
   'project.orgaDesc2':'Describe your organization',
+  'project.Desc':'Brief Description du projet',
+  'project.Desc2':'Describe your project',
   'project.projectDesc':'Brief Description of the Project',
   
   'project.projectDetails':'Project Details',
@@ -91,11 +88,10 @@ export const projects = {
   'project.fundingSource':'Funding Source',
   'project.actor_category':'Actor Category',
   'project.partners':'Partners (Technical and Financial)',
-  'project.goal':'Goal of this Project',
-    'project.goal1':'Mitigation',
-     'project.goal2':'Adaptation',
-     'project.goal3':'Finance',
-
+  'project.goal':'Project Type',
+  'project.goal1':'Mitigation',
+  'project.goal2':'Adaptation',
+  'project.goal3':'Finance',
   'project.specific_objective':'Specific Objectives',
   'project.specific_objective2':'What are you specific objectives?',
 
@@ -103,11 +99,13 @@ export const projects = {
   'project.intervention_logic2':'Describe the intervention logic',
   'project.start':'Start',
   'project.anOption':'Select an option',
-
   'project.images':'Project Images (Optional)',
   'project.drop_images':'Drop your images here or click to browse',
   'project.chooseImage':'Choose Images',
   'project.createProject':'Create Project',
- 
+
+  'project.loadingInput':'Loading options...',
+  'project.addoption':'Add',
+  'project.newOption':'as new option',
 
 };

@@ -18,7 +18,7 @@ export interface InewType {
 }
 
 
-export const mockNews: Record<string, InewType[]> = {
-  regional: [],
-  national: [],
-};
+export const mockNews = [
+
+]
+ 

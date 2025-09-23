@@ -1,17 +1,12 @@
 export const auth = {
     'auth.passMissmatch':"Password missmatch",
     'auth.passMissmatchDesc':"Please ensure both passwords match.",
-
     'auth.terms':'Terms agreement required',
     'auth.termsDesc':'Please agree to the terms and conditions to continue.',
-
     'auth.actSuccess':'Account created successfully!',
     'auth.actSucessDesc':'Welcome to CCAP. Please check your email to verify your account.',
-
-
     'auth.createAcct':'Create an account',
     'auth.createAcctDesc':'Sign up and start your project portfolio.',
-
     'auth.signIn':'Sign in',
     'auth.signUp':'Sign up',
 
@@ -20,7 +15,6 @@ export const auth = {
     'auth.email':'Email Address',
     'auth.password':'Password',
     'auth.confirm_password':'Confirm Password',
-
     'auth.agree':'I agree to the',
     'auth.termsAndConditions':'Terms and Service',
     'auth.and':'and',
@@ -29,14 +23,67 @@ export const auth = {
     'auth.button1':'Create Account',
     'auth.haveAcctAlready':'Already have an account?',
     'auth.DontAcctAlready':'Don\'t have an account?',
-
-
     'auth.welcome':'Welcome back!',
     'auth.welcomeDesc':'You have successfully signed in to CCAP.',
     'auth.signInAcct':'Sign in to your account',
     'auth.signInAcctDesc':'Access climate project data and transparency tools',
 
     'auth.forgotPassword':'Forgot password?',
+    'auth.signOutSuccess':'User signed out successfully',
+    'auth.signOutError':'Error signing out:',
+    'auth.logoutSuccess':'You have been logged out.',
+    'auth.logoutError':'Failed to log out. Please try again.',
+    'auth.settings':'Settings',
+
+    'auth.sidebar.dashboard':'Dashboard',
+    'auth.sidebar.projects':'Projects',
+    'auth.sidebar.documents':'Documents',
+    'auth.sidebar.articles':'Articles',
+    'auth.sidebar.actors':'Organizations',
+    'auth.sidebar.underReview':'Under Review',
+    'auth.sidebar.createProject':'Create Project',
+    'auth.sidebar.createDocument':'Create Document',
+    'auth.sidebar.createArticle':'Create Article',
+    'auth.sidebar.createSection':'Create',
+
+    'auth.actor':'Actor Category',
+    'auth.actorDesc':'Select a category for your organization.',
+    'auth.noMatch':'Passwords do not match',
+    'auth.signupSucess':'Account created! Please check your email to verify.',
+    'auth.error':'An error occured',
+    'auth.signinSucess':'Login successfull! You will be redirected in a moment, please wait!.',
+    'auth.passwordResetDesc':'Enter your email to we can send you a link to reset your password',
+    'auth.resetButton':' Send Reset Email',
+    'auth.please':' Please check your email, and click the link in your email to verify your account',
+    'auth.resetSuccess':'Password reset successful!',
+    'auth.resetPassword':'Reset Password',
+    'auth.resetDesc':'Enter your new password to reset your password',
+    'auth.newPassword':'New Password',
+    'auth.confirmPassword':'Confirm New Password',
+    'auth.creating':'Creating...',
+    'auth.emailVerified':'Email verified successfully!',
+    'auth.verifyFailed':'Verification failed, please try again later.',
+    'auth.verifyEmail':'Verify Email',
+    'auth.verifyEmailDesc':'Click the button below to verify your email address',
+    'auth.verifyNow':'Verify Now',
+
+    'auth.pleaseVerify':'Please verify your email before logging in.',
+    'auth.nouser':'User not found in database',
+    'auth.invalidKey':'Invalid invite key',
+    'auth.reviewUpdated':'Project review updated to',
+    'auth.failedToCreate':'Failed to read created project.',
+    'auth.maxOfTwo':'Maximum 2 images allowed images.',
+    'auth.loginFirst':'You must be logged in to create a project.',
+    'auth.noOrg':'Organisation not found.',
+    'auth.doesntBelong':'Project does not belong to this organisation.',
+    'auth.noProject':'Project not found.',
+    'auth.noArticle':'Article not found.',
+    'auth.noDocument':'Document not found.',
+    'auth.uploadFailed':'Failed to upload.',
+    'auth.createAdmin':'Create Admin Account',
+    'auth.adminInviteKey':'Admin Invite Key',
+    'auth.adminBtn':'Sign Up as Admin'
+
 
 
 
