@@ -1,19 +1,17 @@
 import { doc, getDoc, serverTimestamp, updateDoc } from "firebase/firestore";
 import { db } from "../firebaseConfig";
 import { uploadFile } from "../cloudinary";
-import { useTranslation } from "@/hooks/useTranslation";
 
 export async function updateProject(
   projectId: string,
   updates: any,
   newImages?: File[]
 ) {
-  const { t } = useTranslation();
   const projectRef = doc(db, "projects", projectId);
   const projectSnap = await getDoc(projectRef);
 
   if (!projectSnap.exists()) {
-    throw new Error(`${t("auth.noProject")}`);
+    throw new Error(`Projet introuvable.`);
   }
 
   const old = projectSnap.data() as any;
@@ -46,10 +44,9 @@ export const updateArticle = async (
 ) => {
 
    const articleRef = doc(db, "articles", articleId);
-   const {t}=useTranslation()
 
      const snap = await getDoc(articleRef);
-  if (!snap.exists()) throw new Error(`${t('auth.noArticle')}`);
+  if (!snap.exists()) throw new Error('Article introuvable.');
   const old = snap.data();
 
     // Replace files in Cloudinary if new ones are provided
@@ -72,11 +69,10 @@ export const updateDocument = async (
   updates: any,
   newFile?: File
 ) => {
-  const {t}=useTranslation()
 
       const docRef = doc(db, "documents", docId);
         const snap = await getDoc(docRef);
-  if (!snap.exists()) throw new Error(`${t('auth.noDocument')}`);
+  if (!snap.exists()) throw new Error(`Document introuvable.`);
   const old = snap.data() as any;
 
   const documentUrl  = newFile

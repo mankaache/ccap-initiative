@@ -20,7 +20,6 @@ import { db, storage, auth } from "../firebaseConfig";
 import { normalizeString } from "../helpers";
 import { uploadFile } from "../cloudinary";
 import { Project } from "@/types";
-import { useTranslation } from "@/hooks/useTranslation";
 
 /**
  * Types
@@ -296,11 +295,11 @@ export async function createOrganisation({
  * Returns array of download URLs
  */
 export async function uploadProjectImages(files?: File[]): Promise<string[]> {
-    const {t} = useTranslation();
+    
   if (!files || files.length === 0) return [];
 
   if (files.length > 2) {
-    throw new Error(`${t('auth.maxOfTwo')}`);
+    throw new Error(`Maximum de 2 images autorisées.`);
   }
 
    const urls: string[] = [];
@@ -324,11 +323,10 @@ export async function uploadProjectImages(files?: File[]): Promise<string[]> {
 export async function createProjectAndMaybeOrganisation(
   projectInput: ProjectInput
 ) {
-  const {t} = useTranslation();
   
   // Validate images count
   if (projectInput.images && projectInput.images.length > 2) {
-    throw new Error(`${t('auth.maxOfTwo')}`);
+    throw new Error(`Maximum de 2 images autorisées.`);
   }
   
 
@@ -351,7 +349,7 @@ export async function createProjectAndMaybeOrganisation(
   // 2. Create project doc (without images URLs yet)
   const projectsRef = collection(db, "projects");
   const user = auth.currentUser;
-  if (!user) throw new Error(`${t('auth.loginFirst')}`);
+  if (!user) throw new Error(`Vous devez être connecté pour créer un projet.`);
 
   const projectDocRef = await addDoc(projectsRef, {
     organizationName: projectInput.organizationName,
@@ -395,7 +393,7 @@ export async function createProjectAndMaybeOrganisation(
 
   // 5. Return assembled project object (read from doc to include serverTimestamp fields)
   const createdProjectSnap = await getDoc(projectDocRef);
-  if (!createdProjectSnap.exists()) throw new Error(`${t('auth.failedToCreate')}`);
+  if (!createdProjectSnap.exists()) throw new Error(`Échec de la lecture du projet créé.`);
 
   const createdProject = { id: createdProjectSnap.id, ...(createdProjectSnap.data() as any) };
 
@@ -442,18 +440,18 @@ export async function fetchOrganisationsWithSubcategory() {
  * (verifies that the project id belongs to the organisation)
  */
 export async function fetchProjectByOrgAndProjectId(orgId: string, projectId: string) {
-    const {t} = useTranslation()
+
   const orgSnap = await getDoc(doc(db, "organisations", orgId));
-  if (!orgSnap.exists()) throw new Error(`${t('auth.noOrg')}`);
+  if (!orgSnap.exists()) throw new Error(`Organisation introuvable`);
   const orgData = orgSnap.data() as any;
   const projectIds: string[] = orgData.projects || [];
 
   if (!projectIds.includes(projectId)) {
-    throw new Error(`${t('auth.doesntBelong')}`);
+    throw new Error(`Le projet n\'appartient pas à cette organisation.`);
   }
 
   const pSnap = await getDoc(doc(db, "projects", projectId));
-  if (!pSnap.exists()) throw new Error(`${t('auth.noProject')}`);
+  if (!pSnap.exists()) throw new Error(`Projet introuvable.`);
   return { id: pSnap.id, ...(pSnap.data() as any) };
 }
 
@@ -462,11 +460,11 @@ export async function fetchProjectByOrgAndProjectId(orgId: string, projectId: st
  * Useful for routes like /projects/:id
  */
 export async function fetchProjectById(projectId: string) {
-  const{t}=useTranslation()
+
   const projectRef = doc(db, "projects", projectId);
   const projectSnap = await getDoc(projectRef);
 
-  if (!projectSnap.exists()) throw new Error(`${t('auth.noProject')}`);
+  if (!projectSnap.exists()) throw new Error(`Projet introuvable.`);
 
   return { id: projectSnap.id, ...(projectSnap.data() as any) };
 }
@@ -488,12 +486,12 @@ export async function fetchReviewProjects() {
 
 
 export async function fetchOrganisationById(orgId: string) {
-  const{t}=useTranslation()
+
   const orgRef = doc(db, "organisations", orgId);
   const snap = await getDoc(orgRef);
 
   if (!snap.exists()) {
-    throw new Error(`${t('auth.noOrg')}`);
+    throw new Error('Organisation introuvable.');
   }
 
   return { id: snap.id, ...snap.data() } as any;
@@ -523,8 +521,7 @@ export async function fetchAllProjects() {
  * This should be called periodically (e.g., via a cron job or scheduled function)
  */
 export async function performScheduledCleanup(): Promise<void> {
-  console.log("Starting scheduled cleanup...");
-  
+
   // Clean up rejected projects
   await cleanupRejectedProjects();
   
