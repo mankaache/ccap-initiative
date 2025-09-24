@@ -12,7 +12,6 @@ import ProjectsGrid from "@/components/ProjectsGrid";
 import ProjectCard from "@/components/ProjectCard";
 import Link from "next/link";
 import {
-  Badge,
   Calendar,
   DollarSign,
   ExternalLink,
@@ -21,6 +20,7 @@ import {
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useTranslation } from "@/hooks/useTranslation";
+import { Badge } from "@/components/ui/badge";
 
 export type FilterState = {
   projectType: string[];
@@ -79,19 +79,87 @@ const ProjectsPage = () => {
                       </CardTitle>
                     </div>
 
-                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                      <MapPin className="h-4 w-4" />
-                      <span>
-                        {project && project.specificLocation},{" "}
-                        {project && project.region}
-                      </span>
-                    </div>
+                    <div className="flex  flex-col gap-2 text-sm text-foreground">
+                     
+                    
+                    
+                    {project.region && project.region.length > 0 && (
+                      <div className="space-y-2">
+                        <div className="text-xs flex gap-2 text-muted-foreground">
+                          <MapPin className="h-4 w-4" /> {t("admin.project.region")}
+                        </div>
+                        <div className="flex flex-wrap gap-1">
+                          {
+                            //@ts-ignore
+
+                            project &&
+                              project.region &&
+                              project.region
+                                .slice(0, 2)
+                                .map((program, index) => (
+                                  <Badge
+                                    key={index}
+                                    className="text-xs"
+                                  >
+                                    {program}
+                                  </Badge>
+                                ))
+                          }
+                          {project &&
+                            project.region &&
+                            project.region.length > 2 && (
+                              <Badge className="text-xs">
+                                +
+                                {project.region &&
+                                  project.region.length - 2}
+                              </Badge>
+                            )}
+                        </div>
+                      </div>
+                    )}
+                    {project.specificLocation && project.specificLocation.length > 0 && (
+                      <div className="space-y-2">
+                        <div className="text-xs ">
+                          {t("admin.project.specificLocation")}
+                        </div>
+                        <div className="flex flex-wrap gap-1">
+                          {
+                            //@ts-ignore
+
+                            project &&
+                              project.specificLocation &&
+                              project.specificLocation
+                                .slice(0, 2)
+                                .map((program, index) => (
+                                  <Badge
+                                    key={index}
+                                    className="text-xs "
+                                  >
+                                    {
+                                    //@ts-ignore
+                                    
+                                    program.name}
+                                  </Badge>
+                                ))
+                          }
+                          {project &&
+                            project.specificLocation &&
+                            project.specificLocation.length > 2 && (
+                              <Badge className="text-xs">
+                                +
+                                {project.specificLocation &&
+                                  project.specificLocation.length - 2}
+                              </Badge>
+                            )}
+                        </div>
+                      </div>
+                    )}</div>
                   </CardHeader>
 
                   <CardContent className="space-y-4">
-                    <p className="text-sm text-muted-foreground line-clamp-3">
+                    {/* <p className="text-sm text-muted-foreground line-clamp-3">
                       {project && project.projectDescription}
-                    </p>
+                    </p> */}
 
                     {/* Key Info Grid */}
                     <div className="grid grid-cols-2 gap-3 text-sm">

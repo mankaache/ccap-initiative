@@ -66,14 +66,14 @@ const ProjectCard = ({ project, category, subcategory, id }: any) => {
       </CardHeader>
 
       <CardContent className="space-y-4">
-        <p className="text-sm text-muted-foreground line-clamp-3">
+        {/* <p className="text-sm text-muted-foreground line-clamp-3">
           {project && project.projectDescription}
-        </p>
+        </p> */}
 
         {/* Key Info Grid */}
         <div className="grid grid-cols-2 gap-3 text-sm">
           <div className="flex items-center gap-2">
-            <DollarSign className="h-4 w-4 text-primary" />
+            <DollarSign className="h-4 w-4 text-primary"/>
             <div className="text-xs text-muted-foreground">
               {t("project.budget")}
             </div>

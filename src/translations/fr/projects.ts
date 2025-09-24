@@ -107,4 +107,8 @@ export const projects = {
   'project.loadingInput' : 'Chargement des options...',
   'project.addoption' : 'Ajouter',
   'project.newOption' : 'comme nouvelle option',
+
+  'project.acceptProces' : 'Traitement en cours...',
+  'project.accept' : 'Accepter le projet',
+  'project.reject' : 'Refuser le projet',
 }

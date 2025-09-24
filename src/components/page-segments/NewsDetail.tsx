@@ -16,8 +16,8 @@ import { useAuth } from "@/firebase/useAuth";
 import DeleteArticleButton from "../DeleteButtons/DeleteArticle";
 import { useTranslation } from "@/hooks/useTranslation";
 const NewsDetail = () => {
-  const {t} = useTranslation()
-  const { id } = useParams(); 
+  const { t } = useTranslation();
+  const { id } = useParams();
   const [article, setArticle] = useState<Article | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -27,14 +27,13 @@ const NewsDetail = () => {
         setLoading(true);
         const data = await fetchArticleById(id as string);
         if (!data) {
-          toast.error(`${t('admin.articles.notFound')}`)
+          toast.error(`${t("admin.articles.notFound")}`);
           return;
         }
         setArticle(data as Article);
       } catch (err) {
         console.error(err);
-        console
-        .error(`${t('admin.articles.notFound')}`);
+        console.error(`${t("admin.articles.notFound")}`);
       } finally {
         setLoading(false);
       }
@@ -42,7 +41,7 @@ const NewsDetail = () => {
 
     if (id) loadArticle();
   }, [id]);
-  const {user } = useAuth();
+  const { user } = useAuth();
 
   if (loading) {
     return (
@@ -55,12 +54,14 @@ const NewsDetail = () => {
     return (
       <div className="min-h-screen bg-background flex flex-col items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-bold mb-4">{t("admin.articles.notFound")}</h1>
+          <h1 className="text-2xl font-bold mb-4">
+            {t("admin.articles.notFound")}
+          </h1>
           <p className="text-muted-foreground mb-6">
-           {t("admin.articles.msg")}
+            {t("admin.articles.msg")}
           </p>
           <Link href="/news/national">
-            <Button>{t('admin.articles.msg2')}</Button>
+            <Button>{t("admin.articles.msg2")}</Button>
           </Link>
         </div>
       </div>
@@ -79,12 +80,13 @@ const NewsDetail = () => {
         }  mx-auto px-4 sm:px-6 lg:px-8`}
       >
         <Link
-        href={`${user.role==='admin'? '/admin/articles' :  `/news/national`}`}
-          
+          href={`${
+            user.role === "admin" ? "/admin/articles" : `/news/national`
+          }`}
           className="inline-flex items-center text-orange-600 hover:text-orange-700 mb-6"
         >
           <ArrowLeft className="h-4 w-4 mr-2" />
-          {t('admin.articles.msg2')}
+          {t("admin.articles.msg2")}
         </Link>
 
         <article className="bg-white rounded-lg shadow-lg overflow-hidden">
@@ -108,24 +110,22 @@ const NewsDetail = () => {
                   {article && article.category}
                 </span> */}
               </div>
-              {
-                user.role === 'actor' && (
-                  <ShareModal
-                url={typeof window !== "undefined" ? window.location.href : ""}
-                title={article && article.title}
-              />
-                )
-              }
-              
+              {user.role === "actor" && (
+                <ShareModal
+                  url={
+                    typeof window !== "undefined" ? window.location.href : ""
+                  }
+                  title={article && article.title}
+                />
+              )}
             </div>
-
 
             <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
               {article.title}
             </h1>
 
             <p className="text-gray-600 mb-6">
-              {t('admin.articles.by')} {article && article.source}
+              {t("admin.articles.by")} {article && article.source}
             </p>
             <p className="text-gray-600 mb-6">
               {article && article.description}
@@ -188,9 +188,11 @@ const NewsDetail = () => {
                       </Button>
                     </div>
                     <div className="text-right">
-                      <p className="text-sm text-gray-600">{t('admin.articles.publishedOn')} </p>
+                      <p className="text-sm text-gray-600">
+                        {t("admin.articles.publishedOn")}{" "}
+                      </p>
                       <p className="text-sm font-medium text-gray-900">
-                        {(article && article.date)}
+                        {article && article.date}
                       </p>
                     </div>
                   </div>
@@ -199,21 +201,21 @@ const NewsDetail = () => {
             )}
 
             {article.type === "pdf" && article.documentUrl && (
-              <div className="w-full h-[100vh]">
+              <div className="w-full h-[100vh] py-10">
                 <iframe
                   src={`https://docs.google.com/gview?url=${encodeURIComponent(
                     article.documentUrl
                   )}&embedded=true`}
-                  className="w-full h-full border rounded-lg"
+                  className="w-full h-[600px] border rounded-lg"
                   title={article.title}
+                  frameBorder="0"
                 />
               </div>
             )}
           </div>
-          {
-            user && user.role==='admin' &&
-          <DeleteArticleButton articleId={article.id} />
-          }
+          {user && user.role === "admin" && (
+            <DeleteArticleButton articleId={article.id} />
+          )}
         </article>
       </div>
     </div>

@@ -108,4 +108,8 @@ export const projects = {
   'project.addoption':'Add',
   'project.newOption':'as new option',
 
+  'project.acceptProces':'Processing...',
+  'project.accept':'Accept Project',
+  'project.reject':'Reject Project',
+
 };

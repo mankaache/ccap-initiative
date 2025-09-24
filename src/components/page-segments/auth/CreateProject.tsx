@@ -602,13 +602,13 @@ const CreateProject = ({ projectId }: { projectId?: string }) => {
                       <SelectValue placeholder={t("project.state")} />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="planned">
+                      <SelectItem value= {t("projects.planned")}>
                         {t("projects.planned")}
                       </SelectItem>
-                      <SelectItem value="ongoing">
+                      <SelectItem value= {t("projects.ongoing")}>
                         {t("projects.ongoing")}
                       </SelectItem>
-                      <SelectItem value="completed">
+                      <SelectItem value={t("projects.completed")}>
                         {t("projects.completed")}
                       </SelectItem>
                     </SelectContent>

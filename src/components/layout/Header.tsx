@@ -350,7 +350,7 @@ const handleLogout = async () => {
                   )}
                 </div>
               ))}
-              <div className="pt-4 space-y-2">
+              <div className="pt-4 space-y-2 flex flex-wrap gap-2">
                 <Link href='/auth/signin' className="w-full px-4 py-2 bg-transparent border-2 text-primary border-primary rounded-md text-base whitespace-nowrap">
                   {t('header.signIn')}
                 </Link>

@@ -159,7 +159,6 @@ const ProjectDetails = () => {
                   })}
                   </div>
                 <div className="flex items-center gap-2">
-                  <DollarSign className="h-5 w-5" />
                   <span>{project && project.budgetAmount} XAF</span>
                 </div>
               </div>

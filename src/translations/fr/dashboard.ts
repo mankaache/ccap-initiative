@@ -11,6 +11,7 @@ export const dashboard = {
     'admin.dashboard.desc' : 'Gérez le tableau de bord de votre organisation et supervisez toutes les activités.' ,
     'admin.dashboard.quickActions' : 'Actions rapides' ,
 
+    'admin.article.create':'Créer un nouvel article',
     'admin.articles.title':'Articles',
     'admin.articles.titleDesc':'Gérer les articles d\'actualité et les publications',
     'admin.articles.add':'Ajouter un article',

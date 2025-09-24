@@ -77,14 +77,13 @@ const ActorOrganisation = () => {
     <div className="">
       <div className="bg-gradient-to-r from-secondary/60 to-primary/60 via-accent/30 h-40 w-full">
         <div className="max-w-5xl mx-auto flex h-full items-center px-4">
-          <Link
-          //@ts-ignore
-            href={`/actor/${oneOrganization.category}`}
-            className="inline-flex items-center gap-2 font-bold text-muted-foreground hover:text-primary transition-fast mb-4"
+          <Button
+            onClick={() => router.back()}
+            className="inline-flex items-center gap-2 font-bold text-muted-foreground hover:text-primary bg-transparent hover:bg-transparent transition-fast mb-4"
           >
             <ArrowLeft className="h-7 w-7" />
             {t("actor.backTo")} {categoryTitle.toUpperCase()}
-          </Link>
+          </Button>
         </div>
       </div>
 

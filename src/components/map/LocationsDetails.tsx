@@ -47,7 +47,7 @@ const cameroonLocations = {
     { name: "Mbanga", lat: 4.5, lng: 9.5667, type: "city" },
     { name: "Dizangué", lat: 3.7, lng: 10.05, type: "town" },
   ],
-  "far north": [
+  "extrême nord": [
     { name: "Maroua", lat: 10.5833, lng: 14.3167, type: "capital" },
     { name: "Kousseri", lat: 12.0833, lng: 15.0333, type: "city" },
     { name: "Mokolo", lat: 10.7333, lng: 13.8, type: "city" },
@@ -56,7 +56,7 @@ const cameroonLocations = {
     { name: "Mora", lat: 11.05, lng: 14.1333, type: "town" },
     { name: "Waza", lat: 11.4, lng: 14.6333, type: "town" },
   ],
-  north: [
+  nord: [
     { name: "Garoua", lat: 9.3, lng: 13.4, type: "capital" },
     { name: "Ngaoundéré", lat: 7.3167, lng: 13.5833, type: "city" },
     { name: "Figuil", lat: 9.75, lng: 13.9667, type: "city" },
@@ -64,7 +64,7 @@ const cameroonLocations = {
     { name: "Rey Bouba", lat: 8.6667, lng: 14.1833, type: "town" },
     { name: "Tcholliré", lat: 8.3833, lng: 14.1167, type: "town" },
   ],
-  northwest: [
+  "nord-ouest": [
     { name: "Bamenda", lat: 5.9597, lng: 10.1494, type: "capital" },
     { name: "Kumbo", lat: 6.2, lng: 10.6833, type: "city" },
     { name: "Wum", lat: 6.3833, lng: 10.0667, type: "city" },
@@ -72,7 +72,7 @@ const cameroonLocations = {
     { name: "Bafut", lat: 6.0833, lng: 10.1167, type: "town" },
     { name: "Tubah", lat: 6.0, lng: 10.2333, type: "town" },
   ],
-  southwest: [
+  "sud-ouest": [
     { name: "Buea", lat: 4.15, lng: 9.2333, type: "capital" },
     { name: "Limbe", lat: 4.0167, lng: 9.2167, type: "city" },
     { name: "Kumba", lat: 4.6333, lng: 9.45, type: "city" },
@@ -81,7 +81,7 @@ const cameroonLocations = {
     { name: "Tombel", lat: 4.6333, lng: 9.6167, type: "town" },
     { name: "Fontem", lat: 5.4833, lng: 9.9, type: "town" },
   ],
-  west: [
+  ouest: [
     { name: "Bafoussam", lat: 5.4667, lng: 10.4167, type: "capital" },
     { name: "Dschang", lat: 5.45, lng: 10.05, type: "city" },
     { name: "Mbouda", lat: 5.6167, lng: 10.25, type: "city" },
@@ -90,7 +90,7 @@ const cameroonLocations = {
     { name: "Foumban", lat: 5.7167, lng: 10.9, type: "city" },
     { name: "Bafang", lat: 5.15, lng: 10.1833, type: "town" },
   ],
-  east: [
+  est: [
     { name: "Bertoua", lat: 4.5833, lng: 13.6833, type: "capital" },
     { name: "Batouri", lat: 4.4333, lng: 14.3667, type: "city" },
     { name: "Yokadouma", lat: 3.5167, lng: 15.05, type: "city" },
@@ -98,7 +98,7 @@ const cameroonLocations = {
     { name: "Kenzou", lat: 4.2667, lng: 13.4333, type: "town" },
     { name: "Lomié", lat: 3.1833, lng: 13.6167, type: "town" },
   ],
-  south: [
+  sud: [
     { name: "Ebolowa", lat: 2.9, lng: 11.15, type: "capital" },
     { name: "Kribi", lat: 2.9333, lng: 9.9167, type: "city" },
     { name: "Sangmélima", lat: 2.9333, lng: 11.9833, type: "city" },

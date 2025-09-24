@@ -14,30 +14,30 @@ import { fetchDocumentsByCategory } from "@/firebase/services/adminService";
 import { toast } from "react-toastify";
 import FullPageLoader from "../layout/FullPageLoader";
 import { useTranslation } from "@/hooks/useTranslation";
+import { forceDownload } from "@/utils/download";
 
 interface DocumentData {
   id: string;
-   title: string;
-    description: string;
-    category: string
-    type: string
-    pages: string
-    dateOfCreation: string
-    contentPreview: string
-    author: string
-    language: string
-     documentUrl: string
+  title: string;
+  description: string;
+  category: string;
+  type: string;
+  pages: string;
+  dateOfCreation: string;
+  contentPreview: string;
+  author: string;
+  language: string;
+  documentUrl: string;
 }
 
-
 const ClimateDocuments = () => {
-    const { category } = useParams<{ category: string }>();
+  const { category } = useParams<{ category: string }>();
   const [documents, setDocuments] = useState<DocumentData[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const {t} = useTranslation()
+  const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
 
- useEffect(() => {
+  useEffect(() => {
     const loadDocs = async () => {
       try {
         setLoading(true);
@@ -45,7 +45,7 @@ const ClimateDocuments = () => {
 
         const docs = await fetchDocumentsByCategory(category);
         setDocuments(docs as DocumentData[]);
-        console.log(docs)
+        console.log(docs);
       } catch (err) {
         console.error(err);
         console.error("Failed to fetch documents");
@@ -56,7 +56,7 @@ const ClimateDocuments = () => {
 
     loadDocs();
   }, [category]);
-const { user } = useAuth();
+  const { user } = useAuth();
   const filteredDocuments = documents.filter(
     (doc) =>
       doc.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -64,15 +64,14 @@ const { user } = useAuth();
       doc.type.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-      if (loading) {
+  if (loading) {
     return (
       <div className="min-h-screen">
-
-        <FullPageLoader/>
+        <FullPageLoader />
       </div>
     );
   }
-   const formatDate = (dateString: string) => {
+  const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString();
   };
   const getDocumentTypeColor = (type: string) => {
@@ -86,7 +85,8 @@ const { user } = useAuth();
     };
     return colors[type] || "bg-muted text-muted-foreground";
   };
- 
+
+
   return (
     <div className="min-h-screen bg-background">
       <div className="w-full h-80 py-5 bg-gradient-to-r flex flex-col justify-center items-center gap-3 from-secondary via-primary/80 to-secondary">
@@ -95,7 +95,7 @@ const { user } = useAuth();
             {getCategoryTitle(category || "")}
           </h1>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto mb-8">
-            {t('actor.documentDesc')}
+            {t("actor.documentDesc")}
           </p>
         </div>{" "}
       </div>
@@ -107,7 +107,7 @@ const { user } = useAuth();
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
             <Input
               type="text"
-              placeholder={t('actor.documentSearch')}
+              placeholder={t("actor.documentSearch")}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="pl-10 pr-4 py-4 w-full"
@@ -147,13 +147,15 @@ const { user } = useAuth();
 
                   <div className="space-y-2 mb-4">
                     <div className="flex items-center justify-between text-sm">
-                      <span className="text-muted-foreground">
-                        Source:
+                      <span className="text-muted-foreground">Source:</span>
+                      <span className="font-medium text-foreground">
+                        {document.author}
                       </span>
-                      <span className="font-medium text-foreground">{document.author}</span>
                     </div>
                     <div className="flex items-center justify-between text-sm">
-                      <span className="text-muted-foreground">{t('actor.documentPub')}:</span>
+                      <span className="text-muted-foreground">
+                        {t("actor.documentPub")}:
+                      </span>
                       <span className="text-foreground">
                         {formatDate(document.dateOfCreation)}
                       </span>
@@ -173,34 +175,40 @@ const { user } = useAuth();
                       {t("actor.view")}
                     </Link>
 
-                    { !user ? (
+                    {!user ? (
                       <button
                         disabled
                         className="flex items-center px-3 py-2 bg-gray-300 text-gray-500 rounded cursor-not-allowed text-sm"
                       >
                         <Lock className="h-4 w-4 mr-1" />
-                        {t('actor.login')}
+                        {t("actor.login")}
                       </button>
                     ) : (
                       <>
-                      {document.documentUrl ? (
-                        <button className="flex items-center px-3 py-2 border border-gray-300 text-gray-700 rounded hover:bg-gray-50 transition-colors text-sm">
-                        <a href={document.documentUrl} download className="flex items-center">
-                          <Download className="h-4 w-4 mr-1" />
-                          {t('actor.documentDownload')}
-                        </a>
-                      </button>
+                        {document.documentUrl ? (
+                          <button
+                            onClick={() =>
+                              forceDownload(
+                                document.documentUrl,
+                                document.title
+                              )
+                            }
+                            className="flex items-center px-3 py-2 border border-gray-300 text-gray-700 rounded hover:bg-gray-50 transition-colors text-sm"
+                          >
+                            <Download className="h-4 w-4 mr-1" />
+                            {t("actor.documentDownload")}
+                          </button>
                         ) : (
-                          <span>{t('actor.documentNone')}</span>
+                          <span>{t("actor.documentNone")}</span>
                         )}
                       </>
                     )}
                   </div>
 
-                  {(!user) && (
+                  {!user && (
                     <p className="text-xs text-red-600 text-center mt-2">
                       <Lock className="h-3 w-3 inline mr-1" />
-                      {t('actor.login')}
+                      {t("actor.login")}
                     </p>
                   )}
                 </CardContent>
@@ -211,12 +219,10 @@ const { user } = useAuth();
           {filteredDocuments.length === 0 && (
             <div className="text-center py-12">
               <p className="text-muted-foreground text-lg">
-               {t('actor.documentNoSearch')}
+                {t("actor.documentNoSearch")}
               </p>
             </div>
           )}
-
-         
         </div>
       </section>
     </div>
