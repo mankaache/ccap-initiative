@@ -185,14 +185,14 @@ const ProjectDetailspage = () => {
                       disabled={loading}
                       onClick={() => handleReview("Accepted")}
                     >
-                      {loading ? "Processing..." : "Accept Project"}
+                      {loading ? t('project.acceptProces') : t('project.accept')}
                     </Button>
                     <Button
                       className="bg-red-600 hover:bg-red-600/80 cursor-pointer text-white"
                       disabled={loading}
                       onClick={() => handleReview("Rejected")}
                     >
-                      {loading ? "Processing..." : "Reject Project"}
+                      {loading ? t("project.acceptProces") : t("project.reject")}
                     </Button>
                   </div>
                 </div>

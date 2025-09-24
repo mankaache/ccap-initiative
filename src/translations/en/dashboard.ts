@@ -11,6 +11,7 @@ export const dashboard = {
     'admin.dashboard.desc':'Manage your organizational dashboard and oversee all activities.',
     'admin.dashboard.quickActions':'Quick Actions',
 
+    'admin.article.create':'Create New Article',
     'admin.articles.title':'Articles',
     'admin.articles.titleDesc':'Manage news articles and publications',
     'admin.articles.add':'Add Article',

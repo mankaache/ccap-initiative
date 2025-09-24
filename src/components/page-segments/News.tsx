@@ -61,7 +61,7 @@ const { t } = useTranslation();
         {
           user && (
             <div className="flex justify-end pr-16 mt-8">
-              <Link href={'/create-article'} className="px-4 py-2 rounded-lg text-white font-semibold cursor-pointer bg-gradient-to-l from-primary to-secondary">Create New Article</Link>
+              <Link href={'/create-article'} className="px-4 py-2 rounded-lg text-white font-semibold cursor-pointer bg-gradient-to-l from-primary to-secondary">{t('admin.article.create')}</Link>
             </div>
           )
         }
@@ -80,6 +80,16 @@ const { t } = useTranslation();
         title={`${t('actor.newstitle')}`}
         desc="Stay updated with the latest climate change news and developments in Cameroon"
       />
+      <div>
+          {
+          user && (
+            <div className="flex justify-end pr-16 mt-8">
+              <Link href={'/create-article'} className="px-4 py-2 rounded-lg text-white font-semibold cursor-pointer bg-gradient-to-l from-primary to-secondary">{t('admin.article.create')}</Link>
+            </div>
+          )
+        }
+       
+      </div>
 
       <div className="min-h-screen bg-gray-50 py-12">
         <div className="max-w-[1350px]  mx-auto px-4 sm:px-6 lg:px-8">

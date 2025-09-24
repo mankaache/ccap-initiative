@@ -18,6 +18,7 @@ import { fetchDocumentById } from "@/firebase/services/adminService";
 import FullPageLoader from "../layout/FullPageLoader";
 import DeleteDocumentButton from "../DeleteButtons/DeleteDocument";
 import { useTranslation } from "@/hooks/useTranslation";
+import { forceDownload } from "@/utils/download";
 
 interface DocumentType {
       id: string;
@@ -68,16 +69,7 @@ const DocumentDetail = () => {
       fetchDocument();
     }
   }, [params.id]);
-  const handleDownload = () => {
-    if (!documentData) return;
-
-    const link = document.createElement("a");
-    link.href = documentData.documentUrl;
-    link.download = documentData.title.replace(/[^a-z0-9]/gi, "_") + ".pdf";
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
+ 
 
      if (loading) {
       return (
@@ -195,7 +187,7 @@ const DocumentDetail = () => {
                   </div>
                 ) : (
                   <button
-                    onClick={handleDownload}
+                    onClick={() => forceDownload(documentData && documentData.documentUrl, documentData && documentData.title)}
                     className="flex items-center px-4 py-2 bg-orange-500 text-white rounded hover:bg-orange-600 transition-colors"
                   >
                     {/* {isDownloading ? (
