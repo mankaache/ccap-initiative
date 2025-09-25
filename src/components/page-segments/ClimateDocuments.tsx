@@ -219,7 +219,7 @@ const ClimateDocuments = () => {
           {filteredDocuments.length === 0 && (
             <div className="text-center py-12">
               <p className="text-muted-foreground text-lg">
-                {t("actor.documentNoSearch")}
+                {t("admin.document.noDocs")}
               </p>
             </div>
           )}

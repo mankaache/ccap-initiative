@@ -31,4 +31,5 @@ export const common = {
  'common.logout.success':'Logged out successfully',
  'common.logout.error':'Error logging out, please try again later',
  'common.offline':'You are offline. Some actions may not work.',
+ 'common.loader':'Loading, please wait...'
 };

@@ -102,11 +102,11 @@ const ProjectsGrid = ({ projects }: ProjectsGridProps) => {
        
 
         {/* Load More */}
-        <div className="text-center mt-12">
+        {/* <div className="text-center mt-12">
           <Button variant="outline" size="lg" className="min-w-[200px]">
             {t('projects.loadMore')}
           </Button>
-        </div>
+        </div> */}
       </div>
     </section>
   );

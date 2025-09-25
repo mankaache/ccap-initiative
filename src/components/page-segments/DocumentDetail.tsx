@@ -240,7 +240,7 @@ const DocumentDetail = () => {
             )}
 
             {
-              user?.role === 'admin' && (
+              user && user?.role === 'admin' && (
                 <DeleteDocumentButton documentId={documentData.id} />
               )
             }

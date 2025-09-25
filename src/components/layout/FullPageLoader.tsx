@@ -1,6 +1,10 @@
 "use client";
 
+import { useTranslation } from "@/hooks/useTranslation";
+import { use } from "react";
+
 export default function FullPageLoader() {
+  const {t} = useTranslation()
   return (
     <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-gradient-to-br from-primary/10 to-secondary/10">
       {/* Spinner */}
@@ -8,7 +12,7 @@ export default function FullPageLoader() {
 
       {/* Text */}
       <p className="mt-4 text-lg font-medium text-primary animate-pulse">
-        Loading, please wait...
+        {t('common.loader')}
       </p>
 
       {/* Optional subtle animated background */}

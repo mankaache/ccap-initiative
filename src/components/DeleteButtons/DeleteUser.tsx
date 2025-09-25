@@ -23,7 +23,7 @@ export default function DeleteAccountButton() {
       //@ts-ignore
       await deleteUserAccount(user.uid);
       toast.success(`${t("common.delete.sucess")}`);
-      // Optionally redirect to home
+      
       window.location.href = "/";
     } catch (err: any) {
       alert(`${t("common.delete.userError")}`);

@@ -27,16 +27,16 @@ const MapComponent = dynamic(() => import('./ProjectMarkers'), {
 
 // Cameroon regions with coordinates
 const regionCoordinates = {
-  'centre': { lat: 3.848, lng: 11.502, color: '#10B981' },
-  'littoral': { lat: 4.0511, lng: 9.7679, color: '#3B82F6' },
-  'extrême nord': { lat: 10.5915, lng: 14.2073, color: '#F59E0B' },
- 'nord': { lat: 9.3014, lng: 13.3970, color: '#EF4444' },
-  ' nord-ouest': { lat: 6.2088, lng: 10.1500, color: '#8B5CF6' },
-  'sud-ouest': { lat: 4.6125, lng: 9.2625, color: '#EC4899' },
-  'ouest': { lat: 5.9631, lng: 10.1591, color: '#06B6D4' },
-  'est': { lat: 4.9667, lng: 14.5333, color: '#84CC16' },
-  'sud': { lat: 2.9167, lng: 11.5167, color: '#F97316' },
-  'adamawa': { lat: 7.3667, lng: 12.4667, color: '#6366F1' }
+  'centre': {lat: 4.7500, lng: 11.8333, color: '#10B981'},       
+  'littoral': {lat: 4.25, lng: 9.70, color: '#3B82F6'},           
+  'extrême nord': {lat: 11.75, lng: 14.50, color: '#F59E0B'},     
+  'nord': {lat: 9.75, lng: 13.25, color: '#EF4444' },               
+  'nord-ouest': {lat: 6.00, lng: 10.20, color: '#8B5CF6'},        
+  'sud-ouest': {lat: 4.00, lng: 9.30, color: '#EC4899'},           
+  'ouest': {lat: 5.50, lng: 10.50, color: '#06B6D4'},               
+  'est': {lat: 5.00, lng: 14.50, color: '#84CC16'},                 
+  'sud': {lat: 2.90, lng: 11.50, color: '#F97316'},                
+  'adamawa': {lat: 7.50, lng: 13.50, color: '#6366F1'} 
 };
 
 

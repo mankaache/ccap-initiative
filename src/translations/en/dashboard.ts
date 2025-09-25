@@ -171,8 +171,12 @@ export const dashboard = {
     'admin.project.generalDesc':'  Configure your general application preferences',
 
     'admin.project.checkTransparency':'Check Transparency',
+
+    'admin.document.noDocs':'No documents found',
+    'admin.document.noDocsYet':'No documents available yet.',
     
-    
+    'admin.news.title':'National News',
+    'admin.news.desc':'Stay updated with the latest climate change news and developments in Cameroon'
 
 
 

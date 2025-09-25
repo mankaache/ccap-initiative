@@ -3,6 +3,7 @@
 
 import { deleteProject } from "@/firebase/services/deleteService";
 import { useTranslation } from "@/hooks/useTranslation";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "react-toastify";
 
@@ -13,6 +14,7 @@ interface Props {
 export default function DeleteProjectButton({ projectId }: Props) {
   const [loading, setLoading] = useState(false);
 const { t } = useTranslation()
+const router = useRouter()
   const handleDelete = async () => {
     if (!confirm(`${t("common.delete.confirm")}`)) return;
 
@@ -20,8 +22,7 @@ const { t } = useTranslation()
       setLoading(true);
       await deleteProject(projectId);
       toast.success(`${t("common.delete.sucess")}`);
-      // Optionally: redirect or refresh
-      window.location.reload();
+        router.back()
     } catch (err: any) {
       toast.error(`${t("common.delete.error")}`);
     } finally {

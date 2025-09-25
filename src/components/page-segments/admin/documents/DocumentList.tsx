@@ -258,11 +258,11 @@ const{t} = useTranslation()
       {filteredDocuments?.length === 0 && (
         <div className="text-center py-12">
           <FileText className="w-12 h-12 mx-auto text-muted-foreground mb-4" />
-          <h3 className="text-lg font-semibold mb-2">No documents found</h3>
+          <h3 className="text-lg font-semibold mb-2">{t('admin.document.noDocs')}</h3>
           <p className="text-muted-foreground mb-4">
             {searchTerm
-              ? "Try adjusting your search terms."
-              : "No documents available yet."}
+              ? t('admin.articles.adjustSearch')
+              : t('admin.document.noDocsYet')}
           </p>
 
           <Button onClick={() => navigate.push("/admin/documents/create")}>

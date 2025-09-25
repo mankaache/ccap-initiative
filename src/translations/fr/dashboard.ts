@@ -170,5 +170,12 @@ export const dashboard = {
      'admin.project.settingsDesc' :  'Gérer les préférences et la sécurité de votre compte',
      'admin.project.general' :  'Préférences générales',
      'admin.project.generalDesc' :  'Configurer vos préférences générales pour l\'application',
-    'admin.project.checkTransparency' :'Vérifier la transparence'
+    'admin.project.checkTransparency' :'Vérifier la transparence',
+
+    'admin.document.noDocs' : 'Aucun document trouvé',
+    'admin.document.noDocsYet' : 'Aucun document disponible pour le moment.',
+    
+    'admin.news.title' : 'Actualités nationales',
+    'admin.news.desc' : 'Restez informé des dernières actualités et évolutions en matière de changement climatique au Cameroun.',
+
 }   

@@ -30,5 +30,6 @@ export const common = {
  'common.delete.userError':'Erreur lors de la suppression du compte',
  'common.logout.success':'Déconnexion réussie',
  'common.logout.error':'Erreur lors de la déconnexion, veuillez réessayer plus tard',
+ 'common.loader': 'Chargement en cours, veuillez patienter...'
  
 }
