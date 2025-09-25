@@ -17,19 +17,16 @@ export const CATEGORIES_CONFIG: Record<string, Category> = {
     description: '',
     hasSubcategories: true,
     subcategories: [
-      { slug: 'ministries', name: 'Ministries' },
-      { slug: 'institions', name: 'Institutions' },
+      { slug: 'ministères', name: 'Ministères' },
+      { slug: 'structure', name: 'Structure' },
     ]
   },
   ongi: {
     slug: 'ongi',
     name: 'ONGI',
     description: '',
-    hasSubcategories: true,
-    subcategories: [
-      { slug: 'international', name: 'International NGOs' },
-      { slug: 'local', name: 'Local NGOs' },
-    ]
+    hasSubcategories: false,
+
   },
   osc: {
     slug: 'osc',
@@ -45,11 +42,8 @@ export const CATEGORIES_CONFIG: Record<string, Category> = {
   'secteur-privee': {
     slug: 'secteur-privee',
     name: 'SECTEUR PRIVEE',
-    hasSubcategories: true,
-    subcategories: [
-      { slug: 'large', name: 'Large Private Enterprises' },
-      { slug: 'sme', name: 'Small & Medium Enterprises' },
-    ]
+    hasSubcategories: false,
+
   },
   cl: {
     slug: 'cl',

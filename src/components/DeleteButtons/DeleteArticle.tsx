@@ -3,12 +3,14 @@
 
 import { deleteArticle } from "@/firebase/services/deleteService";
 import { useTranslation } from "@/hooks/useTranslation";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "react-toastify";
 
 export default function DeleteArticleButton({ articleId }: { articleId: string }) {
   const [loading, setLoading] = useState(false);
   const {t} = useTranslation()
+  const router = useRouter()
 
   const handleDelete = async () => {
     if (!confirm(`${t('common.delete.confirm')}`)) return;
@@ -17,7 +19,7 @@ export default function DeleteArticleButton({ articleId }: { articleId: string }
       setLoading(true);
       await deleteArticle(articleId);
       toast.success(`${t('common.delete.sucess')}`);
-      window.location.reload();
+      router.back()
     } catch (err: any) {
       toast.error(`${t('common.delete.error')}` );
     } finally {

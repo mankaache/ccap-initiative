@@ -41,7 +41,6 @@ export default function Dashboard() {
           setArticles(allArticles as any);
           setProjects(allProjects as any);
           setDocuments(allDocuments as any);
-          console.log('allArticles', allArticles);
         } catch (err) {
           console.error('Failed to fetch',err);
         
@@ -56,8 +55,8 @@ export default function Dashboard() {
 
   const adminStats = [
     { label:  `${t('admin.dashboard.totalUSers')}`, value:'12' , icon: Users, color: 'text-primary' },
-    { label: `${t('admin.dashboard.totalArticles')}`, value: projects.length, icon: FileText, color: 'text-secondary' },
-    { label: `${t('admin.dashboard.totalProjects')}`, value: articles.length, icon: Briefcase, color: 'text-info' },
+    { label: `${t('admin.dashboard.totalProjects')}`, value: projects.length, icon: FileText, color: 'text-secondary' },
+    { label: `${t('admin.dashboard.totalArticles')}`, value: articles.length, icon: Briefcase, color: 'text-info' },
     { label: `${t('admin.dashboard.totalDocuments')}`, value: documents.length, icon: FolderOpen, color: 'text-warning' },
   ];
 
@@ -109,7 +108,7 @@ export default function Dashboard() {
         ))}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Quick Actions */}
         <Card className="lg:col-span-1">
           <CardHeader>

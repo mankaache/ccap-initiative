@@ -119,17 +119,18 @@ const NewsDetail = () => {
                 />
               )}
             </div>
+             <p className="text-gray-600 mb-6">
+              {t("admin.articles.by")} {article && article.source}
+            </p>
 
-            <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            <h1 className="text-3xl md:text-5xl w-full text-center font-bold text-gray-900 mb-4">
               {article.title}
             </h1>
 
-            <p className="text-gray-600 mb-6">
-              {t("admin.articles.by")} {article && article.source}
-            </p>
-            <p className="text-gray-600 mb-6">
+           
+            {/* <p className="text-gray-600 mb-6">
               {article && article.description}
-            </p>
+            </p> */}
 
             {article.type === "text" && article.content && (
               <>
@@ -201,6 +202,7 @@ const NewsDetail = () => {
             )}
 
             {article.type === "pdf" && article.documentUrl && (
+              <>
               <div className="w-full h-[100vh] py-10">
                 <iframe
                   src={`https://docs.google.com/gview?url=${encodeURIComponent(
@@ -211,9 +213,67 @@ const NewsDetail = () => {
                   frameBorder="0"
                 />
               </div>
+                <div className="mt-8 pt-6 border-t border-gray-200">
+                  <div className="flex items-center justify-between">
+                    <div className="flex space-x-4 mt-2">
+                      <Button
+                        onClick={() =>
+                          window.open(
+                            `https://twitter.com/intent/tweet?url=${encodeURIComponent(
+                              window.location.href
+                            )}&text=${encodeURIComponent(
+                              article && article.title
+                            )}`,
+                            "_blank"
+                          )
+                        }
+                        className="px-4 py-2 bg-blue-600 text-white text-sm rounded hover:bg-blue-700 transition-colors"
+                      >
+                        Twitter
+                      </Button>
+                      <Button
+                        onClick={() =>
+                          window.open(
+                            `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+                              window.location.href
+                            )}`,
+                            "_blank"
+                          )
+                        }
+                        className="px-4 py-2 bg-blue-800 text-white text-sm rounded hover:bg-blue-900 transition-colors"
+                      >
+                        Facebook
+                      </Button>
+                      <Button
+                        onClick={() =>
+                          window.open(
+                            `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(
+                              window.location.href
+                            )}&title=${encodeURIComponent(
+                              article && article.title
+                            )}`,
+                            "_blank"
+                          )
+                        }
+                        className="px-4 py-2 bg-blue-500 text-white text-sm rounded hover:bg-blue-600 transition-colors"
+                      >
+                        LinkedIn
+                      </Button>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-sm text-gray-600">
+                        {t("admin.articles.publishedOn")}{" "}
+                      </p>
+                      <p className="text-sm font-medium text-gray-900">
+                        {article && article.date}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </>
             )}
           </div>
-          {user && user.role === "admin" && (
+          {(user && (user.role === "admin" || user.uid === article.authorId)) && (
             <DeleteArticleButton articleId={article.id} />
           )}
         </article>
