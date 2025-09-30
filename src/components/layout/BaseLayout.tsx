@@ -5,14 +5,18 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "../ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { NewBaseLayout } from "./NewBaseLayout";
-import { toast, ToastContainer } from "react-toastify";
+import {  ToastContainer } from "react-toastify";
 import { initializeCleanupScheduler } from "@/lib/cleanupScheduler";
-import { useNetworkStatus } from "@/lib/network";
-import { useTranslation } from "@/hooks/useTranslation";
 
 const BaseLayout = ({ children }: { children: React.ReactNode }) => {
   initializeCleanupScheduler();
-  const {t} = useTranslation();
+  
+if (process.env.NODE_ENV === "production") {
+  console.log = function () {};
+  console.error = function () {};
+  console.debug = function () {};
+  console.warn = function () {};
+}
 
 
 

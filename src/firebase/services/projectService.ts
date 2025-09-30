@@ -484,7 +484,6 @@ export async function fetchReviewProjects() {
   return snap.docs.map((doc) => ({ id: doc.id, ...(doc.data() as any) }));
 }
 
-
 export async function fetchOrganisationById(orgId: string) {
 
   const orgRef = doc(db, "organisations", orgId);

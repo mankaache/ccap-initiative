@@ -63,11 +63,12 @@ const SubActorCategory = () => {
     <>
       <div className="bg-gradient-to-r from-secondary/60 to-primary/60 via-accent/30 flex justify-center items-center h-40 w-full">
         <div className="max-w-5xl pt-5 flex h-full items-center px-4 flex-col gap-2">
-          {/* Breadcrumb navigation */}
+          {/* Breadcrumb navigation */} 
           
           
-          <h1 className="text-3xl font-bold capitalize text-left text-foreground mb-2">
-            {title === "Etatiques"
+          <h1 className="text-3xl font-bold uppercase text-left text-foreground mb-2">
+            {t("actor.actors")} {' '} {decodeURIComponent(title)} 
+            {/* {title === "Etatiques"
               ? `${t("header.actor.State")}`
               : title === "ONGI"
               ? `${t("header.actor.ONGI")}`
@@ -77,8 +78,8 @@ const SubActorCategory = () => {
               ? `${t("header.actor.OBC")}`
               : title === "SECTEUR PRIVEE"
               ? `${t("header.actor.secteur-privee")}`
-              : title}{' '}
-            {t("actor.actors")}
+              : title}{' '} */}
+           
           </h1>
           
           {subcategory && parentTitle && (

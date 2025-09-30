@@ -66,8 +66,9 @@ const ActorCategory = () => {
       <div className="bg-gradient-to-r from-secondary/60 to-primary/60 via-accent/30 flex justify-center items-center h-40 w-full">
         <div className="max-w-5xl pt-5 flex h-full items-center px-4 flex-col gap-2">
           {/* state actors */}
-          <h1 className="text-3xl font-bold capitalize text-left text-foreground mb-2">
-            {title === "Etatiques"
+          <h1 className="text-3xl font-bold uppercase text-left text-foreground mb-2">
+             {t("actor.actors")} {' '} {title}
+            {/* {title === "Etatiques"
               ? `${t("header.actor.State")}`
               : title === "ONGI"
               ? `${t("header.actor.ONGI")}`
@@ -78,8 +79,8 @@ const ActorCategory = () => {
               : title === "SECTEUR PRIVEE"
               ? `${t("header.actor.secteur-privee")}`
               : ""}
-              {' '}
-             {t("actor.actors")}
+              {' '} */}
+            
           </h1>
           <p className="text-lg text-muted-foreground text-left">
             {/* {description} */}

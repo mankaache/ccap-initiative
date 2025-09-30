@@ -1,5 +1,5 @@
 export const actor={
-    'actor.actors':'Actors',
+    'actor.actors':'The',
     'actor.orgFound':'organizations found',
     'actor.noOrg':'No organizations found in this category.',
     'actor.total':'A Total of',
@@ -10,7 +10,7 @@ export const actor={
     "actor.subcategories": "Sub-categories",
     'actor.noProjects':'No projects Found',
     "actor.exploreSubcategory": "Explore this subcategory",
-    'actor.documentDesc':'Access comprehensive climate policy and regulatory documents',
+    'actor.documentDesc':'Access comprehensive climate policy documents',
     'actor.documentSearch':'Search documents by title,description or type',
     'actor.documentPub':'Published',
     'actor.view':'View',

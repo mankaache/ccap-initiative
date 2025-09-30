@@ -10,7 +10,7 @@ export const footer = {
 
     'footer.contact':'Contactez-nous',
     'footer.privacy':'Politique de confidentialité',
-    'footer.terms':'Conditions et Conditions',
+    'footer.terms':'Conditions d\'utilisation',
 
     'notFound.title' : 'Oups ! Page introuvable',
     'notFound.desc' : 'La page que vous recherchez semble s\'être égarée dans le désert numérique. Ne vous inquiétez pas, cela arrive même aux meilleurs d\'entre nous !',

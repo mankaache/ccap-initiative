@@ -199,7 +199,6 @@ const navigation = [
     href: "#",
     dropdown: [
       { name: t('header.documents.international'), href: "/documents/international" },
-      { name: t('header.documents.regulations'), href: '/documents/regulation' },
       { name: t('header.documents.national'), href: "/documents/national" },
     ],
   },

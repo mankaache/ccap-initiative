@@ -91,7 +91,7 @@ const ClimateDocuments = () => {
     <div className="min-h-screen bg-background">
       <div className="w-full h-80 py-5 bg-gradient-to-r flex flex-col justify-center items-center gap-3 from-secondary via-primary/80 to-secondary">
         <div className="text-center">
-          <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
+          <h1 className="text-4xl md:text-5xl font-bold uppercase text-foreground mb-6">
             {getCategoryTitle(category || "")}
           </h1>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto mb-8">
@@ -181,7 +181,7 @@ const ClimateDocuments = () => {
                         className="flex items-center px-3 py-2 bg-gray-300 text-gray-500 rounded cursor-not-allowed text-sm"
                       >
                         <Lock className="h-4 w-4 mr-1" />
-                        {t("actor.login")}
+                       {t("actor.documentDownload")}
                       </button>
                     ) : (
                       <>

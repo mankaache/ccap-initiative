@@ -59,14 +59,7 @@ const About = () => {
             <p className="text-xl md:text-2xl  max-w-4xl mx-auto leading-relaxed">
               {t("about.desc")}
             </p>
-            <div className="mt-12 flex flex-col sm:flex-row gap-4 justify-center">
-              <Button
-                size="lg"
-                className="bg-primary hover:bg-primary/90 text-primary-foreground"
-              >
-                {t("common.allProjects")}
-              </Button>
-            </div>
+            
           </div>
         </div>
       </section>
@@ -223,24 +216,7 @@ const About = () => {
                 </h4>
                 <p className="text-sm text-muted-foreground mt-2">{t('about.country')}</p>
               </div>
-              <div className="bg-card rounded-lg p-6 shadow">
-                <h4 className="font-medium text-foreground">
-                  {t('about.ministry2')}
-                </h4>
-                <p className="text-sm text-muted-foreground mt-2">{t('about.country')}</p>
-              </div>
-              <div className="bg-card rounded-lg p-6 shadow">
-                <h4 className="font-medium text-foreground">MINEPDED</h4>
-                <p className="text-sm text-muted-foreground mt-2">
-                   {t('about.ministry3')}
-                </p>
-              </div>
-              <div className="bg-card rounded-lg p-6 shadow">
-                <h4 className="font-medium text-foreground">
-                   {t('about.regional')}
-                </h4>
-                <p className="text-sm text-muted-foreground mt-2">10 Regions</p>
-              </div>
+             
             </div>
           </div>
 

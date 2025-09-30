@@ -105,11 +105,11 @@ const DocumentDetail = () => {
     <div className="min-h-screen  py-12">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <Link
-          href={`${user.role==='admin'? '/admin/documents' :  `/documents/${category}`}`}
+          href={`${user && user.role==='admin'? '/admin/documents' :  `/documents/${category}`}`}
           className="inline-flex items-center text-orange-600 hover:text-orange-700 mb-6"
         >
           <ArrowLeft className="h-4 w-4 mr-2" />
-          {t('admin.document.backTo')} {user.role==='admin'? '' : `${category}`} {t('admin.document.document')}
+          {t('admin.document.backTo')} {user && user.role==='admin'? '' : `${category}`} {t('admin.document.document')}
         </Link>
 
         <div className="bg-white rounded-lg shadow-lg overflow-hidden">
@@ -179,7 +179,7 @@ const DocumentDetail = () => {
                       className="flex items-center px-4 text-sm py-2 bg-gray-300 text-gray-500 rounded cursor-not-allowed"
                     >
                       <Lock className="h-4 w-4 mr-2" />
-                      {t('admin.document.login')}
+                      {t('admin.document.download')}
                     </button>
                     <p className="text-xs text-red-600">
                      {t('admin.document.loginDesc')}
@@ -211,12 +211,13 @@ const DocumentDetail = () => {
             <h2 className="text-xl font-semibold text-gray-900 mb-4">
               {t('admin.document.preview')}
             </h2>
-            <div
-              className="prose prose-lg max-w-none text-gray-700 leading-relaxed"
-              //@ts-ignore
-              dangerouslySetInnerHTML={{__html: documentData && documentData.content,
-              }}
-            />
+             <div
+                  className="prose prose-lg max-w-none text-gray-700 leading-relaxed"
+                  dangerouslySetInnerHTML={{
+                    __html: documentData && documentData.contentPreview,
+                  }}
+                />
+            
 
             {!user && (
               <div className="mt-8 p-4 bg-orange-50 border border-orange-200 rounded-lg">

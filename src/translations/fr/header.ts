@@ -13,9 +13,9 @@ export const header = {
     'header.news.national': 'National',
     'header.climateDocuments': 'Documents ',
 
-    'header.documents.international': 'Politique Internationale',
+    'header.documents.international': 'Internationale',
     'header.documents.regulations': 'Réglementations',
-    'header.documents.national': 'Politique Nationale',
+    'header.documents.national': 'Nationale',
     
     'header.projectTransparency': 'Transparence des Projets',
     'header.transparency.adaptation': 'Projets d\'Adaptation',

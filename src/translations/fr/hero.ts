@@ -1,8 +1,8 @@
 export const hero = {
     'hero.videosupport':'Votre navigateur ne prend pas en charge la balise vidéo.',
-    'hero.title': 'Découvrer l\'action climatique au Cameroun',
+    'hero.title': 'Découvrez l\'action climatique au Cameroun',
     'hero.description': 'Suivez les projets climatiques à travers le Cameroun et explorez où ils se déroulent, suivez leurs progrès et voyez comment ils façonnent les communautés et les écosystèmes.',
-    'hero.description2': 'Notre plateforme vous aide à rester informé, à responsabiliser les projets et, surtout, à voir à quel point les projets climatiques sont transparents.',
+    'hero.description2': 'La plateforme CCAP vous aide à rester informé, à responsabiliser les projets et, surtout, à voir à quel point les projets climatiques sont transparents.',
     'hero.exploreProjects': 'Explorer les Projets',
     'hero.projectTransparency': 'Transparence des projet',
     'hero.viewMap': 'Voir la Carte Interactive',

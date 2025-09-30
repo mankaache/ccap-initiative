@@ -173,7 +173,7 @@ const ProjectDetailspage = () => {
                 </div>
               </div>
             </div>
-            {user && user.role === "admin" && (
+            {(user && user.role === "admin") && (project.projectReview !== "Accepted") && (project.projectReview !== "Rejected") &&(
               <div>
                 <div>
                   <h2 className="text-2xl font-bold text-white">

@@ -37,7 +37,7 @@ const {t} = useTranslation()
 
         // Optional: check if project belongs to the correct organisation
         if (proj.organizationId !== id) {
-          toast.error("Project does not belong to this organisation");
+          toast.error(`${t('admin.project.projectDoesnt')}`);
           setProject(null);
           return;
         }
@@ -45,7 +45,7 @@ const {t} = useTranslation()
         setProject(proj);
       } catch (err: any) {
         console.error(err);
-        toast.error(err.message || "Failed to load project");
+        toast.error(err.message || t('admin.project.failedTo'));
       } 
     };
 
