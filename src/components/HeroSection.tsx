@@ -43,7 +43,7 @@ const HeroSection = () => {
     {
       icon: Users,
       label: t("hero.stats.activePartners"),
-      value: "10",
+      value: "2",
       description: t("hero.stats.partnersDesc"),
     },
     {
