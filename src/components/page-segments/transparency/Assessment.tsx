@@ -306,7 +306,7 @@ const TransparencyAssessment = () => {
           <div className="bg-white h-40 p-6 rounded shadow-lg flex flex-col items-center gap-4">
             <div className="loader border-t-4 border-b-4 border-primary w-12 h-12 rounded-full animate-spin"></div>
             <p className="text-gray-700 font-medium">
-              {" Be Patient While We Are Calculating Your Transparency score..."}
+              {t('admin.project.waitTran')}
             </p>
           </div>
         </div>

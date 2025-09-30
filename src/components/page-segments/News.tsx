@@ -9,7 +9,7 @@ import Image from "next/image";
 import { Button } from "../ui/button";
 import { useAuth } from "@/firebase/useAuth";
 import { Article } from "@/types";
-import { fetchAllArticles } from "@/firebase/services/adminService";
+import { fetchAcceptedArticles, fetchAllArticles } from "@/firebase/services/adminService";
 import { toast } from "react-toastify";
 import FullPageLoader from "../layout/FullPageLoader";
 import nationalnewimage from '@/assets/national-news.jpg'
@@ -24,7 +24,7 @@ const { t } = useTranslation();
     const loadArticles = async () => {
       try {
         setLoading(true);
-        const allArticles = await fetchAllArticles();
+        const allArticles = await fetchAcceptedArticles();
         setArticles(allArticles as Article[]);
         console.log('allArticles', allArticles);
       } catch (err) {

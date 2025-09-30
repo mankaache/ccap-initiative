@@ -11,6 +11,9 @@ export const dashboard = {
     'admin.dashboard.desc':'Manage your organizational dashboard and oversee all activities.',
     'admin.dashboard.quickActions':'Quick Actions',
 
+    'admin.articles.underReview':'Articles Under Review',
+    'admin.articles.noUnderReview':' No articles under review',
+
     'admin.article.create':'Create New Article',
     'admin.articles.title':'Articles',
     'admin.articles.titleDesc':'Manage news articles and publications',
@@ -133,8 +136,10 @@ export const dashboard = {
     'admin.project.notFound':'No projects found',
     'admin.project.adjustSearchOr':'Get started by creating your first project.',
     'admin.project.hasbeen':'Project has been',
-    'admin.project.failed':'Failed to update project review.',
+    'admin.article.hasbeen':'Article has been',
+    'admin.project.failed':'Failed to update review.',
     'admin.project.reviewProject':'Review the Project',
+    'admin.project.reviewArticle':'Review the Article',
     'admin.project.overview':'Project Overview',
     'admin.project.projectType':'Project Type',
     'admin.project.projectReview':'Project Review',
@@ -160,6 +165,10 @@ export const dashboard = {
     'admin.project.locationDetails':'Location Details',
     'admin.project.specificLocation':'Specific Location',
 
+    'admin.project.projectDoesnt':'Project does not belong to this organisation',
+    'admin.project.failedTo':'Failed to load project',
+    'admin.project.waitTran':'Be Patient While We Are Calculating Your Transparency score...',
+
     'admin.project.maxImages':'You can upload a maximum of 2 images.',
     'admin.project.requiredFields':'Please fill required fields: organisation name, project title, category.',
     'admin.project.success':'Project created! and is under-review.',    
@@ -176,7 +185,8 @@ export const dashboard = {
     'admin.document.noDocsYet':'No documents available yet.',
     
     'admin.news.title':'National News',
-    'admin.news.desc':'Stay updated with the latest climate change news and developments in Cameroon'
+    'admin.news.desc':'Stay updated with the latest climate change news and developments in Cameroon',
+    
 
 
 

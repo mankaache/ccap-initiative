@@ -35,7 +35,7 @@ export const projects = {
   'project.startDate': 'Duration',
   'project.keyActors': 'Key Actors',
   'project.programs': 'Related Programs',
-  'project.program': 'Programs',
+  'project.program': 'Programs/Activities carried out during the project',
   'project.viewDetails': 'View Details',
 
   'project.start_date': 'Start Date',
@@ -91,6 +91,7 @@ export const projects = {
   'project.goal':'Project Type',
   'project.goal1':'Mitigation',
   'project.goal2':'Adaptation',
+  'project.goal4':'Loss & damages',
   'project.goal3':'Finance',
   'project.specific_objective':'Specific Objectives',
   'project.specific_objective2':'What are you specific objectives?',
@@ -111,5 +112,10 @@ export const projects = {
   'project.acceptProces':'Processing...',
   'project.accept':'Accept Project',
   'project.reject':'Reject Project',
+  'article.accept':'Accept Article',
+  'article.reject':'Reject Article',
+  'project.selected':'selected',
+  'project.noOrg':'No actors found',
+  'project.underReview':' Thanks for your submission! 🎉 We’re reviewing it now. Please check back later to see if it’s been accepted or rejected.',
 
 };

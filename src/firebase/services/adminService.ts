@@ -1,5 +1,6 @@
 // lib/authService.ts
 
+import { collection, getDocs, query, where, getDoc, serverTimestamp } from "firebase/firestore";
 import { createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
 import { doc, setDoc, updateDoc } from "firebase/firestore";
 import { auth, db } from "../firebaseConfig";
@@ -38,10 +39,8 @@ export async function updateProjectReview(projectId: string, reviewStatus: "Acce
 
   return { success: true, message: `Révision du projet mise à jour vers ${reviewStatus}` };
 }
-// how to use 
-// await updateProjectReview("proj123", "Accepted");
 
-import { collection, getDocs, query, where, getDoc } from "firebase/firestore";
+
 
 
 // ✅ 1. Fetch ALL documents (with their IDs)
@@ -90,6 +89,34 @@ export async function fetchAllArticles() {
   return articles;
 }
 
+export async function fetchAcceptedArticles() {
+  const projectsRef = collection(db, "articles");
+  const q = query(projectsRef, where("articleReview", "==", "Accepted"));
+  const snap = await getDocs(q);
+
+  return snap.docs.map((doc) => ({ id: doc.id, ...(doc.data() as any) }));
+}
+export async function fetchReviewArticles() {
+  const projectsRef = collection(db, "articles");
+  const q = query(projectsRef, where("articleReview", "==", "Pending"));
+  const snap = await getDocs(q);
+
+  return snap.docs.map((doc) => ({ id: doc.id, ...(doc.data() as any) }));
+}
+
+export async function updateArticleReview(articleId: string, status: "Accepted" | "Rejected") {
+  const articleRef = doc(db, "articles", articleId);
+  const updateData: any = {
+    articleReview: status,
+  };
+  
+  // Add timestamp when project is rejected for cleanup purposes
+  if (status === "Rejected") {
+    updateData.rejectedAt = serverTimestamp();
+  }
+  
+  await updateDoc(articleRef, updateData);
+}
 
 export async function fetchArticleById(id: string) {
   const docRef = doc(db, "articles", id);

@@ -11,6 +11,8 @@ export const dashboard = {
     'admin.dashboard.desc' : 'Gérez le tableau de bord de votre organisation et supervisez toutes les activités.' ,
     'admin.dashboard.quickActions' : 'Actions rapides' ,
 
+    'admin.articles.underReview' : 'Articles en cours de révision',
+    'admin.articles.noUnderReview' : 'Aucun article en cours de révision',
     'admin.article.create':'Créer un nouvel article',
     'admin.articles.title':'Articles',
     'admin.articles.titleDesc':'Gérer les articles d\'actualité et les publications',
@@ -59,7 +61,7 @@ export const dashboard = {
     
     'admin.document.notFound' : 'Document introuvable',
     'admin.document.msg' : 'Le document demandé est introuvable.',
-    'admin.document.regulation' : 'Réglementation',
+    'admin.document.regulation' : 'Réglement',
     'admin.document.document' : 'document',
     'admin.document.browse' : 'Parcourir et gérer la bibliothèque de documents',
     'admin.document.add' : 'Ajouter un document',
@@ -75,7 +77,7 @@ export const dashboard = {
     'admin.document.loginDesc' : 'Connexion requise pour télécharger ce document',
     'admin.document.download' : 'Télécharger',
     'admin.document.preview' : 'Aperçu du document',
-    'admin.document.viewDocumentAccess' : 'L\'accès complet au document nécessite une connexion',
+    'admin.document.viewDocumentAcess' : 'L\'accès complet au document nécessite une connexion',
     'admin.document.please' : 'Veuillez',
     'admin.document.signin' : 'Se connecter',
     'admin.document.toDownload' : 'Pour télécharger et accéder au document complet.',
@@ -84,7 +86,7 @@ export const dashboard = {
     'admin.document.research':'Document de recherche',
     'admin.document.policy' : 'Document de politique',
     'admin.document.technical' : 'Rapport technique',
-    'admin.document.legal' : 'Document juridique',
+    'admin.document.legal' : 'Instrument juridique',
     'admin.document.guidelines' : 'Lignes directrices',
     'admin.document.manual' : 'Manuel',
     'admin.document.law' : 'Loi',
@@ -133,8 +135,10 @@ export const dashboard = {
     'admin.project.notFound' : 'Aucun projet trouvé',
     'admin.project.adjustSearchOr' : 'Commencez par créer votre premier projet.',
     'admin.project.hasbeen' : 'Le projet a été',
-    'admin.project.failed' : 'Échec de la mise à jour de la révision du projet.',
+    'admin.article.hasbeen' : 'L\'article a été',
+    'admin.project.failed' : 'Échec de la mise à jour de la révision.',
     'admin.project.reviewProject' : 'Réviser le projet',
+    'admin.project.reviewArticle' : 'Réviser l\'article',
     'admin.project.overview' : 'Aperçu du projet',
     'admin.project.projectType' : 'Type de projet',
     'admin.project.projectReview' : 'Révision du projet',
@@ -164,6 +168,11 @@ export const dashboard = {
     'admin.project.requiredFields' : 'Veuillez remplir les champs obligatoires : nom de l\'organisation, titre du projet, catégorie.',
     'admin.project.success' : 'Projet créé ! En cours d\'examen.',    
     'admin.project.error' : 'Échec de la création du projet. Veuillez réessayer.',
+
+        'admin.project.projectDoesnt' : 'Le projet n\'appartient pas à cette organisation',
+    'admin.project.failedTo' : 'Échec du chargement du projet',
+    'admin.project.waitTran' : 'Veuillez patienter pendant le calcul de votre score de transparence...',
+
     
 
      'admin.project.settings' :  'Paramètres',

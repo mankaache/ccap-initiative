@@ -80,7 +80,7 @@ const { t } = useTranslation();
       {orga.length === 0 && (
         <div className="text-center py-12">
           <Users className="w-12 h-12 mx-auto text-muted-foreground mb-4" />
-          <h3 className="text-lg font-semibold mb-2">No actors found</h3>
+          <h3 className="text-lg font-semibold mb-2">{t('project.noOrg')}</h3>
         
          
             <Button onClick={() => navigate.push('/admin/projects/create')}>

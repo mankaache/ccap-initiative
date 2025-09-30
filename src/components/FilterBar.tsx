@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ChevronDown, X, Filter } from "lucide-react";
 import { FilterState } from "./FilteredProjects";
+import { useTranslation } from "@/hooks/useTranslation";
 
 type Props = {
   activeFilters: FilterState;
@@ -23,6 +24,7 @@ type Props = {
 };
 
 const FilterBar = ({ activeFilters, onFilterChange, options }: Props) => {
+  const {t} = useTranslation()
   const handleFilterSelect = (category: keyof FilterState, value: string) => {
     const current = activeFilters[category] || [];
     const newValues = current.includes(value)
@@ -54,10 +56,10 @@ const FilterBar = ({ activeFilters, onFilterChange, options }: Props) => {
   );
 
   const filterCategories = [
-    { id: "projectType", label: "Project Type", options: options.projectTypes },
-    { id: "categories", label: "Categories", options: options.categories },
-    { id: "funding", label: "Funding Source", options: options.fundingSources },
-    { id: "regions", label: "Regions", options: options.regions },
+    { id: "projectType", label: t('filters.projects'), options: options.projectTypes },
+    { id: "categories", label: t('filters.actors'), options: options.categories },
+    { id: "funding", label: t('filters.funding'), options: options.fundingSources },
+    { id: "regions", label: t('filters.locations'), options: options.regions },
   ] as const;
 
   return (
@@ -67,7 +69,7 @@ const FilterBar = ({ activeFilters, onFilterChange, options }: Props) => {
         <div className="flex flex-wrap items-center gap-4 mb-4">
           <div className="flex items-center gap-2">
             <Filter className="h-5 w-5 text-muted-foreground" />
-            <span className="font-medium text-foreground">Filters</span>
+            <span className="font-medium text-foreground">{t('filters.title')}</span>
           </div>
 
           {filterCategories.map((category) => (

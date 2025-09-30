@@ -131,6 +131,7 @@ async function handleSubmit(e: React.FormEvent) {
       source: formData.source,
       date: formData.date,
       authorId: user.uid,
+      articleReview: "Pending",
       createdAt: serverTimestamp(),
     };
 
@@ -145,7 +146,8 @@ async function handleSubmit(e: React.FormEvent) {
     const res = await addDoc(collection(db, "articles"), payload);
     console.log('results', res)
     toast.success(`${t('admin.articles.success')}`);
-     user.role==='actor' ? navigate.push('/news/national') : navigate.push("/admin/articles");
+    //  user.role==='actor' ? navigate.push('/news/national') : navigate.push("/admin/articles");
+     user && user.role === 'admin' ? navigate.push('/admin/subject-review') : navigate.push('/subject-review')
   } catch (err: any) {
     console.error(err);
     toast.error(`${t('admin.articles.error')}`);

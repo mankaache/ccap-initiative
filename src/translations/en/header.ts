@@ -15,9 +15,9 @@ export const header = {
 
   'header.climateDocuments': 'Documents',
 
-  'header.documents.international': 'International Policies',
+  'header.documents.international': 'International',
   'header.documents.regulations': 'Regulations', 
-  'header.documents.national': 'National Policies',
+  'header.documents.national': 'National',
 
   'header.projectTransparency': 'Project Transparency',
   'header.transparency.adaptation': 'Adaptation Projects',

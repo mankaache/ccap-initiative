@@ -54,7 +54,7 @@ export default function Dashboard() {
     const {t} = useTranslation();
 
   const adminStats = [
-    { label:  `${t('admin.dashboard.totalUSers')}`, value:'12' , icon: Users, color: 'text-primary' },
+    // { label:  `${t('admin.dashboard.totalUSers')}`, value:'12' , icon: Users, color: 'text-primary' },
     { label: `${t('admin.dashboard.totalProjects')}`, value: projects.length, icon: FileText, color: 'text-secondary' },
     { label: `${t('admin.dashboard.totalArticles')}`, value: articles.length, icon: Briefcase, color: 'text-info' },
     { label: `${t('admin.dashboard.totalDocuments')}`, value: documents.length, icon: FolderOpen, color: 'text-warning' },

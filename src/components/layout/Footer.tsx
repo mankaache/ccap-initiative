@@ -62,7 +62,7 @@ const Footer = () => {
                     className="w-full h-full object-cover rounded-full"
                   />
                 </div>
-                <div className="relative text-center w-12 h-12 rounded-full ">
+                {/* <div className="relative text-center w-12 h-12 rounded-full ">
                   <Image
                     src={said}
                     fill
@@ -76,7 +76,7 @@ const Footer = () => {
                     alt="Climate action in Cameroon"
                     className=" h-20 w-40"
                   />
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
@@ -155,7 +155,7 @@ const Footer = () => {
         {/* Bottom Bar */}
         <div className="border-t border-background/20 mt-8 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="text-background/60 text-sm">
-            © 2025 CCAP - Climate Change Action Platform. All rights reserved.
+            © 2025 CCAP - Plateforme d'action contre le changement climatique. Tous droits réservés..
           </div>
           <div className="flex items-center gap-6 text-sm">
             <Link

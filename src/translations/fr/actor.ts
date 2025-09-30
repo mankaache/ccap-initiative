@@ -1,5 +1,5 @@
 export const actor={
-    'actor.actors' : 'Acteurs',
+    'actor.actors' : 'Les',
     'actor.orgFound' : 'Organisations trouvées',
     'actor.noOrg' : 'Aucune organisation trouvée dans cette catégorie.',
     'actor.total' : 'Au total',
@@ -10,7 +10,7 @@ export const actor={
     'actor.subcategories' : 'Sous-catégories',
     'actor.noProjects' : 'Aucun projet trouvé',
     'actor.exploreSubcategory' : 'Explorer cette sous-catégorie',
-    'actor.documentDesc' : 'Accéder à des documents complets sur les politiques et réglementations climatiques',
+    'actor.documentDesc' : 'Accéder à des documents complets sur les politiques  climatiques',
     'actor.documentSearch' : 'Rechercher des documents par titre, description ou type',
     'actor.documentPub' : 'Publié',
     'actor.view' : 'Afficher',

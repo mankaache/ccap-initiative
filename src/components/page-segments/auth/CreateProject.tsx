@@ -239,6 +239,7 @@ const CreateProject = ({ projectId }: { projectId?: string }) => {
       console.log("project", project);
       // success - you can redirect to the project page or show a message
       toast.success(`${t("admin.project.success")}`);
+      user && user.role === 'admin' ? router.push('/admin/subject-review') : router.push('/subject-review')
       // e.g. go to the project view
       user.role === "admin" ? router.push(`/admin/projects`) : router.push(`/`);
     } catch (err: any) {
@@ -541,13 +542,16 @@ const CreateProject = ({ projectId }: { projectId?: string }) => {
                       <SelectValue placeholder={t("project.anOption")} />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value={"atténuation"}>
+                      <SelectItem value={t("project.goal1")}>
                         {t("project.goal1")}
                       </SelectItem>
-                      <SelectItem value={"adaptation"}>
+                      <SelectItem value={t("project.goal2")}>
                         {t("project.goal2")}
                       </SelectItem>
-                      <SelectItem value={"finance"}>
+                      <SelectItem value={t("project.goal4")}>
+                        {t("project.goal4")}
+                      </SelectItem>
+                      <SelectItem value={t("project.goal3")}>
                         {t("project.goal3")}
                       </SelectItem>
                     </SelectContent>
@@ -722,6 +726,7 @@ const CreateProject = ({ projectId }: { projectId?: string }) => {
                     value={newProgram}
                     onChange={(e) => setNewProgram(e.target.value)}
                     className="flex-1"
+                    required
                   />
                   <Button
                     type="button"
@@ -863,7 +868,7 @@ const CreateProject = ({ projectId }: { projectId?: string }) => {
                   </Button>
                   {images && images && images.length > 0 && (
                     <p className="text-sm text-primary font-medium">
-                      {images.length} image(s) selected
+                      {images.length} image(s) {t('project.selected')}
                     </p>
                   )}
                 </div>
@@ -878,7 +883,7 @@ const CreateProject = ({ projectId }: { projectId?: string }) => {
                 {loading ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />{" "}
-                    Creating...{" "}
+                    {t('auth.creating')} {""}
                   </>
                 ) : (
                   `${t("project.createProject")}`

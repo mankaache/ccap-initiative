@@ -86,9 +86,6 @@ export default function CreateDocument({docuId}:{docuId?:string}) {
     `${t("admin.document.guidelines")}`,
     `${t("admin.document.manual")}`,
     `${t("admin.document.regulation")}`,
-    `${t("admin.document.law")}`,
-    `${t("admin.document.degree")}`,
-    `${t("admin.document.caseStudy")}`,
 
   ];
 const {user} = useAuth();
@@ -244,7 +241,6 @@ console.log('results', updateDoc)
                   <SelectContent>
                     <SelectItem value="international">{t('admin.document.category1')}</SelectItem>
                     <SelectItem value="national">{t('admin.document.category2')}</SelectItem>
-                    <SelectItem value="regulation">{t('admin.document.category3')}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>

@@ -10,7 +10,7 @@ import { useRouter } from 'next/navigation';
 import FullPageLoader from '@/components/layout/FullPageLoader';
 import { useAuth } from '@/firebase/useAuth';
 import { toast } from 'react-toastify';
-import { fetchAllArticles } from '@/firebase/services/adminService';
+import { fetchAcceptedArticles, fetchAllArticles } from '@/firebase/services/adminService';
 import { Article } from '@/types';
 import Link from 'next/link';
 import { useTranslation } from '@/hooks/useTranslation';
@@ -27,7 +27,7 @@ const{t} = useTranslation()
     const loadArticles = async () => {
       try {
         setLoading(true);
-        const allArticles = await fetchAllArticles();
+        const allArticles = await fetchAcceptedArticles();
         setArticles(allArticles as Article[]);
         console.log('allArticles', allArticles);
       } catch (err) {

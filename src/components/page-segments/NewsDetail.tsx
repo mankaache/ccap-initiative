@@ -2,14 +2,17 @@
 
 import React, { useEffect, useState } from "react";
 import { Calendar, ArrowLeft, Share2 } from "lucide-react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { Button } from "../ui/button";
 import { ShareModal } from "../ShareModal";
 import image from "@/assets/vegetation.jpg";
 import Image from "next/image";
 import { Article } from "@/types";
-import { fetchArticleById } from "@/firebase/services/adminService";
+import {
+  fetchArticleById,
+  updateArticleReview,
+} from "@/firebase/services/adminService";
 import { toast } from "react-toastify";
 import FullPageLoader from "../layout/FullPageLoader";
 import { useAuth } from "@/firebase/useAuth";
@@ -20,6 +23,7 @@ const NewsDetail = () => {
   const { id } = useParams();
   const [article, setArticle] = useState<Article | null>(null);
   const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
   useEffect(() => {
     const loadArticle = async () => {
@@ -30,6 +34,7 @@ const NewsDetail = () => {
           toast.error(`${t("admin.articles.notFound")}`);
           return;
         }
+        console.log("data", data);
         setArticle(data as Article);
       } catch (err) {
         console.error(err);
@@ -71,9 +76,51 @@ const NewsDetail = () => {
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString();
   };
+  const handleReview = async (status: "Accepted" | "Rejected") => {
+    try {
+      setLoading(true);
+      await updateArticleReview(id as string, status);
+      toast.success(`${t("admin.article.hasbeen")} ${status.toLowerCase()}.`);
+      router.back();
+    } catch (err: any) {
+      console.error(err);
+      toast.error(`${t("admin.project.failed")}`);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="min-h-screen py-12">
+      
+
+      {//@ts-ignore
+      (user && user.role === "admin") && (article.articleReview !== "Accepted") && (article.articleReview !== "Rejected") && (
+        
+          <div className="flex w-full mx-auto mb-10 pl-8 justify-between items-center">
+            <div className=" w-full">
+            <h2 className="text-2xl font-bold">
+              {t("admin.project.reviewArticle")}
+            </h2></div>
+            <div className="w-full flex flex-wrap round mt-6 items-center gap-4">
+              <Button
+                className="bg-secondary hover:bg-secondary/80 cursor-pointer text-white"
+                disabled={loading}
+                onClick={() => handleReview("Accepted")}
+              >
+                {loading ? t("project.acceptProces") : t("article.accept")}
+              </Button>
+              <Button
+                className="bg-red-600 hover:bg-red-600/80 cursor-pointer text-white"
+                disabled={loading}
+                onClick={() => handleReview("Rejected")}
+              >
+                {loading ? t("project.acceptProces") : t("article.reject")}
+              </Button>
+            </div>
+          </div>
+        
+      )}
       <div
         className={` ${
           article.type === "pdf" ? "max-w-6xl" : "max-w-4xl"
@@ -81,8 +128,8 @@ const NewsDetail = () => {
       >
         <Link
           href={`${
-            user.role === "admin" ? "/admin/articles" : `/news/national`
-          }`}
+            user && user.role === "admin" ? "/admin/articles" : `/news/national`
+          } `}
           className="inline-flex items-center text-orange-600 hover:text-orange-700 mb-6"
         >
           <ArrowLeft className="h-4 w-4 mr-2" />
@@ -110,16 +157,16 @@ const NewsDetail = () => {
                   {article && article.category}
                 </span> */}
               </div>
-              {user.role === "actor" && (
+              {/* {user && user.role === "actor" && ( */}
                 <ShareModal
                   url={
                     typeof window !== "undefined" ? window.location.href : ""
                   }
                   title={article && article.title}
                 />
-              )}
+              {/* )} */}
             </div>
-             <p className="text-gray-600 mb-6">
+            <p className="text-gray-600 mb-6">
               {t("admin.articles.by")} {article && article.source}
             </p>
 
@@ -127,7 +174,6 @@ const NewsDetail = () => {
               {article.title}
             </h1>
 
-           
             {/* <p className="text-gray-600 mb-6">
               {article && article.description}
             </p> */}
@@ -203,16 +249,16 @@ const NewsDetail = () => {
 
             {article.type === "pdf" && article.documentUrl && (
               <>
-              <div className="w-full h-[100vh] py-10">
-                <iframe
-                  src={`https://docs.google.com/gview?url=${encodeURIComponent(
-                    article.documentUrl
-                  )}&embedded=true`}
-                  className="w-full h-[600px] border rounded-lg"
-                  title={article.title}
-                  frameBorder="0"
-                />
-              </div>
+                <div className="w-full h-[100vh] py-10">
+                  <iframe
+                    src={`https://docs.google.com/gview?url=${encodeURIComponent(
+                      article.documentUrl
+                    )}&embedded=true`}
+                    className="w-full h-[600px] border rounded-lg"
+                    title={article.title}
+                    frameBorder="0"
+                  />
+                </div>
                 <div className="mt-8 pt-6 border-t border-gray-200">
                   <div className="flex items-center justify-between">
                     <div className="flex space-x-4 mt-2">
@@ -273,7 +319,7 @@ const NewsDetail = () => {
               </>
             )}
           </div>
-          {(user && (user.role === "admin" || user.uid === article.authorId)) && (
+          {user && (user.role === "admin" || user.uid === article.authorId) && (
             <DeleteArticleButton articleId={article.id} />
           )}
         </article>
