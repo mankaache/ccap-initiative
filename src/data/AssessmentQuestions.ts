@@ -8,20 +8,7 @@ export interface QuestionData {
 }
 
 export const sampleQuestions: QuestionData[] = [
-  {
-    id: 1,
-    title: "Genre",
-    yesNoQuestion:
-      "Est-ce que le projet intègre l’aspect genre dans sa mise en œuvre?",
-    checkboxLabel: "Moyens(Comment et propositions de réponse) de gestion du genre",
-    checkboxOptions: [
-        "stratégie genre",
-        "politique genre",
-        "Liste de présence "
-
-    ],
-    fileUploadLabel: "Chargée un Fichier (facultatif)",
-  },
+  
   {
     id: 2,
     title: "Participation",
@@ -266,6 +253,20 @@ export const sampleQuestions: QuestionData[] = [
     checkboxOptions: [
       "les articles de référence",
       "Rapport annuel",
+    ],
+    fileUploadLabel: "Chargée un Fichier (facultatif)",
+  },
+  {
+    id: 24,
+    title: "Genre",
+    yesNoQuestion:
+      "Est-ce que le projet intègre l’aspect genre dans sa mise en œuvre?",
+    checkboxLabel: "Moyens(Comment et propositions de réponse) de gestion du genre",
+    checkboxOptions: [
+        "stratégie genre",
+        "politique genre",
+        "Liste de présence "
+
     ],
     fileUploadLabel: "Chargée un Fichier (facultatif)",
   },
