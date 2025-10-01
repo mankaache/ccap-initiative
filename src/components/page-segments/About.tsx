@@ -172,7 +172,7 @@ const About = () => {
                   <li className="font-semibold text-lg">{t('about.access')}</li> 
                   {t('about.accessDesc')}
                 </ul>
-                <Link className="text-primary underline font-semibold text-lg hover:underline" href={'#'}>👉 {t('about.link')}</Link>
+                <Link className="text-primary underline font-semibold text-lg hover:underline" href={'/documents/Comment utiliser CCAP.pdf'} download={true}>👉 {t('about.link')}</Link>
         </div>
       </section>
 

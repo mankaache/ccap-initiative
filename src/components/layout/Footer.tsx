@@ -117,14 +117,15 @@ const Footer = () => {
                   {t("footer.doc")}
                 </Link>
               </li>
-              {/* <li>
+              <li>
                 <Link
-                  href=""
+                  href="/documents/Comment utiliser CCAP.pdf"
+                  download={true}
                   className="text-background/80 hover:text-primary transition-colors"
                 >
                   {t("footer.trans")}
                 </Link>
-              </li> */}
+              </li>
             </ul>
           </div>
 
