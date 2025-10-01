@@ -36,7 +36,7 @@ export default function AdminSignupPage() {
     setLoading(true);
     try {
       await signUpAdmin(form);
-      toast.success(`${t("auth.signupSucess'")}`);
+      toast.success(`${t("auth.signupSucess")}`);
       router.push("/auth/please");
     } catch (err: any) {
       setError(err.message);
