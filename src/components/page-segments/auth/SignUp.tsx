@@ -48,7 +48,7 @@ const SignUp = () => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
-  const router = useRouter()
+  const router = useRouter();
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -64,7 +64,7 @@ const SignUp = () => {
     setLoading(true);
     try {
       const res = await signUpActor(formData);
-      console.log('res sign up', res);
+      console.log("res sign up", res);
       toast.success(`${t("auth.signupSucess")}`);
       router.push("/auth/please");
     } catch (err: any) {
@@ -158,7 +158,7 @@ const SignUp = () => {
                   </div>
                 </div>
 
-                <Label className="mb-1 text-sm">{t('auth.actor')}</Label>
+                <Label className="mb-1 text-sm">{t("auth.actor")}</Label>
 
                 <Select
                   value={formData.actorCategory}
@@ -167,7 +167,7 @@ const SignUp = () => {
                   }
                 >
                   <SelectTrigger className="w-full">
-                    <SelectValue placeholder={t('auth.actorDesc')} />
+                    <SelectValue placeholder={t("auth.actorDesc")} />
                   </SelectTrigger>
                   <SelectContent>
                     {actorCategories.map((cat) => (
@@ -205,10 +205,16 @@ const SignUp = () => {
                       )}
                     </button>
                   </div>
+                  <div>
+                    <ul className="list list-disc text-gray-600 text-xs pl-10 pt-2">
+                      <li className="">{t("auth.passwordCondition1")}</li>
+                      <li>{t("auth.passwordCondition2")}</li>
+                    </ul>
+                  </div>
                 </div>
 
                 <div>
-                  <Label htmlFor="confirmPassword"  className="mb-2">
+                  <Label htmlFor="confirmPassword" className="mb-2">
                     {t("auth.confirm_password")}
                   </Label>
                   <div className="relative mt-1 mb-0">
@@ -292,14 +298,13 @@ const SignUp = () => {
                   </div>*/}
                 </div>
 
-
                 <Button
                   type="submit"
                   disabled={loading}
                   className="w-full bg-gradient-hero hover:opacity-90 shadow-climate"
                 >
                   {/* {t("auth.button1")} */}
-                  {loading ? t('auth.creating') : t('auth.signUp')}
+                  {loading ? t("auth.creating") : t("auth.signUp")}
                 </Button>
 
                 {/* {loading ? (

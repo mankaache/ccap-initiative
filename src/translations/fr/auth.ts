@@ -83,7 +83,9 @@ export const auth = {
     'auth.uploadFailed' : 'Échec du téléchargement.',
     'auth.createAdmin' : 'Créer un compte administrateur',
     'auth.adminInviteKey' : 'Clé d\'invitation administrateur',
-    'auth.adminBtn' : 'S\'inscrire en tant qu\'administrateur'
+    'auth.adminBtn' : 'S\'inscrire en tant qu\'administrateur',
+    'auth.passwordCondition1' : 'Le mot de passe doit comporter au moins 8 caractères',
+    'auth.passwordCondition2' : 'Il doit contenir au moins une lettre majuscule, un chiffre et un caractère spécial(@, #, $, %) .'
 
 
 }

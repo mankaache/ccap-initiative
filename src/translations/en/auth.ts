@@ -83,7 +83,9 @@ export const auth = {
     'auth.uploadFailed':'Failed to upload.',
     'auth.createAdmin':'Create Admin Account',
     'auth.adminInviteKey':'Admin Invite Key',
-    'auth.adminBtn':'Sign Up as Admin'
+    'auth.adminBtn':'Sign Up as Admin',
+    'auth.passwordCondition1':'Password must be at least 8 characters long ',
+    'auth.passwordCondition2':'Include at least one uppercase letter, one number, and one special character(@, #, $, %) '
 
 
 
