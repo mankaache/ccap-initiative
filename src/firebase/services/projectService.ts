@@ -278,6 +278,7 @@ export async function createOrganisation({
   });
 
   // Return created object with id
+  
   return {
     id: docRef.id,
     name,
@@ -344,6 +345,7 @@ export async function createProjectAndMaybeOrganisation(
       subcategory: projectInput.subcategory || null,
       description: projectInput.orgdescription || null,
     });
+    await new Promise(resolve => setTimeout(resolve, 500));
   }
 
   // 2. Create project doc (without images URLs yet)
@@ -386,7 +388,9 @@ export async function createProjectAndMaybeOrganisation(
   }
 
   // 4. Add project id to organisation.projects array
+  
   const orgDocRef = doc(db, "organisations", organisation.id);
+
   await updateDoc(orgDocRef, {
     projects: arrayUnion(projectId),
   });

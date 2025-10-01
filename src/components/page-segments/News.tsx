@@ -78,7 +78,7 @@ const { t } = useTranslation();
       <NewsHero
         image={national}
         title={`${t('actor.newstitle')}`}
-        desc="Stay updated with the latest climate change news and developments in Cameroon"
+        desc={t('admin.news.desc')}
       />
       <div>
           {

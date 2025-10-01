@@ -232,6 +232,10 @@ const CreateProject = ({ projectId }: { projectId?: string }) => {
         programs: newProgram.trim()
           ? [...organizationData.programs, newProgram.trim()]
           : organizationData.programs,
+          partners: newPartner.trim()
+        ? [...organizationData.partners, newPartner.trim()]
+        : organizationData.partners,
+      organizationName: selectedName,
         images,
       };
 
@@ -241,7 +245,7 @@ const CreateProject = ({ projectId }: { projectId?: string }) => {
       toast.success(`${t("admin.project.success")}`);
       user && user.role === 'admin' ? router.push('/admin/subject-review') : router.push('/subject-review')
       // e.g. go to the project view
-      user.role === "admin" ? router.push(`/admin/projects`) : router.push(`/`);
+      // user.role === "admin" ? router.push(`/admin/projects`) : router.push(`/`);
     } catch (err: any) {
       setError(err.message || "Failed to create project.");
       console.error(err);
@@ -263,9 +267,10 @@ const CreateProject = ({ projectId }: { projectId?: string }) => {
       programs: newProgram.trim()
         ? [...organizationData.programs, newProgram.trim()]
         : organizationData.programs,
-      partners: newPartner.trim()
+        partners: newPartner.trim()
         ? [...organizationData.partners, newPartner.trim()]
         : organizationData.partners,
+      organizationName: selectedName,
       images,
     });
     setLoading(true);
@@ -288,6 +293,10 @@ const CreateProject = ({ projectId }: { projectId?: string }) => {
         programs: newProgram.trim()
           ? [...organizationData.programs, newProgram.trim()]
           : organizationData.programs,
+        partners: newPartner.trim()
+        ? [...organizationData.partners, newPartner.trim()]
+        : organizationData.partners,
+      organizationName: selectedName,
       };
 
       const project = await updateProject(projectId as string, input, images);
@@ -314,7 +323,7 @@ const CreateProject = ({ projectId }: { projectId?: string }) => {
         ...prevData,
         partners: [...prevData.partners, newPartner.trim()],
       }));
-      setNewProgram("");
+      setNewPartner("");
     }
   };
 
@@ -726,7 +735,6 @@ const CreateProject = ({ projectId }: { projectId?: string }) => {
                     value={newProgram}
                     onChange={(e) => setNewProgram(e.target.value)}
                     className="flex-1"
-                    required
                   />
                   <Button
                     type="button"

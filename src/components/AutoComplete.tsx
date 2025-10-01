@@ -155,7 +155,7 @@ export default function AutocompleteInput({
                   onClick={() => handleSelectOption(option)}
                   className="px-4 py-3 hover:bg-blue-50 cursor-pointer flex items-center justify-between border-b border-gray-100 last:border-b-0 transition-colors duration-150"
                 >
-                  <span className="text-gray-800">{option}</span>
+                  <span className="text-gray-800 uppercase">{option}</span>
                   {value === option && (
                     <Check className="w-4 h-4 text-blue-600" />
                   )}

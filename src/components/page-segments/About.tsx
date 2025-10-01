@@ -8,17 +8,7 @@ import {
   Users,
   Target,
   Eye,
-  Heart,
-  Award,
-  Globe,
-  TrendingUp,
-  Shield,
-  Calendar,
-  DollarSign,
   TreePine,
-  Lightbulb,
-  Trophy,
-  Medal,
 } from "lucide-react";
 import aboutImage from "@/assets/about.jpg";
 import Image from "next/image";
@@ -26,6 +16,7 @@ import { useTranslation } from "@/hooks/useTranslation";
 import Link from "next/link";
 import News from "./News";
 import Newsletter from "./NewsLetter";
+import flag from '@/assets/Nepac.jpg'
 const About = () => {
   const { t } = useTranslation();
   return (
@@ -181,7 +172,7 @@ const About = () => {
                   <li className="font-semibold text-lg">{t('about.access')}</li> 
                   {t('about.accessDesc')}
                 </ul>
-                <Link className="text-primary underline font-semibold text-lg hover:underline" href={'#'}>👉 {t('about.link')}</Link>
+                <Link className="text-primary underline font-semibold text-lg hover:underline" href={'/documents/Comment utiliser CCAP.pdf'} download={true}>👉 {t('about.link')}</Link>
         </div>
       </section>
 
@@ -189,7 +180,7 @@ const About = () => {
       {/* take our story section */}
 
       {/* Partners Section */}
-      <section className="py-10">
+      <section className="py-10 max-w-[1350px] mx-auto">
         <div className="max-w-[1350px]  mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <Badge
@@ -204,12 +195,25 @@ const About = () => {
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
               {t("about.working")}
             </p>
+            <div className=" py-5">
+              <div className="flex flex-col items-center">
+                <div className="relative text-center w-32 h-32 rounded-full ">
+                  <Image
+                    src={flag}
+                    fill
+                    alt="Climate action in Cameroon"
+                    className="w-full h-full object-cover rounded-full"
+                  />
+                </div>
+                <p className="mt-2 font-bold text-lg uppercase">NEPAC</p>
+              </div>
+            </div>
           </div>
           <div className="text-center">
             <h3 className="text-2xl font-semibold text-foreground mb-8">
               {t("about.govtPartners")}
             </h3>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 place-items-center">
               <div className="bg-card rounded-lg p-6 shadow">
                 <h4 className="font-medium text-foreground">
                   {t('about.ministry1')}

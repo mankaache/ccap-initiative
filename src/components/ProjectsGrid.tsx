@@ -71,7 +71,7 @@ const ProjectsGrid = ({ projects }: ProjectsGridProps) => {
         </div>
       
       </div> 
-      <div className="flex gap-2 mb-8 flex-wrap justify-end">
+      {/* <div className="flex gap-2 mb-8 flex-wrap justify-end">
             <Badge variant="outline" className="status-ongoing">
               {projects.filter(p => p.status === "ongoing").length} {t('projects.ongoing')}
             </Badge>
@@ -81,7 +81,7 @@ const ProjectsGrid = ({ projects }: ProjectsGridProps) => {
             <Badge variant="outline" className="status-planned">
               {projects.filter(p => p.status === "planned").length} {t('projects.planned')}
             </Badge>
-          </div>
+          </div> */}
 
       
         

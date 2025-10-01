@@ -9,7 +9,7 @@ import { Input } from '@/components/ui/input';
 import { Progress } from '@/components/ui/progress';
 import { Plus, Search, Briefcase, Calendar, MapPin, DollarSign, Eye } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { fetchAllProjects } from '@/firebase/services/projectService';
+import { fetchAcceptedProjects, fetchAllProjects } from '@/firebase/services/projectService';
 import { toast } from 'react-toastify';
 import ProjectCard from '@/components/ProjectCard';
 import FullPageLoader from '@/components/layout/FullPageLoader';
@@ -27,7 +27,7 @@ export default function ProjectsList() {
     const fetchProjects = async () => {
       try {
         setLoading(true);
-        const data = await fetchAllProjects();
+        const data = await fetchAcceptedProjects();
         setProjects(data as any);
       } catch (err) {
         console.error(err);

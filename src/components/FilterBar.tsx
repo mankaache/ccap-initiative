@@ -121,7 +121,7 @@ const FilterBar = ({ activeFilters, onFilterChange, options }: Props) => {
               onClick={clearAllFilters}
               className="text-muted-foreground hover:text-foreground"
             >
-              Clear All
+             {t('project.clearAll')}
             </Button>
           )}
         </div>

@@ -24,9 +24,8 @@ const SubActorCategory = () => {
           try {
             setLoading(true);
             const allOrga = await fetchOrganisationsWithSubcategory();
-            const allOrga2 = await fetchAllOrganisations()
             setOrga(allOrga as any);
-            console.log('allOrga', allOrga, 'allOrga2', allOrga2);
+            console.log('allOrga', allOrga);
           } catch (err) {
             console.error(err);
             toast.error("Failed to fetch articles");
@@ -40,12 +39,14 @@ const SubActorCategory = () => {
 
   const filteredOrganizations = subcategory 
     ? orga?.filter(
-        //@ts-ignore
-        (org) => org.category.toLowerCase() === category && org.subcategory.toLowerCase() === subcategory
+        // @ts-ignore
+        (org) => org.category.toLowerCase() === category && org?.subcategory.toLowerCase() === decodeURIComponent(subcategory).trim().toLowerCase()
       )
     : orga?.filter(
         (org) => org.category.toLowerCase() === category
       );
+
+      console.log(filteredOrganizations)
 
   const title = getCategoryTitle(category, subcategory);
   const parentTitle = subcategory ? getCategoryTitle(category) : null;

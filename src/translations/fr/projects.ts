@@ -117,5 +117,5 @@ export const projects = {
   'project.selected':'choisie',
   'project.noOrg':'Aucun acteur trouvé',
   'project.underReview':' Merci pour votre soumission ! 🎉 Nous sommes en train de l\'examiner. Veuillez revenir plus tard pour voir si elle a été acceptée ou rejetée.',
-
+'project.clearAll':'Tout effacer',
 }

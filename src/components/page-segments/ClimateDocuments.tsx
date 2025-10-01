@@ -141,7 +141,7 @@ const ClimateDocuments = () => {
                     {document.title}
                   </h3>
 
-                  <p className="text-muted-foreground mb-4 leading-relaxed text-sm">
+                  <p className="text-muted-foreground mb-4 line-clamp-3 leading-relaxed text-sm">
                     {document.description}
                   </p>
 

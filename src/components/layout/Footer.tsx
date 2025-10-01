@@ -2,9 +2,7 @@
 import { useTranslation } from "@/hooks/useTranslation";
 import { Facebook, Twitter, Linkedin, Mail, Phone, MapPin } from "lucide-react";
 import Link from "next/link";
-import flag from "@/assets/flag.png";
-import gda from "@/assets/GDA.png";
-import said from "@/assets/Said.png";
+import flag from "@/assets/Nepac.jpg";
 import Image from "next/image";
 
 const Footer = () => {
@@ -54,7 +52,7 @@ const Footer = () => {
                 {t("about.foundersTitle")}
               </h2>
               <div className="flex items-center flex-wrap gap-4 ">
-                <div className="relative text-center w-12 h-12 rounded-full ">
+                <div className="relative text-center w-16 h-16 rounded-full ">
                   <Image
                     src={flag}
                     fill
@@ -86,7 +84,7 @@ const Footer = () => {
             <h3 className="text-lg font-semibold text-background mb-4">
               {t("footer.quick")}
             </h3>
-            <ul className="space-y-2">
+            <ul className="space-y-4">
               <li>
                 <Link
                   href="/about"
@@ -105,7 +103,7 @@ const Footer = () => {
               </li>
               <li>
                 <Link
-                  href="/news/international"
+                  href="/news/national"
                   className="text-background/80 hover:text-primary transition-colors"
                 >
                   {t("footer.news")}
@@ -121,7 +119,8 @@ const Footer = () => {
               </li>
               <li>
                 <Link
-                  href="/project-transparency"
+                  href="/documents/Comment utiliser CCAP.pdf"
+                  download={true}
                   className="text-background/80 hover:text-primary transition-colors"
                 >
                   {t("footer.trans")}
@@ -138,15 +137,16 @@ const Footer = () => {
             <ul className="space-y-3">
               <li className="flex items-center gap-2 text-background/80">
                 <MapPin className="h-4 w-4 text-primary shrink-0" />
-                <span className="text-sm">Yaoundé, Cameroon</span>
+                <span className="text-sm">1087 rue Mengue Tsogo Elig Essono district, 
+                  <br />11955 Yaoundé – Cameroon</span>
               </li>
               <li className="flex items-center gap-2 text-background/80">
                 <Phone className="h-4 w-4 text-primary shrink-0" />
-                <span className="text-sm">+237 XXX XXX XXX</span>
+                <span className="text-sm">+237 222 234 945 / +237 696 666 132</span>
               </li>
               <li className="flex items-center gap-2 text-background/80">
                 <Mail className="h-4 w-4 text-primary shrink-0" />
-                <span className="text-sm">info@ccap-cameroon.org</span>
+                <span className="text-sm">info@agroecology-cmr.org</span>
               </li>
             </ul>
           </div>

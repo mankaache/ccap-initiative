@@ -117,5 +117,5 @@ export const projects = {
   'project.selected':'selected',
   'project.noOrg':'No actors found',
   'project.underReview':' Thanks for your submission! 🎉 We’re reviewing it now. Please check back later to see if it’s been accepted or rejected.',
-
+'project.clearAll':'Clear All',
 };

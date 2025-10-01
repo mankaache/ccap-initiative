@@ -119,7 +119,7 @@ const ProjectDetails = () => {
             {t('admin.articles.msg2')}
           </Button>
 
-          <div className="flex flex-col lg:flex-row items-start justify-between gap-6">
+          <div className="flex flex-col items-start  gap-6">
             <div className="flex-1">
               <div className="flex items-center gap-3 mb-4">
                 <Badge
@@ -144,7 +144,7 @@ const ProjectDetails = () => {
                 {project && project.ProjectTitle}
               </h1>
 
-              <p className="text-xl text-white/90 mb-6 max-w-3xl">
+              <p className="text-xl text-white/90 mb-6">
                 {project && project.projectDescription}
               </p>
 
@@ -159,7 +159,7 @@ const ProjectDetails = () => {
                   })}
                   </div>
                 <div className="flex items-center gap-2">
-                  <span>{project && project.budgetAmount} XAF</span>
+                  <span>{project && project.budgetAmount}XAF</span>
                 </div>
               </div>
                
@@ -167,7 +167,7 @@ const ProjectDetails = () => {
 
           <div>
              <Link
-                    className="bg-gradient-to-l from-primary to-secondary text-white py-2 px-4 rounded text-sm"
+                    className="bg-gradient-to-l from-primary  to-secondary text-white py-2 px-4 rounded font-semibold"
                     href={`${pathname}/demonstration`}
                   >
                     {t('admin.project.checkTransparency')}

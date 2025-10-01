@@ -49,7 +49,10 @@ const RegionInfoPanel = ({ region, projects, onClose }:any) => {
     p.region.some((r:any) => r.toLowerCase() === region?.toLowerCase())
   );
 
-  const totalBudget = regionProjects.reduce((sum:any, p:any) => sum + parseInt(p.budgetAmount), 0);
+ const totalBudget = regionProjects.reduce(
+  (sum: number, p: any) => sum + Number(p.budgetAmount.replace(/,/g, "")),
+  0
+);
   const statusCounts = regionProjects.reduce((acc:any, p:any) => {
     acc[p.status] = (acc[p.status] || 0) + 1;
     return acc;
@@ -258,7 +261,10 @@ const processedProjects = useMemo(() => {
           </div>
           <div className="text-center">
             <div className="text-lg font-bold text-green-600">
-              {filteredProjects.reduce((sum, p:any) => sum + parseInt(p.budgetAmount), 0).toLocaleString()} XAF
+              {filteredProjects.reduce(
+  (sum: number, p: any) => sum + Number(p.budgetAmount.replace(/,/g, "")),
+  0
+).toLocaleString()} XAF
             </div>
             <div className="text-xs text-gray-600">{t('map.totalInvestment')}</div>
           </div>

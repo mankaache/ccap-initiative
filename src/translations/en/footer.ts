@@ -5,7 +5,7 @@ export const footer = {
     'footer.climate':'Climate Projects',
     'footer.news':' News & Updates',
     'footer.doc': 'Climate Documents',
-    'footer.trans':'Project Transparency',
+    'footer.trans':'How to use',
 
     'footer.contact':'Contact Us',
     'footer.privacy':'Privacy Policy',
