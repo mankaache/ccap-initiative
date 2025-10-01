@@ -19,7 +19,7 @@ const OrganizationCard = ({ organization }: OrganizationCardProps) => {
     <Card className="group hover:shadow-hover transition-smooth bg-gradient-card border-border/50">
       <CardHeader className="">
         <div className="flex items-start justify-between">
-          <CardTitle className="text-lg font-semibold text-card-foreground group-hover:text-primary transition-fast">
+          <CardTitle className="text-lg uppercase font-semibold text-card-foreground group-hover:text-primary transition-fast">
             {organization.name}
           </CardTitle>
           {/* {organization.website && (
@@ -36,12 +36,7 @@ const OrganizationCard = ({ organization }: OrganizationCardProps) => {
           {organization.description}
         </p>
 
-        <div className="flex items-center gap-4 mb-4 mt-2 text-xs text-muted-foreground">
-          {/* <div className="flex items-center gap-1">
-            <MapPin className="h-3 w-3" />
-            {organization.location}
-          </div> */}
-        </div>
+        
 
         <Link
           href={ user?.role==='admin' ?  `/admin/actors/${organization.id}`:

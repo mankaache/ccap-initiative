@@ -72,7 +72,7 @@ const ProjectsPage = () => {
                   key={project.id}
                   className="h-full bg-gradient-card border-border shadow-elegant hover-lift transition-all duration-300"
                 >
-                  <CardHeader className="pb-3">
+                  <CardHeader className="">
                     <div className="flex items-start justify-between gap-3">
                       <CardTitle className="text-lg font-semibold text-foreground line-clamp-2 flex-1">
                         {project?.ProjectTitle}
@@ -80,10 +80,7 @@ const ProjectsPage = () => {
                     </div>
 
                     <div className="flex  flex-col gap-2 text-sm text-foreground">
-                     
-                    
-                    
-                    {project.region && project.region.length > 0 && (
+                    {/* {project.region && project.region.length > 0 && (
                       <div className="space-y-2">
                         <div className="text-xs flex gap-2 text-muted-foreground">
                           <MapPin className="h-4 w-4" /> {t("admin.project.region")}
@@ -93,7 +90,6 @@ const ProjectsPage = () => {
                             //@ts-ignore
 
                             project &&
-                              project.region &&
                               project.region
                                 .slice(0, 2)
                                 .map((program, index) => (
@@ -106,7 +102,6 @@ const ProjectsPage = () => {
                                 ))
                           }
                           {project &&
-                            project.region &&
                             project.region.length > 2 && (
                               <Badge className="text-xs">
                                 +
@@ -116,7 +111,7 @@ const ProjectsPage = () => {
                             )}
                         </div>
                       </div>
-                    )}
+                    )} */}
                     {project.specificLocation && project.specificLocation.length > 0 && (
                       <div className="space-y-2">
                         <div className="text-xs ">
@@ -127,17 +122,15 @@ const ProjectsPage = () => {
                             //@ts-ignore
 
                             project &&
-                              project.specificLocation &&
                               project.specificLocation
                                 .slice(0, 2)
                                 .map((program, index) => (
                                   <Badge
                                     key={index}
-                                    className="text-xs "
+                                   className="text-xs bg-transparent hover:bg-transparent border border-muted-foreground text-muted-foreground "
                                   >
                                     {
                                     //@ts-ignore
-                                    
                                     program.name}
                                   </Badge>
                                 ))
@@ -173,7 +166,7 @@ const ProjectsPage = () => {
                         {project && project.budgetAmount} XAF
                       </div>
 
-                      <div className="flex items-center gap-2">
+                      {/* <div className="flex items-center gap-2">
                         <Calendar className="h-4 w-4 text-secondary" />
                         <div className="text-xs text-muted-foreground">
                           {t("project.startDate")}
@@ -181,7 +174,7 @@ const ProjectsPage = () => {
                       </div>
                       <div className="text-muted-foreground">
                         {project && project.startDate}
-                      </div>
+                      </div> */}
                     </div>
 
                     {/* Funding Source */}
@@ -201,7 +194,7 @@ const ProjectsPage = () => {
                         <span>{t("project.keyActors")}</span>
                       </div>
                       <div className="flex flex-wrap gap-1">
-                        <p className="bg-secondary px-2 p-1 rounded-lg text-white text-sm uppercase">
+                        <p className="bg-secondary px-2 p-1 rounded-lg text-white text-xs uppercase">
                           {project && project.organizationName}
                         </p>
                       </div>
@@ -218,16 +211,16 @@ const ProjectsPage = () => {
                             //@ts-ignore
 
                             project &&
-                              project.programs &&
                               project.programs
                                 .slice(0, 2)
                                 .map((program, index) => (
                                   <Badge
-                                    key={index}
-                                    className="text-xs bg-accent/30"
-                                  >
-                                    {program}
-                                  </Badge>
+                                  key={index}
+                                 className="text-xs w-full truncate bg-transparent hover:bg-transparent border border-muted-foreground text-muted-foreground "
+                                   >
+                                  {program}
+                                </Badge>
+
                                 ))
                           }
                           {project &&
@@ -243,7 +236,6 @@ const ProjectsPage = () => {
                       </div>
                     )}
                     {project &&
-                      project.partners &&
                       project.partners.length > 0 && (
                         <div className="space-y-2">
                           <div className="text-xs text-muted-foreground">
@@ -258,11 +250,12 @@ const ProjectsPage = () => {
                                   .slice(0, 2)
                                   .map((program, index) => (
                                     <Badge
-                                      key={index}
-                                      className="text-xs bg-accent/30"
-                                    >
-                                      {program}
-                                    </Badge>
+                                    key={index}
+                                   className="text-xs bg-transparent w-full truncate hover:bg-transparent border border-muted-foreground text-muted-foreground "
+                                  >
+                                    {program}
+                                  </Badge>
+
                                   ))
                             }
                             {project.partners &&

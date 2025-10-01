@@ -3,7 +3,7 @@ export const about ={
 'about.heroTitle1': 'Monitoring Climate Change',
 'about.heroTitle2': 'One Project at a time',
 'about.desc':' Promoting transparency and accountability in climatic endeavors in Cameroon.',
-'about.foundersTitle':'Founding Organisations',
+'about.foundersTitle':'Founding Organisation',
 
 'about.foundation': 'Our Foundation',
 'about.driving':'Driving Climate Transparency',

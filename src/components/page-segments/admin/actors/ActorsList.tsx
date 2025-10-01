@@ -26,6 +26,7 @@ const { t } = useTranslation();
           setLoading(true);
           const data = await fetchAllOrganisations();
           setOrga(data as any);
+          console.log('orga', data);
         } catch (err) {
           console.error(err);
           console.error("Failed to load projects.");

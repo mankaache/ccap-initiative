@@ -90,7 +90,7 @@ const ActorOrganisation = () => {
       <main className="min-h-screen max-w-5xl mx-auto mt-5 px-4 lg:px-8 py-8">
         {/* Organization header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold">
+          <h1 className="text-3xl uppercase font-bold">
             {
             //@ts-ignore
             oneOrganization.name}</h1>

@@ -3,7 +3,7 @@ export const about ={
 'about.heroTitle1' : 'Surveillance du changement climatique',
 'about.heroTitle2' : 'Un projet à la fois',
 'about.desc' : 'Promouvoir la transparence et la responsabilité dans les initiatives climatiques au Cameroun.',
-'about.foundersTitle' : 'Organisations fondatrices',
+'about.foundersTitle' : 'Organization fondatrice',
 
 'about.foundation' : 'Notre fondation',
 'about.driving' : 'Promouvoir la transparence climatique',

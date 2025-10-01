@@ -66,17 +66,7 @@ const NotFound = () => {
           </div>
         </div>
 
-        {/* Additional Help Section */}
-        <div className="bg-white rounded-2xl shadow-xl p-8 md:p-12 border-t-4" style={{ borderTopColor: '#ffa500' }}>
-          <div className="text-center mb-8">
-            <div className="inline-flex p-3 rounded-full mb-4" style={{ backgroundColor: 'rgba(255, 165, 0, 0.1)' }}>
-              <HelpCircle size={32} style={{ color: '#ffa500' }} />
-            </div>
-            <h3 className="text-2xl font-bold text-slate-800 mb-4">
-              {t('notFound.cando')}
-            </h3>
-          </div>      
-        </div>
+      
 
         {/* Decorative Elements */}
         <div className="fixed top-10 left-10 w-20 h-20 rounded-full opacity-20 animate-pulse" style={{ backgroundColor: '#ffa500' }}></div>
