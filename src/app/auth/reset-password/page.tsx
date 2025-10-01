@@ -60,6 +60,16 @@ function ResetPasswordContent() {
           onChange={(e) => setPassword(e.target.value)}
           className="w-full p-2 border rounded"
         />
+          <div>
+            <ul className="list list-disc text-gray-600 text-xs pl-10 pt-2">
+              <li className="">
+                {t('auth.passwordCondition1')} 
+              </li>
+              <li>
+                {t('auth.passwordCondition2')}
+              </li>
+            </ul>
+          </div>
         <Input
           type="password"
           placeholder={t('auth.confirmPassword')}
