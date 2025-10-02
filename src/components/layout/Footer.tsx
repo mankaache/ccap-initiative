@@ -48,9 +48,9 @@ const Footer = () => {
             </div>
 
             <div className="mt-7">
-              <h2 className=" text-background mb-3 capitalize">
+              {/* <h2 className=" text-background mb-3 capitalize">
                 {t("about.foundersTitle")}
-              </h2>
+              </h2> */}
               <div className="flex items-center flex-wrap gap-4 ">
                 <div className="relative text-center w-16 h-16 rounded-full ">
                   <Image
