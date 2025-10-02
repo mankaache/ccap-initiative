@@ -39,7 +39,7 @@ import { useTranslation } from "@/hooks/useTranslation";
 
 const ProjectDetailspage = () => {
   const router = useRouter();
-  const {t} = useTranslation()
+  const { t } = useTranslation();
   const { id } = useParams();
   const { user } = useAuth();
   const [project, setProject] = useState<any>(null);
@@ -67,11 +67,11 @@ const ProjectDetailspage = () => {
     try {
       setLoading(true);
       await updateProjectReview(id as string, status);
-      toast.success(`${t('admin.project.hasbeen')} ${status.toLowerCase()}.`);
+      toast.success(`${t("admin.project.hasbeen")} ${status.toLowerCase()}.`);
       router.back();
     } catch (err: any) {
       console.error(err);
-      toast.error(`${t('admin.project.failed')}`);
+      toast.error(`${t("admin.project.failed")}`);
     } finally {
       setLoading(false);
     }
@@ -93,10 +93,12 @@ const ProjectDetailspage = () => {
           className="inline-flex bg-transparent  items-center gap-2 font-bold text-primary hover:text-primary mt-4"
         >
           <ArrowLeft className="h-5 w-5" />
-         {t('admin.document.back')}
+          {t("admin.document.back")}
         </Button>
         <div className="max-w-5xl h-[70vh] flex justify-center items-centermx-auto px-4 py-8">
-          <h2 className="text-xl font-bold text-red-500">{t('admin.project.notFound')}</h2>
+          <h2 className="text-xl font-bold text-red-500">
+            {t("admin.project.notFound")}
+          </h2>
         </div>
       </div>
     );
@@ -126,7 +128,7 @@ const ProjectDetailspage = () => {
             className="inline-flex border-none bg-transparent items-center gap-2 text-white/80 hover:text-white mb-6 transition-colors"
           >
             <ArrowLeft className="h-4 w-4" />
-          {t('admin.document.back')}
+            {t("admin.document.back")}
           </Button>
 
           <div className="flex flex-col items-start gap-6 w-full">
@@ -164,42 +166,54 @@ const ProjectDetailspage = () => {
                   <span>{project && project.region}</span>
                 </div>
                 <div className="  flex items-center gap-3">
-                    {project && project.specificLocation.map((loc:any, indx:number)=>{
-                      <span key={indx}> <MapPin className="h-5 w-5" /> {loc.name}</span>
-                  })}
-                  </div>
+                  {project &&
+                    project.specificLocation.map((loc: any, indx: number) => {
+                      <span key={indx}>
+                        {" "}
+                        <MapPin className="h-5 w-5" /> {loc.name}
+                      </span>;
+                    })}
+                </div>
                 <div className="flex items-center gap-2 font-semibold">
                   <span>{project && project.budgetAmount} XAF</span>
                 </div>
               </div>
             </div>
-            {(user && user.role === "admin") && (project.projectReview !== "Accepted") && (project.projectReview !== "Rejected") &&(
-              <div>
-                <div>
-                  <h2 className="text-2xl font-bold text-white">
-                   {t('admin.project.reviewProject')}
-                  </h2>
-                  <div className="w-full flex round mt-6 items-center gap-4">
-                    <Button
-                      className="bg-secondary hover:bg-secondary/80 cursor-pointer text-white"
-                      disabled={loading}
-                      onClick={() => handleReview("Accepted")}
-                    >
-                      {loading ? t('project.acceptProces') : t('project.accept')}
-                    </Button>
-                    <Button
-                      className="bg-red-600 hover:bg-red-600/80 cursor-pointer text-white"
-                      disabled={loading}
-                      onClick={() => handleReview("Rejected")}
-                    >
-                      {loading ? t("project.acceptProces") : t("project.reject")}
-                    </Button>
-                  </div>
-                </div>
-                <DeleteProjectButton projectId={project && project.id} />
-              </div>
-            )}
-
+            <div>
+              {user &&
+                user.role === "admin" &&
+                project.projectReview !== "Accepted" &&
+                project.projectReview !== "Rejected" && (
+                  
+                    <div>
+                      <h2 className="text-2xl font-bold text-white">
+                        {t("admin.project.reviewProject")}
+                      </h2>
+                      <div className="w-full flex round mt-6 items-center gap-4">
+                        <Button
+                          className="bg-secondary hover:bg-secondary/80 cursor-pointer text-white"
+                          disabled={loading}
+                          onClick={() => handleReview("Accepted")}
+                        >
+                          {loading
+                            ? t("project.acceptProces")
+                            : t("project.accept")}
+                        </Button>
+                        <Button
+                          className="bg-red-600 hover:bg-red-600/80 cursor-pointer text-white"
+                          disabled={loading}
+                          onClick={() => handleReview("Rejected")}
+                        >
+                          {loading
+                            ? t("project.acceptProces")
+                            : t("project.reject")}
+                        </Button>
+                      </div>
+                    </div>
+                
+                )}
+              <DeleteProjectButton projectId={project && project.id} />
+            </div>
             {/* {project && project && (
             //   <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 border border-white/20">
             //     <div className="text-center">
@@ -233,7 +247,9 @@ const ProjectDetailspage = () => {
               </CardHeader>
               <CardContent className="space-y-6">
                 <div>
-                  <h3 className="font-semibold text-lg mb-2">{t('admin.project.projectType')}</h3>
+                  <h3 className="font-semibold text-lg mb-2">
+                    {t("admin.project.projectType")}
+                  </h3>
                   <p className="text-muted-foreground">
                     {project && project.projectType}
                   </p>
@@ -241,7 +257,9 @@ const ProjectDetailspage = () => {
 
                 <Separator />
                 <div>
-                  <h3 className="font-semibold text-lg mb-2">{t('admin.project.projectReview')}</h3>
+                  <h3 className="font-semibold text-lg mb-2">
+                    {t("admin.project.projectReview")}
+                  </h3>
                   <p className="text-muted-foreground font-semibold text-primary">
                     {project && project.projectReview}
                   </p>
@@ -251,7 +269,7 @@ const ProjectDetailspage = () => {
 
                 <div>
                   <h3 className="font-semibold text-lg mb-2">
-                    {t('admin.project.interventionLogic')}
+                    {t("admin.project.interventionLogic")}
                   </h3>
                   <p className="text-muted-foreground">
                     {project && project.interventionLogic}
@@ -265,7 +283,7 @@ const ProjectDetailspage = () => {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Target className="h-5 w-5 text-primary" />
-                  {t('admin.project.specificObjective')}
+                  {t("admin.project.specificObjective")}
                 </CardTitle>
               </CardHeader>
               <CardContent>
@@ -280,7 +298,7 @@ const ProjectDetailspage = () => {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <TrendingUp className="h-5 w-5 text-primary" />
-                  {t('admin.project.programs')}
+                  {t("admin.project.programs")}
                 </CardTitle>
               </CardHeader>
               <CardContent>
@@ -299,7 +317,7 @@ const ProjectDetailspage = () => {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <TrendingUp className="h-5 w-5 text-primary" />
-                  {t('admin.project.partners')}
+                  {t("admin.project.partners")}
                 </CardTitle>
               </CardHeader>
               <CardContent>
@@ -320,7 +338,7 @@ const ProjectDetailspage = () => {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Building className="h-5 w-5 text-primary" />
-                 {t('admin.project.orgInfo')}
+                  {t("admin.project.orgInfo")}
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
@@ -342,7 +360,7 @@ const ProjectDetailspage = () => {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Building className="h-5 w-5 text-primary" />
-                  {t('admin.project.images')}
+                  {t("admin.project.images")}
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
@@ -371,13 +389,15 @@ const ProjectDetailspage = () => {
             {/* Project Details */}
             <Card>
               <CardHeader>
-                <CardTitle>{t('admin.project.projectDetails')}</CardTitle>
+                <CardTitle>{t("admin.project.projectDetails")}</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="flex items-center gap-3 text-sm">
                   <CalendarIcon className="h-4 w-4 text-primary shrink-0" />
                   <div>
-                    <div className="font-medium">{t('admin.project.startDate')}</div>
+                    <div className="font-medium">
+                      {t("admin.project.startDate")}
+                    </div>
                     <div className="text-muted-foreground">
                       {project && project.startDate}
                     </div>
@@ -387,7 +407,9 @@ const ProjectDetailspage = () => {
                 <div className="flex items-center gap-3 text-sm">
                   <Clock className="h-4 w-4 text-ccap-orange shrink-0" />
                   <div>
-                    <div className="font-medium">{t('admin.project.endDate')}</div>
+                    <div className="font-medium">
+                      {t("admin.project.endDate")}
+                    </div>
                     <div className="text-muted-foreground">
                       {project && project.endDate}
                     </div>
@@ -399,7 +421,9 @@ const ProjectDetailspage = () => {
                 <div className="flex items-center gap-3 text-sm">
                   <DollarSign className="h-4 w-4 text-ccap-green shrink-0" />
                   <div>
-                    <div className="font-medium">{t('admin.project.budget')}</div>
+                    <div className="font-medium">
+                      {t("admin.project.budget")}
+                    </div>
                     <div className="text-muted-foreground">
                       {project && project.budgetAmount} XAF
                     </div>
@@ -409,7 +433,9 @@ const ProjectDetailspage = () => {
                 <div className="flex items-center gap-3 text-sm">
                   <Lightbulb className="h-4 w-4 text-blue-500 shrink-0" />
                   <div>
-                    <div className="font-medium">{t('admin.project.fundingSource')}</div>
+                    <div className="font-medium">
+                      {t("admin.project.fundingSource")}
+                    </div>
                     <div className="text-muted-foreground">
                       {project && project.fundingSource}
                     </div>
@@ -423,19 +449,27 @@ const ProjectDetailspage = () => {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <MapPin className="h-5 w-5 text-red-500" />
-                  {t('admin.project.locationDetails')}
+                  {t("admin.project.locationDetails")}
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-2">
-                  <div className="font-medium">{t('admin.project.specificLocation')}</div>
+                  <div className="font-medium">
+                    {t("admin.project.specificLocation")}
+                  </div>
                   <div className="  flex items-center gap-3">
-                    {project && project.specificLocation.map((loc:any, indx:number)=>{
-                      <span key={indx}> <MapPin className="h-5 w-5" /> {loc.name}</span>
-                  })}
+                    {project &&
+                      project.specificLocation.map((loc: any, indx: number) => {
+                        <span key={indx}>
+                          {" "}
+                          <MapPin className="h-5 w-5" /> {loc.name}
+                        </span>;
+                      })}
                   </div>
 
-                  <div className="font-medium mt-4">{t('admin.project.region')}</div>
+                  <div className="font-medium mt-4">
+                    {t("admin.project.region")}
+                  </div>
                   <div className="flex flex-wrap gap-2">
                     {project &&
                       project.region.map((area: any, index: any) => (
@@ -457,7 +491,7 @@ const ProjectDetailspage = () => {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Users className="h-5 w-5 text-purple-500" />
-                  {t('admin.project.keyActors')}
+                  {t("admin.project.keyActors")}
                 </CardTitle>
               </CardHeader>
               <CardContent>
