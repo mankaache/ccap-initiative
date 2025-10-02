@@ -212,7 +212,7 @@ const ProjectDetailspage = () => {
                     </div>
                 
                 )}
-              <DeleteProjectButton projectId={project && project.id} />
+             
             </div>
             {/* {project && project && (
             //   <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 border border-white/20">
@@ -510,6 +510,7 @@ const ProjectDetailspage = () => {
                 </div>
               </CardContent>
             </Card>
+             <DeleteProjectButton projectId={project && project.id} />
           </div>
         </div>
       </div>
