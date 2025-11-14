@@ -107,61 +107,7 @@ const Header = () => {
       .toUpperCase();
   };
   
-  // const navigation = [
-  //   { name: t('header.home'), href: "/" },
-  //   { name: t('header.about'), href: "/about" },
-  //  {
-  //   name: t('header.actor'),
-  //   href: "#",
-  //   dropdown: [
-  //     { name: t('header.actor.State'), 
-        
-  //       href: "#",
-  //       dropdown: getSubcategories('etatiques').map(subcat => ({
-  //         name: subcat.name,
-  //         href: `/actor/etatiques/${subcat.slug}`
-  //       }))
-  //     },
-  //     { 
-  //       name: t("header.actor.ONGI"), 
-  //       href: "#",
-  //       dropdown: getSubcategories('ongi').map(subcat => ({
-  //         name: subcat.name,
-  //         href: `/actor/ongi/${subcat.slug}`
-  //       }))
-  //     },
-  //     { name: t("header.actor.OSC"), href: "/actor/osc" },
-  //     { name: t("header.actor.OBC"), href: "/actor/obc" },
-  //     { 
-  //       name: t("header.actor.secteur-privee"), 
-  //       href: "#",
-  //       dropdown: getSubcategories('secteur-privee').map(subcat => ({
-  //         name: subcat.name,
-  //         href: `/actor/secteur-privee/${subcat.slug}`
-  //       }))
-  //     },
-  //     { name: 'CL', href: "/actor/cl" },
-  //   ],
-  // },
-  //   {
-  //     name: t('header.news'),
-  //     href: "/news/national",
-  //   },
-  //   {
-  //     name: t('header.climateDocuments'),
-  //     href: "#",
-  //     dropdown: [
-  //       { name: t('header.documents.international'), href: "/documents/international" },
-  //       { 
-  //         name: t('header.documents.regulations'), 
-  //         href: '/documents/regulation',
-         
-  //       },
-  //       { name: t('header.documents.national'), href: "/documents/national" },
-  //     ],
-  //   },
-  // ];
-// components/Header.tsx
+ 
 
 // First, update your navigation configuration to use the new structure:
 const navigation = [
@@ -196,12 +142,16 @@ const navigation = [
   },
   {
     name: t('header.climateDocuments'),
-    href: "#",
-    dropdown: [
-      { name: t('header.documents.international'), href: "/documents/international" },
-      { name: t('header.documents.national'), href: "/documents/national" },
-    ],
+    href: "/documents/national",
   },
+  // {
+  //   name: t('header.climateDocuments'),
+  //   href: "/documents/national",
+  //   dropdown: [
+  //     { name: t('header.documents.international'), href: "/documents/international" },
+  //     { name: t('header.documents.national'), href: "/documents/national" },
+  //   ],
+  // },
 ];
  
 const handleLogout = async () => {
@@ -279,14 +229,14 @@ const handleLogout = async () => {
                   <Button variant="ghost" className="h-10 w-10 rounded-full p-0">
                     <Avatar className="w-10 h-10">
                       <AvatarFallback className="bg-gradient-to-r from-secondary to-primary text-white font-semibold">
-                        { getInitials(user.firstName) || user.email!.split("@")[0]}
+                        { getInitials(user.firstName || user.fullName) || user.email!.split("@")[0]}
                       </AvatarFallback>
                     </Avatar>
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-56">
                   <div className="px-2 py-1.5 text-sm">
-                    <div className="font-medium">{user?.firstName}</div>
+                    <div className="font-medium">{user?.firstName || user.fullName}</div>
                     <div className="text-muted-foreground">{user?.email}</div>
                     <div className="text-xs bg-primary/10 text-primary px-2 py-1 rounded-full mt-1 inline-block">
                       {user?.role}

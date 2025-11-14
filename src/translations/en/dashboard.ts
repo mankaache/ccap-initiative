@@ -3,6 +3,7 @@ export const dashboard = {
     'admin.dashboard.totalProjects':'Total Projects',
     'admin.dashboard.totalDocuments':'Total Documents',
     'admin.dashboard.totalArticles':'Total Articles',
+    'admin.dashboard.totalUsers': 'Total Users',
 
     'admin.dashboard.addProjects':'New Projects',
     'admin.dashboard.addDocuments':'Add Documents',
@@ -64,6 +65,7 @@ export const dashboard = {
     'admin.document.msg':'The requested document could not be found.',
     'admin.document.regulation':'Regulation',
     'admin.document.document':'document',
+    'admin.document.document_review':'Documents under review',
     'admin.document.browse':' Browse and manage document library',
     'admin.document.add':'Add Document',
     'admin.document.search':'Search documents by title,type, category language...',
@@ -95,7 +97,7 @@ export const dashboard = {
     'admin.document.caseStudy':'Case Study',
     'admin.document.wordError':'Content preview cannot exceed 500 words.',
     'admin.document.format':'Please upload a document.',
-    'admin.document.success':'Document created successfully!',
+    'admin.document.success':'Document created successfully and is under review!',
     'admin.document.error':'Failed to create document. Please try again.',
     'admin.document.titleDesc':'Upload and catalog a new document in the library',
     'admin.document.titleField':'Document Title',
@@ -120,6 +122,7 @@ export const dashboard = {
     'admin.document.upload':'Upload Document',
     'admin.document.uploadDesc':'select a document to upload',
     'admin.document.loading':'Saving... ',
+     'admin.document.hasbeen':'Document has been updated',
     
     'admin.project.underReview':'Projects Under Review',
     'admin.project.partners':'Partners',
@@ -143,6 +146,7 @@ export const dashboard = {
     'admin.project.overview':'Project Overview',
     'admin.project.projectType':'Project Type',
     'admin.project.projectReview':'Project Review',
+    
     'admin.project.interventionLogic':'Intervention Logic',
     'admin.project.specificObjective':'Specific Objectives',
     'admin.project.startDate':'Start Date',

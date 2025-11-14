@@ -28,6 +28,13 @@ export const CATEGORIES_CONFIG: Record<string, Category> = {
     hasSubcategories: false,
 
   },
+  commune: {
+    slug: 'commune',
+    name: 'COMMUNE',
+    description: '',
+    hasSubcategories: false,
+
+  },
   osc: {
     slug: 'osc',
     name: 'OSC',

@@ -5,7 +5,8 @@ import { uploadFile } from "../cloudinary";
 export async function updateProject(
   projectId: string,
   updates: any,
-  newImages?: File[]
+  newImages?: File[],
+  newPdf?: File
 ) {
   const projectRef = doc(db, "projects", projectId);
   const projectSnap = await getDoc(projectRef);
@@ -24,13 +25,23 @@ export async function updateProject(
     );
   }
 
+ let pdfUrl = null;
+
+    if (newPdf) {
+      pdfUrl = await uploadFile(newPdf, "projects_preset");
+    } else if (old.pdf) {
+      pdfUrl = old.pdf; 
+    }
+
+
   await updateDoc(projectRef, {
     ...updates,
-    images: imageUrls, // always set images
+    images: imageUrls,
+    pdf: pdfUrl,
     updatedAt: serverTimestamp(),
   });
 
-  return { id: projectId, ...updates, images: imageUrls }; // optional return
+  return { id: projectId, ...updates,  pdf: pdfUrl, images: imageUrls }; // optional return
 }
 
 

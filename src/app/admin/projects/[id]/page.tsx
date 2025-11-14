@@ -27,6 +27,7 @@ import {
   CheckCircle,
   Clock,
   Calendar as CalendarIcon,
+  Download,
 } from "lucide-react";
 import Link from "next/link";
 import { useRouter, useParams } from "next/navigation";
@@ -36,6 +37,7 @@ import { useAuth } from "@/firebase/useAuth";
 import FullPageLoader from "@/components/layout/FullPageLoader";
 import DeleteProjectButton from "@/components/DeleteButtons/DeleteProject";
 import { useTranslation } from "@/hooks/useTranslation";
+import { forceDownload } from "@/utils/download";
 
 const ProjectDetailspage = () => {
   const router = useRouter();
@@ -264,6 +266,15 @@ const ProjectDetailspage = () => {
                     {project && project.projectReview}
                   </p>
                 </div>
+                <Separator />
+                <div>
+                  <h3 className="font-semibold text-lg mb-2">
+                    {t("project.websiteLink")}
+                  </h3>
+                  <Link href={project && project.websiteLink || ''} className="text-purple-700 underline font-semibold">
+                    {project && project.websiteLink}
+                  </Link>
+                </div>
 
                 <Separator />
 
@@ -289,6 +300,20 @@ const ProjectDetailspage = () => {
               <CardContent>
                 <ul className="space-y-3">
                   {project && project.specificObjectives}
+                </ul>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Target className="h-5 w-5 text-primary" />
+                  {t("project.impact")}
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <ul className="space-y-3">
+                  {project && project.projectImpact}
                 </ul>
               </CardContent>
             </Card>
@@ -382,6 +407,18 @@ const ProjectDetailspage = () => {
                 </div>
               </CardContent>
             </Card>
+               <button
+                  onClick={() =>
+                              forceDownload(
+                                project && project.pdf,
+                                project && project.ProjectTitle
+                              )
+                            }
+                            className="flex items-center px-3 py-2 border border-gray-300 text-gray-700 rounded hover:bg-gray-50 transition-colors text-sm"
+                          >
+                            <Download className="h-4 w-4 mr-1" />
+                            {t("actor.documentDownload")}
+                          </button>
           </div>
 
           {/* Sidebar */}

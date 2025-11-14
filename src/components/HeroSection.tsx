@@ -7,7 +7,7 @@ import { useTranslation } from "@/hooks/useTranslation";
 import heroimage from "@/assets/heroimage.png";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { fetchAllProjects } from "@/firebase/services/projectService";
+import { fetchAcceptedProjects, fetchAllProjects } from "@/firebase/services/projectService";
 
 const HeroSection = () => {
   const { t } = useTranslation();
@@ -18,7 +18,7 @@ const HeroSection = () => {
 
           const loadArticles = async () => {
             try {
-              const allArticles = await fetchAllProjects();
+              const allArticles = await fetchAcceptedProjects();
               //@ts-ignore
               setProjects(allArticles as Project[]);
               console.log('allArticles', allArticles);
@@ -30,6 +30,10 @@ const HeroSection = () => {
           loadArticles();
         }, []);
   
+const totalBudget = projects.reduce((sum, project) => {
+  //@ts-ignore
+  return sum + Number(project && project.budgetAmount);
+}, 0);
 
   const stats = [
    
@@ -42,8 +46,8 @@ const HeroSection = () => {
     },
     {
       icon: Users,
-      label: t("hero.stats.activePartners"),
-      value: "2",
+      value: totalBudget,
+      label: t("map.totalInvestment"),
       description: t("hero.stats.partnersDesc"),
     },
     {

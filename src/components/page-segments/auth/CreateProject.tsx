@@ -71,6 +71,8 @@ const CreateProject = ({ projectId }: { projectId?: string }) => {
     subcategory: string | null; // ✅ <-- fix here
     projectType: string;
     status: string;
+    projectImpact:string;
+    websiteLink:string;
   }>({
     organizationName: "",
     ProjectTitle: "",
@@ -90,11 +92,14 @@ const CreateProject = ({ projectId }: { projectId?: string }) => {
     subcategory: null, // ✅ default value
     projectType: "",
     status: "",
+    projectImpact:"",
+    websiteLink:"",
   });
   const { t } = useTranslation();
   const [images, setImages] = useState<File[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [pdf, setPdf] = useState<File>()
 
   function handleImageChange(e: React.ChangeEvent<HTMLInputElement>) {
     const files = e.target.files ? Array.from(e.target.files) : [];
@@ -121,33 +126,7 @@ const CreateProject = ({ projectId }: { projectId?: string }) => {
   const [newProgram, setNewProgram] = useState("");
   const [newPartner, setNewPartner] = useState("");
   const [newRegion, setNewRegion] = useState("");
-  // const categories = getAllCategories();
-
-  // const availableActors = [
-  //   {
-  //     category: "Etatiques",
-  //     subcategories: ["ministries", "institions"],
-  //   },
-  //   {
-  //     category: "ONGI",
-  //     subcategories: ["international", "local"],
-  //   },
-  //   {
-  //     category: "OSC",
-
-  //   },
-  //   {
-  //     category: "OBC",
-  //   },
-  //   {
-  //     category: "SECTEUR-PRIVEE",
-  //     subcategories: ["large", "sme"],
-  //   },
-  //   {
-  //     category: "CL", // no subcategories
-  //   },
-  // ];
-
+ 
   const router = useRouter();
 
   function handleCategoryChange(value: string) {
@@ -186,8 +165,11 @@ const CreateProject = ({ projectId }: { projectId?: string }) => {
             subcategory: proj.subcategory || null,
             projectType: proj.projectType || "",
             status: proj.status || "",
+             projectImpact: proj.projectImpact || "" ,
+            websiteLink:proj.websiteLink || ""
           });
-          setImages(proj.images || []); // if you manage images separately
+          setImages(proj.images || []);
+          setPdf(proj.pdf || null) // if you manage images separately
         })
         .finally(() => setLoading(false));
     }
@@ -209,7 +191,7 @@ const CreateProject = ({ projectId }: { projectId?: string }) => {
         ? [...organizationData.partners, newPartner.trim()]
         : organizationData.partners,
       organizationName: selectedName,
-
+      pdf,
       images,
     });
     setLoading(true);
@@ -226,17 +208,19 @@ const CreateProject = ({ projectId }: { projectId?: string }) => {
 
       const input: ProjectInput = {
         ...organizationData,
-        region: newRegion.trim()
-          ? [...organizationData.region, newRegion.trim()]
-          : organizationData.region,
-        programs: newProgram.trim()
-          ? [...organizationData.programs, newProgram.trim()]
-          : organizationData.programs,
-          partners: newPartner.trim()
+      region: newRegion.trim()
+        ? [...organizationData.region, newRegion.trim()]
+        : organizationData.region,
+      programs: newProgram.trim()
+        ? [...organizationData.programs, newProgram.trim()]
+        : organizationData.programs,
+      partners: newPartner.trim()
         ? [...organizationData.partners, newPartner.trim()]
         : organizationData.partners,
       organizationName: selectedName,
-        images,
+      //@ts-ignore
+      pdf,
+      images,
       };
 
       const project = await createProjectAndMaybeOrganisation(input);
@@ -267,11 +251,12 @@ const CreateProject = ({ projectId }: { projectId?: string }) => {
       programs: newProgram.trim()
         ? [...organizationData.programs, newProgram.trim()]
         : organizationData.programs,
-        partners: newPartner.trim()
+      partners: newPartner.trim()
         ? [...organizationData.partners, newPartner.trim()]
         : organizationData.partners,
       organizationName: selectedName,
       images,
+      pdf
     });
     setLoading(true);
 
@@ -294,12 +279,13 @@ const CreateProject = ({ projectId }: { projectId?: string }) => {
           ? [...organizationData.programs, newProgram.trim()]
           : organizationData.programs,
         partners: newPartner.trim()
-        ? [...organizationData.partners, newPartner.trim()]
-        : organizationData.partners,
-      organizationName: selectedName,
+          ? [...organizationData.partners, newPartner.trim()]
+          : organizationData.partners,
+        organizationName: selectedName,
+        projectReview: "Pending",
       };
 
-      const project = await updateProject(projectId as string, input, images);
+      const project = await updateProject(projectId as string, input, images, pdf);
       console.log("updatedproject", project);
       // success - you can redirect to the project page or show a message
       toast.success(`${t("admin.project.success")}`);
@@ -356,6 +342,31 @@ const CreateProject = ({ projectId }: { projectId?: string }) => {
       ),
     }));
   };
+
+  const handlePdfChange = (e: any) => {
+    const file = e.target.files[0];
+
+    if (!file) return;
+
+    // Validate type
+    if (file.type !== "application/pdf") {
+      alert("Only PDF files are allowed.");
+      e.target.value = "";
+      return;
+    }
+
+    // Validate size (8MB = 8 * 1024 * 1024 bytes)
+    const maxSize = 8 * 1024 * 1024;
+    if (file.size > maxSize) {
+      alert("File size must not exceed 8MB.");
+      e.target.value = "";
+      return;
+    }
+
+    // Valid PDF
+    setPdf(file);
+  };
+
 
   return (
     <>
@@ -515,6 +526,24 @@ const CreateProject = ({ projectId }: { projectId?: string }) => {
                   rows={4}
                 />
               </div>
+              <div className="space-y-2 w-full">
+                <Label className="" htmlFor="link">
+                  {t("project.websiteLink")} *
+                </Label>
+                <Input
+                  id="website_link"
+                  placeholder={t("project.websiteLinkDesc")}
+                  value={organizationData.websiteLink}
+                  onChange={(e) =>
+                    setOrganizationData({
+                      ...organizationData,
+                      websiteLink: e.target.value,
+                    })
+                  }
+                  required
+                />
+              </div>
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <Label className="" htmlFor="title">
@@ -615,10 +644,10 @@ const CreateProject = ({ projectId }: { projectId?: string }) => {
                       <SelectValue placeholder={t("project.state")} />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value= {t("projects.planned")}>
+                      <SelectItem value={t("projects.planned")}>
                         {t("projects.planned")}
                       </SelectItem>
-                      <SelectItem value= {t("projects.ongoing")}>
+                      <SelectItem value={t("projects.ongoing")}>
                         {t("projects.ongoing")}
                       </SelectItem>
                       <SelectItem value={t("projects.completed")}>
@@ -718,7 +747,7 @@ const CreateProject = ({ projectId }: { projectId?: string }) => {
                         endDate: e.target.value,
                       })
                     }
-                    // disabled={organizationData.isOngoing}
+                  // disabled={organizationData.isOngoing}
                   />
                 </div>
               </div>
@@ -844,6 +873,24 @@ const CreateProject = ({ projectId }: { projectId?: string }) => {
                 rows={4}
               />
             </div>
+            <div className="space-y-2">
+              <Label className="" htmlFor="impact">
+                {t("project.impact")} *
+              </Label>
+              <Textarea
+                id="projectImpact"
+                placeholder={t("project.impact2")}
+                value={organizationData.projectImpact}
+                onChange={(e) =>
+                  setOrganizationData({
+                    ...organizationData,
+                    projectImpact: e.target.value,
+                  })
+                }
+                required
+                rows={4}
+              />
+            </div>
 
             {/* Images */}
             <div className="space-y-4">
@@ -882,6 +929,43 @@ const CreateProject = ({ projectId }: { projectId?: string }) => {
                 </div>
               </div>
             </div>
+
+            {/* pdf */}
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold border-b border-gray-300 pb-2">
+                {t("project.document")}
+              </h3>
+
+              <div className="border border-dashed border-muted-foreground/25 rounded-lg p-6 text-center">
+                <Upload className="w-8 h-8 mx-auto mb-4 text-muted-foreground" />
+                <div className="space-y-2">
+                 
+                  <input
+                    type="file"
+                    accept="application/pdf"
+                    multiple={false}
+                    className="hidden"
+                    id="pdf-upload"
+                    onChange={handlePdfChange}
+                  />
+
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => document.getElementById("pdf-upload")?.click()}
+                  >
+                    {t("project.choosePdf")}
+                  </Button>
+
+                  {pdf && (
+                    <p className="text-sm text-primary font-medium">
+                      {pdf.name} selected
+                    </p>
+                  )}
+                </div>
+              </div>
+            </div>
+
 
             <div className="flex justify-center pt-6 border-t border-gray-300 w-full">
               <Button

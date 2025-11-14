@@ -3,14 +3,14 @@ import { useEffect, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Calendar, Download, Eye, Search, FileText, Lock } from "lucide-react";
+import { Calendar, Download, Eye, Search, FileText, Lock, Edit2Icon } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import Footer from "@/components/layout/Footer";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import { useAuth } from "@/firebase/useAuth";
 import { getCategoryTitle } from "@/data/organisation";
-import { fetchDocumentsByCategory } from "@/firebase/services/adminService";
+import { fetchAcceptedArticles, fetchAcceptedDocuments, fetchDocumentsByCategory } from "@/firebase/services/adminService";
 import { toast } from "react-toastify";
 import FullPageLoader from "../layout/FullPageLoader";
 import { useTranslation } from "@/hooks/useTranslation";
@@ -31,7 +31,6 @@ interface DocumentData {
 }
 
 const ClimateDocuments = () => {
-  const { category } = useParams<{ category: string }>();
   const [documents, setDocuments] = useState<DocumentData[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const { t } = useTranslation();
@@ -41,9 +40,9 @@ const ClimateDocuments = () => {
     const loadDocs = async () => {
       try {
         setLoading(true);
-        if (!category) return;
+       
 
-        const docs = await fetchDocumentsByCategory(category);
+        const docs = await fetchAcceptedDocuments()
         setDocuments(docs as DocumentData[]);
         console.log(docs);
       } catch (err) {
@@ -55,7 +54,7 @@ const ClimateDocuments = () => {
     };
 
     loadDocs();
-  }, [category]);
+  }, []);
   const { user } = useAuth();
   const filteredDocuments = documents.filter(
     (doc) =>
@@ -92,7 +91,7 @@ const ClimateDocuments = () => {
       <div className="w-full h-80 py-5 bg-gradient-to-r flex flex-col justify-center items-center gap-3 from-secondary via-primary/80 to-secondary">
         <div className="text-center">
           <h1 className="text-4xl md:text-5xl font-bold uppercase text-foreground mb-6">
-            {getCategoryTitle(category || "")}
+            {t('admin.document.category2')}
           </h1>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto mb-8">
             {t("actor.documentDesc")}
@@ -100,6 +99,13 @@ const ClimateDocuments = () => {
         </div>{" "}
       </div>
       {/* Hero Section */}
+        {
+          user && (
+            <div className="flex justify-end pr-16 mt-8">
+              <Link href={'/create-document'} className="px-4 py-2 rounded-lg text-white font-semibold cursor-pointer bg-gradient-to-l from-primary to-secondary">{t('admin.document.add')}</Link>
+            </div>
+          )
+        }
       <section className="py-16 bg-gradient-subtle">
         <div className="max-w-[1350px]  mx-auto px-4 sm:px-6 lg:px-8">
           {/* Search Bar */}
@@ -126,7 +132,17 @@ const ClimateDocuments = () => {
                 className="border-border bg-gradient-card hover-lift animate-fade-in"
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
+
                 <CardContent className="p-6">
+                  <div className="w-full flex justify-end">
+                    {user && (
+                    <Link
+                      href={`/documents/national/edit/${document.id}`}
+                      className=" flex items-center gap-1 text-sm text-orange-600 hover:text-orange-700 font-medium">
+                          <Edit2Icon className="w-4 h-4"/>{t('actor.edit')}
+                      </Link>
+                      )} 
+                  </div>
                   <div className="flex items-start justify-between mb-4">
                     <Badge className={getDocumentTypeColor(document.type)}>
                       {document.type}
@@ -168,7 +184,7 @@ const ClimateDocuments = () => {
 
                   <div className="flex items-center space-x-3">
                     <Link
-                      href={`/documents/${category}/${document.id}`}
+                      href={`/documents/national/${document.id}`}
                       className="flex items-center px-3 py-2 bg-orange-500 text-white rounded hover:bg-orange-600 transition-colors text-sm"
                     >
                       <Eye className="h-4 w-4 mr-1" />

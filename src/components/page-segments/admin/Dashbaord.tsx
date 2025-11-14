@@ -21,6 +21,8 @@ import { fetchAllArticles, fetchAllDocuments } from '@/firebase/services/adminSe
 import { toast } from 'sonner';
 import { fetchAllProjects } from '@/firebase/services/projectService';
 import { useTranslation } from '@/hooks/useTranslation';
+import { collection, getDocs } from 'firebase/firestore';
+import { db } from '@/firebase/firebaseConfig';
 
 export default function Dashboard() {
   // const { user } = useAuth();
@@ -30,6 +32,7 @@ export default function Dashboard() {
    const[articles, setArticles] = useState([]);
    const[projects, setProjects] = useState([]);
    const [documents, setDocuments] = useState([]);
+   const [count, setCount] = useState(0);
   
     useEffect(() => {
       const loadArticles = async () => {
@@ -51,10 +54,22 @@ export default function Dashboard() {
   
       loadArticles();
     }, []);
+
+     useEffect(() => {
+    const fetchUserCount = async () => {
+      const usersCollection = collection(db, "users");
+      const usersSnapshot = await getDocs(usersCollection);
+      setCount(usersSnapshot.size);
+    };
+
+    fetchUserCount();
+  }, []);
+
     const {t} = useTranslation();
 
   const adminStats = [
     // { label:  `${t('admin.dashboard.totalUSers')}`, value:'12' , icon: Users, color: 'text-primary' },
+    { label: `${t('admin.dashboard.totalUsers')}`, value: count, icon: Users, color: 'text-warning' },
     { label: `${t('admin.dashboard.totalProjects')}`, value: projects.length, icon: FileText, color: 'text-secondary' },
     { label: `${t('admin.dashboard.totalArticles')}`, value: articles.length, icon: Briefcase, color: 'text-info' },
     { label: `${t('admin.dashboard.totalDocuments')}`, value: documents.length, icon: FolderOpen, color: 'text-warning' },
@@ -167,3 +182,4 @@ export default function Dashboard() {
     </div>
   );
 }
+
