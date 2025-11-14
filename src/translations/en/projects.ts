@@ -71,6 +71,8 @@ export const projects = {
   'project.orgStructureDesc':'Choose or enter the name of the structure',
 
   'project.projectTitle':'Project Title',
+  'project.websiteLink':'Website Link',
+  'project.websiteLinkDesc':'e.g https://www.example.com',
   'project.projectDescription':'Enter project title',
   'project.orgaDesc':'Brief Description of the Organization',
   'project.orgaDesc2':'Describe your organization',
@@ -98,9 +100,13 @@ export const projects = {
 
   'project.intervention_logic':'Intervention Logic',
   'project.intervention_logic2':'Describe the intervention logic',
+  'project.impact':'Project Impact',
+  'project.impact2':'Describe the project Impact',
   'project.start':'Start',
   'project.anOption':'Select an option',
   'project.images':'Project Images (Optional)',
+  'project.document':'Project Document (Optional)',
+  'project.choosePdf':'Choose File',
   'project.drop_images':'Drop your images here or click to browse',
   'project.chooseImage':'Choose Images',
   'project.createProject':'Create Project',

@@ -24,6 +24,7 @@ import {
   CheckCircle,
   Clock,
   Calendar as CalendarIcon,
+  Download,
 } from "lucide-react";
 import Link from "next/link";
 import { useRouter, useParams, usePathname } from "next/navigation";
@@ -32,6 +33,7 @@ import { toast } from "react-toastify";
 import FullPageLoader from "../layout/FullPageLoader";
 import { useAuth } from "@/firebase/useAuth";
 import { useTranslation } from "@/hooks/useTranslation";
+import { forceDownload } from "@/utils/download";
 
 const ProjectDetails = () => {
   const { t } = useTranslation();
@@ -174,20 +176,7 @@ const ProjectDetails = () => {
                   </Link>
           </div>
 
-            {/* {project && project && (
-            //   <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 border border-white/20">
-            //     <div className="text-center">
-            //       <div className="text-3xl font-bold text-white mb-2">{mockProject.completionRate}%</div>
-            //       <div className="text-white/80 text-sm">Project Completion</div>
-            //       <div className="w-full bg-white/20 rounded-full h-2 mt-3">
-            //         <div 
-            //           className="bg-white rounded-full h-2 transition-all duration-500"
-            //           style={{ width: `${mockProject.completionRate}%` }}
-            //         ></div>
-            //       </div>
-            //     </div>
-            //   </div>
-            // )} */}
+           
           </div>
         </div>
       </div>
@@ -226,6 +215,15 @@ const ProjectDetails = () => {
                   </div></>
                 )}
 
+<Separator />
+                <div>
+                  <h3 className="font-semibold text-lg mb-2">
+                    {t("project.websiteLink")}
+                  </h3>
+                  <Link href={project && project.websiteLink || ''} className="text-purple-700 underline font-semibold">
+                    {project && project.websiteLink}
+                  </Link>
+                </div>
                 <Separator />
 
                 <div>
@@ -250,6 +248,20 @@ const ProjectDetails = () => {
               <CardContent>
                 <ul className="space-y-3">
                   {project && project.specificObjectives}
+                </ul>
+              </CardContent>
+            </Card>
+
+             <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Target className="h-5 w-5 text-primary" />
+                  {t("project.impact")}
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <ul className="space-y-3">
+                  {project && project.projectImpact}
                 </ul>
               </CardContent>
             </Card>
@@ -343,6 +355,19 @@ const ProjectDetails = () => {
                             </div>
                           </CardContent>
                         </Card>
+
+                          <button
+                            onClick={() =>
+                              forceDownload(
+                                project && project.pdf,
+                                project && project.ProjectTitle
+                              )
+                            }
+                            className="flex items-center px-3 py-2 border border-gray-300 text-gray-700 rounded hover:bg-gray-50 transition-colors text-sm"
+                          >
+                            <Download className="h-4 w-4 mr-1" />
+                            {t("actor.documentDownload")}
+                          </button>
           </div>
 
           {/* Sidebar */}

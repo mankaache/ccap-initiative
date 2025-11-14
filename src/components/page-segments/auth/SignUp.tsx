@@ -27,8 +27,7 @@ const SignUp = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
+    fullName: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -38,6 +37,7 @@ const SignUp = () => {
   const actorCategories = [
     "ETATIQUES",
     "ONGI",
+    "COMMUNE",
     "OSC",
     "OBC",
     "CL",
@@ -100,28 +100,28 @@ const SignUp = () => {
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid grid-cols-2 gap-4">
+                
                   <div>
-                    <Label htmlFor="firstName">{t("auth.first_name")}</Label>
-                    <div className="relative mt-1">
+                    <Label htmlFor="fullName">{t("auth.full_name")}</Label>
+                    <div className="relative mt-1 w-full">
                       <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                       <Input
-                        id="firstName"
+                        id="full_name"
                         type="text"
-                        value={formData.firstName}
+                        value={formData.fullName}
                         onChange={(e) =>
                           setFormData({
                             ...formData,
-                            firstName: e.target.value,
+                            fullName: e.target.value,
                           })
                         }
-                        placeholder={t("auth.first_name")}
+                        placeholder={t("auth.full_name")}
                         className="pl-10"
                         required
                       />
                     </div>
                   </div>
-                  <div>
+                  {/* <div>
                     <Label htmlFor="lastName">{t("auth.last_name")}</Label>
                     <div className="relative mt-1">
                       <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
@@ -137,9 +137,8 @@ const SignUp = () => {
                         required
                       />
                     </div>
-                  </div>
-                </div>
-
+                  </div> */}
+          
                 <div>
                   <Label htmlFor="email">{t("auth.email")}</Label>
                   <div className="relative mt-1">

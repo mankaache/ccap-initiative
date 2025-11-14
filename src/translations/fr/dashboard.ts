@@ -3,6 +3,7 @@ export const dashboard = {
     'admin.dashboard.totalProjects' : 'Nombre total de projets' ,
     'admin.dashboard.totalDocuments' : 'Nombre total de documents', 
     'admin.dashboard.totalArticles' : 'Nombre total d\'articles' ,
+    'admin.dashboard.totalUsers' : 'Nombre total d\'utilisateurs',
 
     'admin.dashboard.addProjects' : 'Nouveaux projets' ,
     'admin.dashboard.addDocuments' : 'Ajouter des documents' ,
@@ -64,6 +65,7 @@ export const dashboard = {
     'admin.document.regulation' : 'Réglement',
     'admin.document.document' : 'document',
     'admin.document.browse' : 'Parcourir et gérer la bibliothèque de documents',
+    'admin.document.document_review' : 'Documents en cours d\'examen',
     'admin.document.add' : 'Ajouter un document',
     'admin.document.search' : 'Rechercher des documents par titre, type, catégorie, langue...',
     'admin.document.edit' : 'Modifier',
@@ -94,7 +96,7 @@ export const dashboard = {
     'admin.document.caseStudy' : 'Étude de cas',
     'admin.document.wordError' : 'L\'aperçu du contenu ne peut pas dépasser 500 mots.',
     'admin.document.format' : 'Veuillez télécharger un document.',
-    'admin.document.success' : 'Document créé avec succès !',
+    'admin.document.success' : 'Document créé avec succès et en cours de révision !',
     'admin.document.error' : 'Échec de la création du document. Veuillez réessayer.',
     'admin.document.titleDesc':'Télécharger et cataloguer un nouveau document dans la bibliothèque',
     'admin.document.titleField':'Titre du document',
@@ -119,6 +121,7 @@ export const dashboard = {
     'admin.document.upload' :  'Télécharger le document',
     'admin.document.loading' :  'En cours d\'enregistrement...',
     'admin.document.uploadDesc' : 'Sélectionnez un document à télécharger',
+     'admin.document.hasbeen' : 'Le document a été mis à jour',
 
     'admin.project.underReview' : 'Projets en cours d\'examen',
     'admin.project.partners' : 'Partenaires',

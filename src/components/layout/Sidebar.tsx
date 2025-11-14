@@ -34,6 +34,7 @@ const {t} = useTranslation()
     { icon: Briefcase, label: `${t('auth.sidebar.projects')}`, href: '/admin/projects' },
     { icon: Briefcase, label: `${t('auth.sidebar.underReview')}`, href: '/admin/under-review'},
     { icon: Briefcase, label: `${t('auth.sidebar.underReviewArticles')}`, href: '/admin/article-review'},
+    { icon: Briefcase, label: `${t('auth.sidebar.underReviewDocuments')}`, href: '/admin/doc-review'},
   ];
 
 

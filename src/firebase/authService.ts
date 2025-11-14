@@ -9,15 +9,14 @@ import {
 } from "firebase/auth";
 import { doc, setDoc, getDoc } from "firebase/firestore";
 
-export async function signUpActor({ firstName, lastName, email, password, actorCategory }: any) {
+export async function signUpActor({ fullName, email, password, actorCategory }: any) {
   const userCredential = await createUserWithEmailAndPassword(auth, email, password);
   const user = userCredential.user;
     if (!user)  return console.log("No user signed in yet!");
 
   // save profile in Firestore
   await setDoc(doc(db, "users", user.uid), {
-    firstName,
-    lastName,
+    fullName,
     email,
     role: "actor",
     actorCategory,

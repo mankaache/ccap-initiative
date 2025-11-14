@@ -190,6 +190,7 @@ async function handleUpdate(e: React.FormEvent) {
       source: formData.source,
       date: formData.date,
       authorId: user.uid,
+       articleReview:"Pending",
       createdAt: serverTimestamp(),
     };
 

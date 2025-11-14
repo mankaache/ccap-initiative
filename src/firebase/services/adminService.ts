@@ -40,9 +40,6 @@ export async function updateProjectReview(projectId: string, reviewStatus: "Acce
   return { success: true, message: `Révision du projet mise à jour vers ${reviewStatus}` };
 }
 
-
-
-
 // ✅ 1. Fetch ALL documents (with their IDs)
 export async function fetchAllDocuments() {
   const snapshot = await getDocs(collection(db, "documents"));
@@ -51,6 +48,21 @@ export async function fetchAllDocuments() {
     ...doc.data(),
   }));
   return docs;
+}
+export async function fetchAcceptedDocuments() {
+  const projectsRef = collection(db, "documents");
+  const q = query(projectsRef, where("documentReview", "==", "Accepted"));
+  const snap = await getDocs(q);
+
+  return snap.docs.map((doc) => ({ id: doc.id, ...(doc.data() as any) }));
+}
+
+export async function fetchReviewDocuments() {
+  const projectsRef = collection(db, "documents");
+  const q = query(projectsRef, where("documentReview", "==", "Pending"));
+  const snap = await getDocs(q);
+
+  return snap.docs.map((doc) => ({ id: doc.id, ...(doc.data() as any) }));
 }
 
 // ✅ 2. Fetch documents by category
@@ -80,6 +92,19 @@ export async function fetchDocumentById(id: string) {
   };
 }
 
+export async function updateDocumentReview(id: string, status: "Accepted" | "Rejected") {
+  const articleRef = doc(db, "documents", id);
+  const updateData: any = {
+    documentReview: status,
+  };
+  
+  // Add timestamp when project is rejected for cleanup purposes
+  if (status === "Rejected") {
+    updateData.rejectedAt = serverTimestamp();
+  }
+  
+  await updateDoc(articleRef, updateData);
+}
 export async function fetchAllArticles() {
   const snapshot = await getDocs(collection(db, "articles"));
   const articles = snapshot.docs.map((doc) => ({

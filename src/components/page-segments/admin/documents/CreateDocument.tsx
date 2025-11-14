@@ -10,7 +10,7 @@ import { RichTextEditor } from '@/components/ui/rich-text-editor';
 import { ArrowLeft, FolderOpen, Loader2, Save, Upload } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
-import { db, storage } from '@/firebase/firebaseConfig';
+import { db } from '@/firebase/firebaseConfig';
 
 import { useAuth } from '@/firebase/useAuth';
 import { toast } from 'react-toastify';
@@ -19,104 +19,108 @@ import { fetchDocumentById } from '@/firebase/services/adminService';
 import { updateDocument } from '@/firebase/services/updateService';
 import { useTranslation } from '@/hooks/useTranslation';
 
-export default function CreateDocument({docuId}:{docuId?:string}) {
+export default function CreateDocument({ docuId }: { docuId?: string }) {
   const navigate = useRouter();
-  const {t}= useTranslation()
+  const { t } = useTranslation();
   const [formData, setFormData] = useState({
     title: '',
     description: '',
-    category: 'national' as 'international' | 'national' | 'regulation',
+    category: 'national',
     type: '',
     pages: '',
-    dateOfCreation: new Date().toISOString().split('T')[0], 
+    dateOfCreation: new Date().toISOString().split('T')[0],
     contentPreview: '',
     author: '',
     language: '',
-     document: null as File | null,
+    // document holds the URL (string). documentFile holds the actual File when user uploads a new one.
+    document: '',
+    documentFile: null as File | null,
   });
 
+  const [loading, setLoading] = useState(false);
+  const { user } = useAuth();
 
   useEffect(() => {
-      if (docuId) {
-        setLoading(true);
-        fetchDocumentById(docuId)
-          .then((proj:any) => {
-            setFormData({
-              title: proj.title || '',
-              description: proj.description || '',
-              category: proj.category || 'national',
-              type: proj.type || '',
-              pages: proj.pages || '',
-              dateOfCreation: proj.dateOfCreation || new Date().toISOString().split('T')[0], 
-              contentPreview: proj.contentPreview || '',
-              author: proj.author || '',
-              language: proj.language || '',
-              document: proj.document,
-              
-            });
-        
-          })
-          .finally(() => setLoading(false));
-      }
-    }, [docuId]);
-    
+    if (docuId) {
+      setLoading(true);
+      fetchDocumentById(docuId)
+        .then((proj: any) => {
+          setFormData((prev) => ({
+            ...prev,
+            title: proj.title || '',
+            description: proj.description || '',
+            category: proj.category || 'national',
+            type: proj.type || '',
+            pages: proj.pages || '',
+            dateOfCreation: proj.dateOfCreation || new Date().toISOString().split('T')[0],
+            contentPreview: proj.contentPreview || '',
+            author: proj.author || '',
+            language: proj.language || '',
+            document: proj.documentUrl || proj.document || '', // accept either field name
+            documentFile: null, // ensure no File object is present
+          }));
+        })
+        .catch((err) => {
+          console.error('Error fetching document:', err);
+          toast.error(t('admin.document.errorFetch') ?? 'Error fetching document');
+        })
+        .finally(() => setLoading(false));
+    }
+  }, [docuId, t]);
 
-   const [loading, setLoading] = useState(false);
-
-  const handleFileUpload = (field: string, file: File | null) => {
-    setFormData((prev) => ({ ...prev, [field]: file }));
+  const handleFileUpload = (file: File | null) => {
+    setFormData((prev) => ({ ...prev, documentFile: file }));
   };
 
   const handleInputChange = (field: string, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
-  // ✅ Count words in preview (ignores HTML tags)
+  // Count words in preview (ignores HTML tags)
   const wordCount = formData.contentPreview
     .replace(/<[^>]*>/g, "")
     .trim()
-    .split(/\s+/).filter(Boolean).length;
+    .split(/\s+/)
+    .filter(Boolean).length;
 
-      const languages = [`${t("admin.document.english")}`, `${t("admin.document.french")}`,];
+  // use t(...) directly
+  const languages = [t("admin.document.english"), t("admin.document.french")];
   const documentTypes = [
-    `${t("admin.document.policy")}`,
-    `${t("admin.document.research")}`,
-    `${t("admin.document.technical")}`,
-    `${t("admin.document.legal")}`,
-    `${t("admin.document.guidelines")}`,
-    `${t("admin.document.manual")}`,
-    `${t("admin.document.regulation")}`,
-
+    t("admin.document.policy"),
+    t("admin.document.research"),
+    t("admin.document.technical"),
+    t("admin.document.legal"),
+    t("admin.document.guidelines"),
+    t("admin.document.manual"),
+    t("admin.document.regulation"),
   ];
-const {user} = useAuth();
 
-  const handleSubmit = async(e: React.FormEvent) => {
-
-    
-    e.preventDefault();
-    
-    console.log('Creating document:', formData);
-    
-    // ✅ Validate word count
+  const validateWordCount = () => {
     if (wordCount > 500) {
-      toast.error(`${t('admin.document.wordError')}`);
-      return;
+      toast.error(t('admin.document.wordError'));
+      return false;
     }
+    return true;
+  };
 
-    if (!formData.document) {
-      toast.error(`${t('admin.document.format')}`);
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!validateWordCount()) return;
+
+    // For create: require an uploaded file (documentFile)
+    if (!formData.documentFile) {
+      toast.error(t('admin.document.format'));
       return;
     }
 
     setLoading(true);
-    
+
     try {
-      const fileUrl = await uploadFile(formData.document, "document_preset");
+      // upload file
+      const fileUrl = await uploadFile(formData.documentFile as File, "document_preset");
 
-      console.log('fileUrl', fileUrl);
-
-
-      // ✅ Save metadata to Firestore
+      // Save metadata to Firestore (document stores URL)
       await addDoc(collection(db, "documents"), {
         title: formData.title,
         author: formData.author,
@@ -128,52 +132,58 @@ const {user} = useAuth();
         dateOfCreation: formData.dateOfCreation,
         contentPreview: formData.contentPreview,
         documentUrl: fileUrl,
-         uploadedBy: user.uid,
+        uploadedBy: user.uid,
+        documentReview: "Pending",
         createdAt: serverTimestamp(),
       });
 
-      toast.success(`${t('admin.document.success')}`);
-
-      navigate.push("/admin/documents");
+      toast.success(t('admin.document.success'));
+      user.role === 'actor' ? navigate.push('/documents/national') : navigate.push("/admin/documents");
     } catch (err) {
       console.error("Error creating document:", err);
-      toast.error(`${t('admin.document.error')}`);
+      toast.error(t('admin.document.error'));
     } finally {
       setLoading(false);
     }
   };
-  const handleUpdate = async(e: React.FormEvent) => {
 
-    
+  const handleUpdate = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    console.log('Creating document:', formData);
-    
-    // ✅ Validate word count
-    if (wordCount > 500) {
-      toast.error(`${t('admin.document.wordError')}`);
-      return;
-    }
 
-    if (!formData.document) {
-      toast.error(`${t('admin.document.format')}`);
-      return;
-    }
+    if (!validateWordCount()) return;
 
     setLoading(true);
-    
+
     try {
-      const fileUrl = await uploadFile(formData.document, "document_preset");
+      // If user selected a new file, upload and use its URL; otherwise use existing URL in formData.document
+      let fileUrl = formData.document;
+      if (formData.documentFile instanceof File) {
+        fileUrl = await uploadFile(formData.documentFile, "document_preset");
+      }
 
-      console.log('fileUrl', fileUrl);
-      const updateDoc = await updateDocument(docuId as string, formData, formData.document);
-console.log('results', updateDoc)
-      toast.success(`${t('admin.document.success')}`);
+      // Prepare updated data to save (only primitives/strings)
+      const updatedData: any = {
+        title: formData.title,
+        author: formData.author,
+        category: formData.category,
+        type: formData.type,
+        language: formData.language,
+        pages: formData.pages,
+        description: formData.description,
+        dateOfCreation: formData.dateOfCreation,
+        contentPreview: formData.contentPreview,
+        documentUrl: fileUrl,
+        documentReview: "Pending",
+        updatedAt: serverTimestamp(),
+      };
 
-      navigate.push("/admin/documents");
+      await updateDocument(docuId as string, updatedData);
+
+      toast.success(t('admin.document.success'));
+      user.role === 'actor' ? navigate.push('/documents/national') : navigate.push("/admin/documents");
     } catch (err) {
-      console.error("Error creating document:", err);
-      toast.error(`${t('admin.document.error')}`);
+      console.error("Error updating document:", err);
+      toast.error(t('admin.document.error'));
     } finally {
       setLoading(false);
     }
@@ -188,15 +198,15 @@ console.log('results', updateDoc)
           className="hover:bg-accent"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
-        {t('admin.document.back')}
+          {t('admin.document.back')}
         </Button>
       </div>
 
-      <Card className="max-w-4xl">
+      <Card className="max-w-5xl">
         <CardHeader>
           <CardTitle className="flex items-center space-x-2">
             <FolderOpen className="w-6 h-6 text-primary capitalize" />
-            <span> {docuId ? `${t('admin.document.edit')}` : `${t("admin.articles.create")}`} {t('admin.document.document')}</span>
+            <span>{docuId ? `${t('admin.document.edit')}` : `${t("admin.articles.create")}`} {t('admin.document.document')}</span>
           </CardTitle>
           <CardDescription>
             {t('admin.document.titleDesc')}
@@ -228,23 +238,7 @@ console.log('results', updateDoc)
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="space-y-2">
-                <Label htmlFor="category">{t('admin.document.category')} *</Label>
-                <Select
-                  value={formData.category}
-                  onValueChange={(value: typeof formData.category) => handleInputChange('category', value)}
-                >
-                  <SelectTrigger className='w-full'>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="international">{t('admin.document.category1')}</SelectItem>
-                    <SelectItem value="national">{t('admin.document.category2')}</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
+            <div className="grid grid-cols-1 gap-6">
               <div className="space-y-2">
                 <Label htmlFor="type">{t('admin.document.type')} *</Label>
                 <Select
@@ -252,7 +246,7 @@ console.log('results', updateDoc)
                   onValueChange={(value) => handleInputChange('type', value)}
                 >
                   <SelectTrigger className='w-full'>
-                    <SelectValue placeholder={t('admin.document.typePlaceholder')}/>
+                    <SelectValue placeholder={t('admin.document.typePlaceholder')} />
                   </SelectTrigger>
                   <SelectContent>
                     {documentTypes.map((type) => (
@@ -330,42 +324,44 @@ console.log('results', updateDoc)
                 placeholder={t('admin.document.contentPreviewPlaceholder')}
                 className="min-h-32"
               />
-               <div className="flex justify-between text-xs text-muted-foreground">
+              <div className="flex justify-between text-xs text-muted-foreground">
                 <span>{t('admin.document.maxwords')}</span>
                 <span>{wordCount}/500 {t('admin.document.word')}</span>
               </div>
             </div>
 
-             <div className="space-y-2">
-                <Label htmlFor="document">{t('admin.document.upload')} *</Label>
-                <div className="border border-dashed border-muted-foreground/25 rounded-lg p-6 text-center">
-                  <Upload className="w-8 h-8 mx-auto mb-4 text-muted-foreground" />
-                  <div className="space-y-2">
-                    <p className="text-sm text-muted-foreground">
-                      {t('admin.document.uploadDesc')}
-                    </p>
-                    <input
-                      type="file"
-                      accept=".pdf"
-                      className="hidden"
-                      id="pdf-upload"
-                      onChange={(e) => handleFileUpload('document', e.target.files?.[0] || null)}
-                    />
-                    <Button
-                      type="button"
-                      variant="outline"
-                      onClick={() => document.getElementById('pdf-upload')?.click()}
-                    >
-                      {t('admin.articles.chooseFile')}
-                    </Button>
-                    {formData.document && (
-                      <p className="text-sm text-primary font-medium">
-                        {formData.document.name}
-                      </p>
-                    )}
-                  </div>
+            <div className="space-y-2">
+              <Label htmlFor="document">{t('admin.document.upload')} *</Label>
+              <div className="border border-dashed border-muted-foreground/25 rounded-lg p-6 text-center">
+                <Upload className="w-8 h-8 mx-auto mb-4 text-muted-foreground" />
+                <div className="space-y-2">
+                  <p className="text-sm text-muted-foreground">
+                    {t('admin.document.uploadDesc')}
+                  </p>
+                  <input
+                    type="file"
+                    accept=".pdf"
+                    className="hidden"
+                    id="pdf-upload"
+                    onChange={(e) => handleFileUpload(e.target.files?.[0] || null)}
+                  />
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => document.getElementById('pdf-upload')?.click()}
+                  >
+                    {t('admin.articles.chooseFile')}
+                  </Button>
+
+                  {/* show current URL or selected file name */}
+                  {formData.documentFile ? (
+                    <p className="text-sm text-primary font-medium">{formData.documentFile.name}</p>
+                  ) : formData.document ? (
+                    <p className="text-sm text-primary font-medium break-words">{formData.document}</p>
+                  ) : null}
                 </div>
               </div>
+            </div>
 
             <div className="flex space-x-4 pt-4">
               <Button
@@ -381,7 +377,7 @@ console.log('results', updateDoc)
                 className="flex-1 bg-gradient-to-r from-secondary to-primary hover:opacity-90"
                 disabled={loading}
               >
-              {loading  ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> {t('admin.document.loading')}</>: <><Save className="w-4 h-4 mr-2" /> {t('admin.document.add')}</>}
+                {loading ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> {t('admin.document.loading')}</> : <><Save className="w-4 h-4 mr-2" /> {t('admin.document.add')}</>}
               </Button>
             </div>
           </form>

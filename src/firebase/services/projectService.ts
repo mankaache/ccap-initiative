@@ -42,7 +42,8 @@ export type ProjectInput = {
   status: string;
   specificLocation: string[];
   region: string[];        // e.g. ["Lagos", "Ikeja"]
-  images?: File[];        // max 2
+  images?: File[];   
+  pdf?:File;   
   startDate: string;
   endDate: string;
   fundingSource: string;
@@ -54,6 +55,10 @@ export type ProjectInput = {
   category: string;
   subcategory?: string | null;
   projectType: string;
+   projectReview? : "Pending", 
+   projectImpact:string;
+    websiteLink:string;
+   
 };
 
 /**
@@ -362,6 +367,7 @@ export async function createProjectAndMaybeOrganisation(
     specificLocation: projectInput.specificLocation,
     region: projectInput.region,
     images: [], // will fill after upload
+    pdf:null,
     startDate: projectInput.startDate,
     endDate: projectInput.endDate,
     fundingSource: projectInput.fundingSource,
@@ -374,6 +380,8 @@ export async function createProjectAndMaybeOrganisation(
     subcategory: projectInput.subcategory ?? null,
     projectType: projectInput.projectType,
     projectReview : "Pending", 
+    projectImpact:projectInput.projectImpact,
+    websiteLink: projectInput.websiteLink,
     createdBy: user.uid,
     organizationId: organisation.id,
     createdAt: serverTimestamp(),
@@ -381,11 +389,20 @@ export async function createProjectAndMaybeOrganisation(
 
   const projectId = projectDocRef.id;
 
+  let pdfUrl = null;
+
+if (projectInput.pdf instanceof File) {
+  pdfUrl = await uploadFile(projectInput.pdf, "projects_preset");
+}   else if (typeof projectInput.pdf === "string") {
+    pdfUrl = projectInput.pdf;
+  }
+
   // 3. Upload images and update project doc with URLs
   const imageUrls = await uploadProjectImages(projectInput.images);
   if (imageUrls.length > 0) {
-    await updateDoc(projectDocRef, { images: imageUrls });
+    await updateDoc(projectDocRef, { ...projectInput, images: imageUrls, pdf: pdfUrl });
   }
+
 
   // 4. Add project id to organisation.projects array
   

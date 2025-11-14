@@ -11,6 +11,7 @@ export const auth = {
     'auth.signUp' : 'S\'inscrire',
 
     'auth.first_name' : 'Prénom',
+    'auth.full_name' : 'Nom complet',
     'auth.last_name' : 'Nom',
     'auth.email' : 'Adresse e-mail',
     'auth.password' : 'Mot de passe',
@@ -42,6 +43,7 @@ export const auth = {
     'auth.sidebar.actors' : 'Organisations',
     'auth.sidebar.underReview':'Projets en attente',
     'auth.sidebar.underReviewArticles':'Articles en attente',
+    'auth.sidebar.underReviewDocuments' : 'Documents en attente',
     'auth.sidebar.createProject' : 'Créer un projet',
     'auth.sidebar.createDocument' : 'Créer un document',
     'auth.sidebar.createArticle' : 'Créer un article',
