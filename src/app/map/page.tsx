@@ -1,7 +1,7 @@
 'use client'
 
 import CameroonMap from '@/components/map/CameroonMap'
-import { fetchAllProjects } from '@/firebase/services/projectService';
+import { fetchAcceptedProjects, fetchAllProjects } from '@/firebase/services/projectService';
 import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify';
 
@@ -37,7 +37,7 @@ const MapComp = () => {
         const loadArticles = async () => {
           try {
             setLoading(true);
-            const allArticles = await fetchAllProjects();
+            const allArticles = await fetchAcceptedProjects();
             //@ts-ignore
             setProjects(allArticles as Project[]);
             console.log('allArticles', allArticles);

@@ -16,5 +16,6 @@ export const footer = {
     'notFound.back':'Go Back',
     'notFound.home':'Home Page',
     'notFound.cando':' What can you do now?',
+    'footer.contactus':'Contact us'
 
 }
