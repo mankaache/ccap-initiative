@@ -1,6 +1,6 @@
 "use client";
 import { useTranslation } from "@/hooks/useTranslation";
-import { Facebook, Twitter, Linkedin, Mail, Phone, MapPin } from "lucide-react";
+import { Facebook, Twitter, Linkedin, Mail, Phone, MapPin, MessageSquareReply } from "lucide-react";
 import Link from "next/link";
 import flag from "@/assets/Nepac.jpg";
 import Image from "next/image";
@@ -27,24 +27,24 @@ const Footer = () => {
               {t("footer.title")}
             </p>
             <div className="flex space-x-4">
-              <a
+              <Link
                 href="#"
                 className="text-background/60 hover:text-primary transition-colors"
               >
                 <Facebook className="h-5 w-5" />
-              </a>
-              <a
+              </Link>
+              <Link
                 href="#"
                 className="text-background/60 hover:text-primary transition-colors"
               >
                 <Twitter className="h-5 w-5" />
-              </a>
-              <a
+              </Link>
+              <Link
                 href="#"
                 className="text-background/60 hover:text-primary transition-colors"
               >
                 <Linkedin className="h-5 w-5" />
-              </a>
+              </Link>
             </div>
 
             <div className="mt-7">
@@ -60,21 +60,7 @@ const Footer = () => {
                     className="w-full h-full object-cover rounded-full"
                   />
                 </div>
-                {/* <div className="relative text-center w-12 h-12 rounded-full ">
-                  <Image
-                    src={said}
-                    fill
-                    alt="Climate action in Cameroon"
-                    className="w-full h-full object-cover rounded-full"
-                  />
-                </div>
-                <div className="relative">
-                  <Image
-                    src={gda}
-                    alt="Climate action in Cameroon"
-                    className=" h-20 w-40"
-                  />
-                </div> */}
+            
               </div>
             </div>
           </div>
@@ -130,12 +116,21 @@ const Footer = () => {
           </div>
 
           {/* Contact Info */}
-          <div>
-            <h3 className="text-lg font-semibold text-background mb-4">
+          <div className="">
+            <h3 className="text-lg font-semibold  text-background mb-4">
               {t("footer.contact")}
             </h3>
+           
             <ul className="space-y-3">
-              <li className="flex items-center gap-2 text-background/80">
+                <Link
+                  href="/contact"
+                  className="text-background/80 mb-3 hover:text-primary flex items-center gap-2 transition-colors"
+                >
+                  <MessageSquareReply className="h-4 w-4 text-primary shrink-0"/>
+                  {t("footer.contactus")}
+                </Link>
+
+              <li className="flex mt-4 items-center gap-2 text-background/80">
                 <MapPin className="h-4 w-4 text-primary shrink-0" />
                 <span className="text-sm">1087 rue Mengue Tsogo Elig Essono district, 
                   <br />11955 Yaoundé – Cameroon</span>

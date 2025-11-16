@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Eye, EyeOff, Mail, Lock, User, LogIn } from "lucide-react";
+import { Eye, EyeOff, Mail, Lock, User } from "lucide-react";
 
 import Link from "next/link";
 import { useTranslation } from "@/hooks/useTranslation";
@@ -45,6 +45,7 @@ const SignUp = () => {
     "other",
   ];
 
+  const [agreed, setAgreed] = useState(false); // NEW STATE
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
@@ -54,7 +55,11 @@ const SignUp = () => {
     e.preventDefault();
     setError("");
 
-    console.log("form data", formData);
+    if (!agreed) {
+      setError("You must agree to the Terms & Privacy Policy.");
+      toast.error("You must agree to continue.");
+      return;
+    }
 
     if (formData.password !== formData.confirmPassword) {
       setError(`${t("auth.noMatch")}`);
@@ -80,6 +85,7 @@ const SignUp = () => {
     <div className="min-h-screen bg-background">
       <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-md w-full space-y-8">
+
           {/* Header */}
           <div className="text-center">
             <div className="bg-gradient-hero text-primary-foreground px-6 py-3 rounded-lg font-bold text-2xl inline-block mb-4">
@@ -98,47 +104,31 @@ const SignUp = () => {
             <CardHeader>
               <CardTitle className="text-center">{t("auth.signUp")}</CardTitle>
             </CardHeader>
+
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-6">
                 
-                  <div>
-                    <Label htmlFor="fullName">{t("auth.full_name")}</Label>
-                    <div className="relative mt-1 w-full">
-                      <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                      <Input
-                        id="full_name"
-                        type="text"
-                        value={formData.fullName}
-                        onChange={(e) =>
-                          setFormData({
-                            ...formData,
-                            fullName: e.target.value,
-                          })
-                        }
-                        placeholder={t("auth.full_name")}
-                        className="pl-10"
-                        required
-                      />
-                    </div>
+                <div>
+                  <Label htmlFor="fullName">{t("auth.full_name")}</Label>
+                  <div className="relative mt-1 w-full">
+                    <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                    <Input
+                      id="full_name"
+                      type="text"
+                      value={formData.fullName}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          fullName: e.target.value,
+                        })
+                      }
+                      placeholder={t("auth.full_name")}
+                      className="pl-10"
+                      required
+                    />
                   </div>
-                  {/* <div>
-                    <Label htmlFor="lastName">{t("auth.last_name")}</Label>
-                    <div className="relative mt-1">
-                      <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                      <Input
-                        id="lastName"
-                        type="text"
-                        value={formData.lastName}
-                        onChange={(e) =>
-                          setFormData({ ...formData, lastName: e.target.value })
-                        }
-                        placeholder={t("auth.last_name")}
-                        className="pl-10"
-                        required
-                      />
-                    </div>
-                  </div> */}
-          
+                </div>
+
                 <div>
                   <Label htmlFor="email">{t("auth.email")}</Label>
                   <div className="relative mt-1">
@@ -204,12 +194,11 @@ const SignUp = () => {
                       )}
                     </button>
                   </div>
-                  <div>
-                    <ul className="list list-disc text-gray-600 text-xs pl-10 pt-2">
-                      <li className="">{t("auth.passwordCondition1")}</li>
-                      <li>{t("auth.passwordCondition2")}</li>
-                    </ul>
-                  </div>
+
+                  <ul className="list list-disc text-gray-600 text-xs pl-10 pt-2">
+                    <li>{t("auth.passwordCondition1")}</li>
+                    <li>{t("auth.passwordCondition2")}</li>
+                  </ul>
                 </div>
 
                 <div>
@@ -237,7 +226,7 @@ const SignUp = () => {
                       onClick={() =>
                         setShowConfirmPassword(!showConfirmPassword)
                       }
-                      className="absolute right-3 top-1/2  transform -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground hover:text-foreground"
                     >
                       {showConfirmPassword ? (
                         <EyeOff className="h-5 w-5" />
@@ -248,98 +237,43 @@ const SignUp = () => {
                   </div>
                 </div>
 
-                {/* <Link
-                  href="Forgot Password"
-                  className="text-sm text-primary mt-0 hover:text-primary-hover"
+                {/* TERMS & CONDITIONS CHECKBOX */}
+                <div className="flex items-start space-x-2">
+                  <Checkbox
+                    id="agree"
+                    checked={agreed}
+                    onCheckedChange={(value) => setAgreed(Boolean(value))}
+                  />
+
+                  <label
+                    htmlFor="agree"
+                    className="text-sm leading-tight cursor-pointer text-muted-foreground"
                   >
-                    {t("auth.forgot_password")}
-                  </Link> */}
-
-                <div className="space-y-3 mt-4">
-                  {/* <div className="flex items-center space-x-2">
-                    <Checkbox
-                      id="agreeToTerms"
-                      checked={formData.agreeToTerms}
-                      onCheckedChange={(checked) =>
-                        handleInputChange("agreeToTerms", checked as boolean)
-                      }
-                    />
-                    <Label
-                      htmlFor="agreeToTerms"
-                      className=" flex gap-2 items-center text-sm cursor-pointer"
+                    {t('auth.condition1')}{" "}
+                    <Link
+                      href="/terms"
+                      className="text-primary underline hover:text-primary-hover"
                     >
-                      {t("auth.agree")}{" "}
-                      <Link
-                        href="/terms"
-                        className="text-primary hover:text-primary-hover"
-                      >
-                        {t("auth.termsAndConditions")}
-                      </Link>{" "}
-                      {t("auth.and")}{" "}
-                      <Link
-                        href="/privacy"
-                        className="text-primary hover:text-primary-hover"
-                      >
-                        {t("auth.privacyPolicy")}
-                      </Link>
-                    </Label>
-                  </div> */}
-
-                  {/* <div className="flex items-center space-x-2">
-                    <Checkbox
-                      id="subscribeNewsletter"
-                      checked={formData.subscribeNewsletter}
-                      onCheckedChange={(checked) => handleInputChange("subscribeNewsletter", checked as boolean)}
-                    />
-                    <Label htmlFor="subscribeNewsletter" className="text-sm cursor-pointer">
-                      Subscribe to climate action updates and newsletters
-                    </Label>
-                  </div>*/}
+                        {t('auth.condition2')}
+                    </Link>{" "}
+                      {t('auth.condition3')}{" "}
+                    <Link
+                      href="/privacy"
+                      className="text-primary underline hover:text-primary-hover"
+                    >
+                       {t('auth.condition4')}
+                    </Link>.
+                  </label>
                 </div>
 
                 <Button
                   type="submit"
-                  disabled={loading}
+                  disabled={loading || !agreed}
                   className="w-full bg-gradient-hero hover:opacity-90 shadow-climate"
                 >
-                  {/* {t("auth.button1")} */}
                   {loading ? t("auth.creating") : t("auth.signUp")}
                 </Button>
 
-                {/* {loading ? (
-                  <div className="flex items-center space-x-2">
-                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-                    <span>Signing in...</span>
-                  </div>
-                ) : (
-                  <div className="flex items-center space-x-2">
-                    <LogIn className="w-4 h-4" />
-                    <span>Sign In</span>
-                  </div>
-                )} */}
-
-                <div className="mt-6">
-                  <div className="relative">
-                    <div className="absolute inset-0 flex items-center">
-                      <div className="w-full border-t border-border" />
-                    </div>
-                    {/* <div className="relative flex justify-center text-sm">
-                    <span className="px-2 bg-background text-muted-foreground">Or continue with</span>
-                  </div> */}
-                  </div>
-
-                  {/* <div className="mt-6 grid  md:grid-cols-3 gap-3">
-                  <Button variant="outline" className="w-full">
-                    Google
-                  </Button>
-                  <Button variant="outline" className="w-full">
-                    Facebook
-                  </Button>
-                  <Button variant="outline" className="w-full">
-                    Microsoft
-                  </Button>
-                </div> */}
-                </div>
               </form>
 
               <div className="mt-6 text-center">
