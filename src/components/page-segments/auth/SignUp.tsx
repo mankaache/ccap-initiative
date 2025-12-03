@@ -107,7 +107,7 @@ const SignUp = () => {
 
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-6">
-                
+
                 <div>
                   <Label htmlFor="fullName">{t("auth.full_name")}</Label>
                   <div className="relative mt-1 w-full">
@@ -251,19 +251,26 @@ const SignUp = () => {
                   >
                     {t('auth.condition1')}{" "}
                     <Link
-                      href="/terms"
+                      href="/participation"
                       className="text-primary underline hover:text-primary-hover"
                     >
-                        {t('auth.condition2')}
+                      {t('auth.condition2')}
                     </Link>{" "}
-                      {t('auth.condition3')}{" "}
-                    <Link
-                      href="/privacy"
-                      className="text-primary underline hover:text-primary-hover"
-                    >
-                       {t('auth.condition4')}
-                    </Link>.
+
+
                   </label>
+                </div >
+
+                <div className="mt-3 text-sm">
+                  {t('auth.condition3')}{" "}
+                  <a
+                    href="/documents/Autorisation de publication des données-Plateforme CCAP.docx"
+                    download
+                    className="text-primary underline hover:text-primary-hover"
+                  >
+                    {t('auth.condition4')}
+                  </a>{' '}
+                  {t('auth.condition5')}
                 </div>
 
                 <Button
