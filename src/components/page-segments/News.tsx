@@ -16,7 +16,7 @@ import nationalnewimage from '@/assets/national-news.jpg'
 import { useTranslation } from "@/hooks/useTranslation";
 
 const News = () => {
-const { t } = useTranslation();
+  const { t } = useTranslation();
   const [articles, setArticles] = useState<Article[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -37,19 +37,19 @@ const { t } = useTranslation();
 
     loadArticles();
   }, []);
-  
-    const {user} = useAuth();
 
-      if (loading) {
+  const { user } = useAuth();
+
+  if (loading) {
     return (
       <div className="min-h-screen">
 
-        <FullPageLoader/>
+        <FullPageLoader />
       </div>
     );
   }
 
-    
+
   if (articles?.length === 0) {
     return (
       <>
@@ -65,7 +65,7 @@ const { t } = useTranslation();
             </div>
           )
         }
-       
+
         <div className="text-center h-[80vh] flex items-center justify-center text-gray-500">
           {t('actor.newsNone')}
         </div>
@@ -81,14 +81,14 @@ const { t } = useTranslation();
         desc={t('admin.news.desc')}
       />
       <div>
-          {
+        {
           user && (
             <div className="flex justify-end pr-16 mt-8">
               <Link href={'/create-article'} className="px-4 py-2 rounded-lg text-white font-semibold cursor-pointer bg-gradient-to-l from-primary to-secondary">{t('admin.article.create')}</Link>
             </div>
           )
         }
-       
+
       </div>
 
       <div className="min-h-screen bg-gray-50 py-12">
@@ -111,20 +111,20 @@ const { t } = useTranslation();
                 </div>
                 <div className="p-6">
                   <div className="flex items-center justify-between flex-wrap">
-<div className="flex items-center text-sm text-gray-500 mb-3">
-                    <Calendar className="h-4 w-4 mr-2" />
-                    {new Date(article.date).toLocaleDateString()}
-                    
-                  </div>
-                   {user && (user.uid === article.authorId) && (
-                    <Link
-                      href={`/news/national/edit/${article.id}`}
-                      className=" flex items-center gap-1 text-sm text-orange-600 hover:text-orange-700 font-medium">
-                          <Edit2Icon className="w-4 h-4"/>{t('actor.edit')}
+                    <div className="flex items-center text-sm text-gray-500 mb-3">
+                      <Calendar className="h-4 w-4 mr-2" />
+                      {new Date(article.date).toLocaleDateString()}
+
+                    </div>
+                    {user && (user.uid === article.authorId) && (
+                      <Link
+                        href={`/news/national/edit/${article.id}`}
+                        className=" flex items-center gap-1 text-sm text-orange-600 hover:text-orange-700 font-medium">
+                        <Edit2Icon className="w-4 h-4" />{t('actor.edit')}
                       </Link>
-                      )} 
+                    )}
                   </div>
-                  
+
                   <h2 className="text-xl font-semibold text-gray-900 mb-3">
                     {article.title}
                   </h2>
