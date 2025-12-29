@@ -68,7 +68,7 @@ const ProjectDetails = () => {
     loadProject();
   }, [projectId, id]);
 
-  
+
   if (loading) {
     return (
       <div className="min-h-screen">
@@ -123,16 +123,17 @@ const ProjectDetails = () => {
 
           <div className="flex flex-col items-start  gap-6">
             <div className="flex-1">
-              <div className="flex items-center gap-3 mb-4">
+              <div className="flex items-center capitalize gap-3 mb-4">
                 <Badge
                   variant="outline"
                   className={`${getStatusColor(
                     project && project.status
                   )} border-white/20 bg-white/10`}
                 >
-                  {project &&
-                    project.status.charAt(0).toUpperCase() + project &&
-                    project.status.slice(1)}
+                  {project?.status &&
+                    project.status.charAt(0).toUpperCase() + project.status.slice(1)
+                  }
+
                 </Badge>
                 <Badge
                   variant="outline"
@@ -156,27 +157,27 @@ const ProjectDetails = () => {
                   <span>{project && project.region}</span>
                 </div>
                 <div className="  flex items-center gap-3">
-                    {project && project.specificLocation.map((loc:any, indx:number)=>{
-                      <span key={indx}> <MapPin className="h-5 w-5" /> {loc.name}</span>
+                  {project && project.specificLocation.map((loc: any, indx: number) => {
+                    <span key={indx}> <MapPin className="h-5 w-5" /> {loc.name}</span>
                   })}
-                  </div>
+                </div>
                 <div className="flex items-center gap-2">
                   <span>{project && project.budgetAmount}XAF</span>
                 </div>
               </div>
-               
+
             </div>
 
-          <div>
-             <Link
-                    className="bg-gradient-to-l from-primary  to-secondary text-white py-2 px-4 rounded font-semibold"
-                    href={`${pathname}/demonstration`}
-                  >
-                    {t('admin.project.checkTransparency')}
-                  </Link>
-          </div>
+            <div>
+              <Link
+                className="bg-gradient-to-l from-primary  to-secondary text-white py-2 px-4 rounded font-semibold"
+                href={`${pathname}/demonstration`}
+              >
+                {t('admin.project.checkTransparency')}
+              </Link>
+            </div>
 
-           
+
           </div>
         </div>
       </div>
@@ -204,18 +205,18 @@ const ProjectDetails = () => {
 
                 {user && project?.projectReview === "Pending" && (
                   <>
-                <Separator />
-                  <div>
-                    <h3 className="font-semibold text-lg mb-2">
-                     {t('admin.project.projectReview')}
-                    </h3>
-                    <p className="text-muted-foreground font-semibold text-primary">
-                      {project && project.projectReview}
-                    </p>
-                  </div></>
+                    <Separator />
+                    <div>
+                      <h3 className="font-semibold text-lg mb-2">
+                        {t('admin.project.projectReview')}
+                      </h3>
+                      <p className="text-muted-foreground font-semibold text-primary">
+                        {project && project.projectReview}
+                      </p>
+                    </div></>
                 )}
 
-<Separator />
+                <Separator />
                 <div>
                   <h3 className="font-semibold text-lg mb-2">
                     {t("project.websiteLink")}
@@ -228,7 +229,7 @@ const ProjectDetails = () => {
 
                 <div>
                   <h3 className="font-semibold text-lg mb-2">
-                   {t('admin.project.interventionLogic')}
+                    {t('admin.project.interventionLogic')}
                   </h3>
                   <p className="text-muted-foreground">
                     {project && project.interventionLogic}
@@ -252,7 +253,7 @@ const ProjectDetails = () => {
               </CardContent>
             </Card>
 
-             <Card>
+            <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Target className="h-5 w-5 text-primary" />
@@ -271,7 +272,7 @@ const ProjectDetails = () => {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <TrendingUp className="h-5 w-5 text-primary" />
-                   {t('admin.project.programs')}
+                  {t('admin.project.programs')}
                 </CardTitle>
               </CardHeader>
               <CardContent>
@@ -290,7 +291,7 @@ const ProjectDetails = () => {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <TrendingUp className="h-5 w-5 text-primary" />
-                   {t('admin.project.partners')}
+                  {t('admin.project.partners')}
                 </CardTitle>
               </CardHeader>
               <CardContent>
@@ -311,7 +312,7 @@ const ProjectDetails = () => {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Building className="h-5 w-5 text-primary" />
-                     {t('admin.project.orgInfo')}
+                  {t('admin.project.orgInfo')}
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
@@ -328,46 +329,46 @@ const ProjectDetails = () => {
                 </div>
               </CardContent>
             </Card>
-              {/* images */}
-                        <Card>
-                          <CardHeader>
-                            <CardTitle className="flex items-center gap-2">
-                              <Building className="h-5 w-5 text-primary" />
-                              {t('admin.project.images')}
-                            </CardTitle>
-                          </CardHeader>
-                          <CardContent className="space-y-4">
-                            <div className="flex gap-9 items-center flex-wrap md:flex-nowrap">
-                              {project &&
-                                project.images?.map((image: any, index: any) => (
-                                  <div key={index} className="relative w-full h-48 ">
-                                    <Image
-                                      src={image}
-                                      width={300}
-                                      height={300}
-                                      placeholder="blur"
-                                      blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII="
-                                      alt={project?.ProjectTitle}
-                                      className="object-cover"
-                                    />
-                                  </div>
-                                ))}
-                            </div>
-                          </CardContent>
-                        </Card>
+            {/* images */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Building className="h-5 w-5 text-primary" />
+                  {t('admin.project.images')}
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="flex gap-9 items-center flex-wrap md:flex-nowrap">
+                  {project &&
+                    project.images?.map((image: any, index: any) => (
+                      <div key={index} className="relative w-full h-48 ">
+                        <Image
+                          src={image}
+                          width={300}
+                          height={300}
+                          placeholder="blur"
+                          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII="
+                          alt={project?.ProjectTitle}
+                          className="object-cover"
+                        />
+                      </div>
+                    ))}
+                </div>
+              </CardContent>
+            </Card>
 
-                          <button
-                            onClick={() =>
-                              forceDownload(
-                                project && project.pdf,
-                                project && project.ProjectTitle
-                              )
-                            }
-                            className="flex items-center px-3 py-2 border border-gray-300 text-gray-700 rounded hover:bg-gray-50 transition-colors text-sm"
-                          >
-                            <Download className="h-4 w-4 mr-1" />
-                            {t("actor.documentDownload")}
-                          </button>
+            <button
+              onClick={() =>
+                forceDownload(
+                  project && project.pdf,
+                  project && project.ProjectTitle
+                )
+              }
+              className="flex items-center px-3 py-2 border border-gray-300 text-gray-700 rounded hover:bg-gray-50 transition-colors text-sm"
+            >
+              <Download className="h-4 w-4 mr-1" />
+              {t("actor.documentDownload")}
+            </button>
           </div>
 
           {/* Sidebar */}
@@ -376,7 +377,7 @@ const ProjectDetails = () => {
             <Card>
               <CardHeader>
                 <CardTitle>
-                   {t('admin.project.projectDetails')}
+                  {t('admin.project.projectDetails')}
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
@@ -429,16 +430,16 @@ const ProjectDetails = () => {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <MapPin className="h-5 w-5 text-red-500" />
-                 {t('admin.project.locationDetails')}
+                  {t('admin.project.locationDetails')}
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-2">
                   <div className="font-medium"> {t('admin.project.specificLocation')}</div>
                   <div className="text-muted-foreground text-sm flex items-center gap-3">
-                    {project && project.specificLocation.map((loc:any, indx:number)=>{
+                    {project && project.specificLocation.map((loc: any, indx: number) => {
                       <span key={indx}> <MapPin className="h-5 w-5" /> {loc.name}</span>
-                  })}
+                    })}
                   </div>
 
                   <div className="font-medium mt-4">{t('admin.project.region')}</div>

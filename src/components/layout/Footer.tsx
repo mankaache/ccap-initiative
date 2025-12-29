@@ -60,7 +60,7 @@ const Footer = () => {
                     className="w-full h-full object-cover rounded-full"
                   />
                 </div>
-            
+
               </div>
             </div>
           </div>
@@ -120,19 +120,19 @@ const Footer = () => {
             <h3 className="text-lg font-semibold  text-background mb-4">
               {t("footer.contact")}
             </h3>
-           
+
             <ul className="space-y-3">
-                <Link
-                  href="/contact"
-                  className="text-background/80 mb-3 hover:text-primary flex items-center gap-2 transition-colors"
-                >
-                  <MessageSquareReply className="h-4 w-4 text-primary shrink-0"/>
-                  {t("footer.contactus")}
-                </Link>
+              <Link
+                href="/contact"
+                className="text-background/80 mb-3 hover:text-primary flex items-center gap-2 transition-colors"
+              >
+                <MessageSquareReply className="h-4 w-4 text-primary shrink-0" />
+                {t("footer.contactus")}
+              </Link>
 
               <li className="flex mt-4 items-center gap-2 text-background/80">
                 <MapPin className="h-4 w-4 text-primary shrink-0" />
-                <span className="text-sm">1087 rue Mengue Tsogo Elig Essono district, 
+                <span className="text-sm">1087 rue Mengue Tsogo Elig Essono district,
                   <br />11955 Yaoundé – Cameroon</span>
               </li>
               <li className="flex items-center gap-2 text-background/80">
@@ -154,17 +154,18 @@ const Footer = () => {
           </div>
           <div className="flex items-center gap-6 text-sm">
             <Link
-              href="/privacy"
+              href="/participation"
               className="text-background/60 hover:text-primary transition-colors"
             >
-              {t("footer.privacy")}
-            </Link>
-            <Link
-              href="/terms"
+              {t('auth.condition2')}
+            </Link>{" "}
+            <a
+              href="/documents/Autorisation de publication des données-Plateforme CCAP.docx"
+              download
               className="text-background/60 hover:text-primary transition-colors"
             >
-              {t("footer.terms")}
-            </Link>
+              {t('auth.condition4')}
+            </a>{' '}
             {/* <Link href="/contact" className="text-background/60 hover:text-primary transition-colors">
               Contact
             </Link> */}

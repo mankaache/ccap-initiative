@@ -528,7 +528,7 @@ const CreateProject = ({ projectId }: { projectId?: string }) => {
               </div>
               <div className="space-y-2 w-full">
                 <Label className="" htmlFor="link">
-                  {t("project.websiteLink")} *
+                  {t("project.websiteLink")} 
                 </Label>
                 <Input
                   id="website_link"
@@ -588,6 +588,9 @@ const CreateProject = ({ projectId }: { projectId?: string }) => {
                       </SelectItem>
                       <SelectItem value={t("project.goal4")}>
                         {t("project.goal4")}
+                      </SelectItem>
+                      <SelectItem value={t("project.goal5")}>
+                        {t("project.goal5")}
                       </SelectItem>
                       <SelectItem value={t("project.goal3")}>
                         {t("project.goal3")}
@@ -839,7 +842,7 @@ const CreateProject = ({ projectId }: { projectId?: string }) => {
 
             <div className="space-y-2">
               <Label className="" htmlFor="description">
-                {t("project.specific_objective")} *
+                {t("project.specific_objective")} 
               </Label>
               <Textarea
                 id="specificObjectives"
@@ -857,7 +860,7 @@ const CreateProject = ({ projectId }: { projectId?: string }) => {
             </div>
             <div className="space-y-2">
               <Label className="" htmlFor="description">
-                {t("project.intervention_logic")} *
+                {t("project.intervention_logic")} 
               </Label>
               <Textarea
                 id="interventionLogic"
@@ -875,7 +878,7 @@ const CreateProject = ({ projectId }: { projectId?: string }) => {
             </div>
             <div className="space-y-2">
               <Label className="" htmlFor="impact">
-                {t("project.impact")} *
+                {t("project.impact")} 
               </Label>
               <Textarea
                 id="projectImpact"

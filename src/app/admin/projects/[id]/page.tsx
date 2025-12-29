@@ -135,16 +135,16 @@ const ProjectDetailspage = () => {
 
           <div className="flex flex-col items-start gap-6 w-full">
             <div className="w-full">
-              <div className="flex items-center gap-3 mb-4">
+              <div className="flex items-center capitalize gap-3 mb-4">
                 <Badge
                   variant="outline"
                   className={`${getStatusColor(
                     project && project.status
                   )} border-white/20 bg-white/10`}
                 >
-                  {project &&
-                    project.status.charAt(0).toUpperCase() + project &&
-                    project.status.slice(1)}
+                   {project?.status &&
+                    project.status.charAt(0).toUpperCase() + project.status.slice(1)
+                  }
                 </Badge>
                 <Badge
                   variant="outline"
