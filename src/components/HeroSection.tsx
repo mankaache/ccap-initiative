@@ -8,6 +8,7 @@ import heroimage from "@/assets/heroimage.png";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { fetchAcceptedProjects, fetchAllProjects } from "@/firebase/services/projectService";
+import { formatBudget } from "@/utils/moneyFormat";
 
 const HeroSection = () => {
   const { t } = useTranslation();
@@ -30,10 +31,11 @@ const HeroSection = () => {
           loadArticles();
         }, []);
   
-const totalBudget = projects.reduce((sum, project) => {
-  //@ts-ignore
-  return sum + Number(project && project.budgetAmount);
-}, 0);
+  const totalBudget = projects.reduce((sum, project) => {
+    //@ts-expect-error
+  const amount = Number(project.budgetAmount.replace(/\s/g, ""));
+  return sum + amount;
+}, 0)
 
   const stats = [
    
@@ -46,14 +48,16 @@ const totalBudget = projects.reduce((sum, project) => {
     },
     {
       icon: Users,
-      value: totalBudget,
+      value: formatBudget(totalBudget),
       label: t("map.totalInvestment"),
+       color: "text-secondary",
       description: t("hero.stats.partnersDesc"),
     },
     {
       icon: MapPin,
       label: t("hero.stats.regionsCovered"),
-      value: "10",
+      value:  new Set(projects.flatMap((p: any) => p.region)).size,
+       color: "text-secondary",
       description: t("hero.stats.regionsDesc"),
     },
   ];
@@ -131,7 +135,7 @@ const totalBudget = projects.reduce((sum, project) => {
                 <div className="flex items-center justify-between">
                   <div>
                     <div
-                      className={`text-2xl lg:text-3xl font-bold ${stat.color} mb-1`}
+                      className={`text-2xl  font-bold ${stat.color} mb-1`}
                     >
                       {stat.value}
                     </div>

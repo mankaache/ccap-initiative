@@ -11,7 +11,7 @@ export const hero = {
     'hero.stats.activeProjects': 'Projets Actifs',
     'hero.stats.totalFunding': 'Financement Total',
     'hero.stats.activePartners': 'Partenaires Actifs',
-    'hero.stats.regionsCovered': 'Régions Couvertes',
+    'hero.stats.regionsCovered': 'Région(s) Couvertes',
     'hero.stats.projectsDesc': 'Initiatives climatiques à travers le Cameroun',
     'hero.stats.fundingDesc': 'Alloué aux projets environnementaux',
     'hero.stats.partnersDesc': 'Organisations et acteurs impliqués',

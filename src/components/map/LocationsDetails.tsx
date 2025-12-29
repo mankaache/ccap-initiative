@@ -28,93 +28,109 @@ import {
 } from "../ui/select";
 
 const cameroonLocations = {
-  centre: [
-    { name: "Yaoundé", lat: 3.8667, lng: 11.5167, type: "capital" },
-    { name: "Mbalmayo", lat: 3.5167, lng: 11.5, type: "city" },
-    { name: "Obala", lat: 4.1833, lng: 11.5333, type: "city" },
-    { name: "Eséka", lat: 3.65, lng: 10.7667, type: "city" },
-    { name: "Mfou", lat: 3.7167, lng: 11.6333, type: "city" },
-    { name: "Bafia", lat: 4.75, lng: 11.2333, type: "city" },
-    { name: "Ntui", lat: 4.8167, lng: 11.8167, type: "town" },
-    { name: "Ayos", lat: 3.9, lng: 12.5333, type: "town" },
-    { name: "Akonolinga", lat: 3.25, lng: 12.25, type: "town" },
+
+  extremeNord: [
+    { name: "Maroua", lat: 10.59, lng: 14.32, type: "capital" },
+    { name: "Kousséri", lat: 12.08, lng: 15.03, type: "city" },
+    { name: "Yagoua", lat: 10.34, lng: 15.23, type: "city" },
+    { name: "Kaélé", lat: 10.11, lng: 14.45, type: "town" },
+    { name: "Mora", lat: 11.05, lng: 14.14, type: "town" },
+    { name: "Mokolo", lat: 10.74, lng: 13.80, type: "town" }
   ],
-  littoral: [
-    { name: "Douala", lat: 4.06, lng: 9.7, type: "capital" },
-    { name: "Edéa", lat: 3.8, lng: 10.1333, type: "city" },
-    { name: "Nkongsamba", lat: 4.95, lng: 9.9333, type: "city" },
-    { name: "Loum", lat: 4.7167, lng: 9.7333, type: "city" },
-    { name: "Mbanga", lat: 4.5, lng: 9.5667, type: "city" },
-    { name: "Dizangué", lat: 3.7, lng: 10.05, type: "town" },
-  ],
-  "extrême nord": [
-    { name: "Maroua", lat: 10.5833, lng: 14.3167, type: "capital" },
-    { name: "Kousseri", lat: 12.0833, lng: 15.0333, type: "city" },
-    { name: "Mokolo", lat: 10.7333, lng: 13.8, type: "city" },
-    { name: "Yagoua", lat: 10.3333, lng: 15.2333, type: "city" },
-    { name: "Kaélé", lat: 10.1, lng: 14.45, type: "city" },
-    { name: "Mora", lat: 11.05, lng: 14.1333, type: "town" },
-    { name: "Waza", lat: 11.4, lng: 14.6333, type: "town" },
-  ],
+
   nord: [
-    { name: "Garoua", lat: 9.3, lng: 13.4, type: "capital" },
-    { name: "Ngaoundéré", lat: 7.3167, lng: 13.5833, type: "city" },
-    { name: "Figuil", lat: 9.75, lng: 13.9667, type: "city" },
-    { name: "Guider", lat: 9.9333, lng: 13.95, type: "city" },
-    { name: "Rey Bouba", lat: 8.6667, lng: 14.1833, type: "town" },
-    { name: "Tcholliré", lat: 8.3833, lng: 14.1167, type: "town" },
+    { name: "Garoua", lat: 9.30, lng: 13.40, type: "capital" },
+    { name: "Poli", lat: 8.52, lng: 13.16, type: "town" },
+    { name: "Guider", lat: 9.93, lng: 13.95, type: "city" },
+    { name: "Tcholliré", lat: 8.38, lng: 14.12, type: "town" }
   ],
-  "nord-ouest": [
-    { name: "Bamenda", lat: 5.9597, lng: 10.1494, type: "capital" },
-    { name: "Kumbo", lat: 6.2, lng: 10.6833, type: "city" },
-    { name: "Wum", lat: 6.3833, lng: 10.0667, type: "city" },
-    { name: "Ndop", lat: 6.0167, lng: 10.4167, type: "city" },
-    { name: "Bafut", lat: 6.0833, lng: 10.1167, type: "town" },
-    { name: "Tubah", lat: 6.0, lng: 10.2333, type: "town" },
+
+  adamaoua: [
+    { name: "Tibati", lat: 6.47, lng: 12.62, type: "town" },
+    { name: "Tignère", lat: 7.32, lng: 11.98, type: "town" },
+    { name: "Banyo", lat: 6.75, lng: 11.81, type: "town" },
+    { name: "Meiganga", lat: 6.52, lng: 14.30, type: "town" },
+    { name: "Ngaoundéré", lat: 7.33, lng: 13.58, type: "capital" }
   ],
-  "sud-ouest": [
-    { name: "Buea", lat: 4.15, lng: 9.2333, type: "capital" },
-    { name: "Limbe", lat: 4.0167, lng: 9.2167, type: "city" },
-    { name: "Kumba", lat: 4.6333, lng: 9.45, type: "city" },
-    { name: "Tiko", lat: 4.0833, lng: 9.3667, type: "city" },
-    { name: "Mamfe", lat: 5.7667, lng: 9.3, type: "city" },
-    { name: "Tombel", lat: 4.6333, lng: 9.6167, type: "town" },
-    { name: "Fontem", lat: 5.4833, lng: 9.9, type: "town" },
-  ],
-  ouest: [
-    { name: "Bafoussam", lat: 5.4667, lng: 10.4167, type: "capital" },
-    { name: "Dschang", lat: 5.45, lng: 10.05, type: "city" },
-    { name: "Mbouda", lat: 5.6167, lng: 10.25, type: "city" },
-    { name: "Bandjoun", lat: 5.3833, lng: 10.4, type: "city" },
-    { name: "Bangangté", lat: 5.15, lng: 10.5167, type: "city" },
-    { name: "Foumban", lat: 5.7167, lng: 10.9, type: "city" },
-    { name: "Bafang", lat: 5.15, lng: 10.1833, type: "town" },
-  ],
+
   est: [
-    { name: "Bertoua", lat: 4.5833, lng: 13.6833, type: "capital" },
-    { name: "Batouri", lat: 4.4333, lng: 14.3667, type: "city" },
-    { name: "Yokadouma", lat: 3.5167, lng: 15.05, type: "city" },
-    { name: "Abong-Mbang", lat: 3.9833, lng: 13.1833, type: "city" },
-    { name: "Kenzou", lat: 4.2667, lng: 13.4333, type: "town" },
-    { name: "Lomié", lat: 3.1833, lng: 13.6167, type: "town" },
+    { name: "Yokadouma", lat: 3.51, lng: 15.05, type: "town" },
+    { name: "Abong-Mbang", lat: 4.00, lng: 13.08, type: "town" },
+    { name: "Batouri", lat: 4.43, lng: 14.36, type: "town" },
+    { name: "Bertoua", lat: 4.58, lng: 13.68, type: "capital" },
+    { name: "Kenzou", lat: 4.10, lng: 14.50, type: "town" },  // approximate
+    { name: "Lomié", lat: 3.16, lng: 13.62, type: "town" }
   ],
+
+  centre: [
+    { name: "Nanga-Eboko", lat: 4.67, lng: 12.37, type: "town" },
+    { name: "Monatélé", lat: 3.87, lng: 11.30, type: "town" },
+    { name: "Bafia", lat: 4.75, lng: 11.23, type: "city" },
+    { name: "Ntui", lat: 4.70, lng: 11.15, type: "town" },
+    { name: "Mfou", lat: 3.72, lng: 11.76, type: "town" },
+    { name: "Ngoumou", lat: 3.60, lng: 11.50, type: "town" },
+    { name: "Yaoundé", lat: 3.87, lng: 11.52, type: "capital" },
+    { name: "Éséka", lat: 3.65, lng: 10.77, type: "town" },
+    { name: "Akonolinga", lat: 3.77, lng: 12.25, type: "town" },
+    { name: "Mbalmayo", lat: 3.52, lng: 11.50, type: "town" },
+    { name: "Obala", lat: 4.17, lng: 11.53, type: "town" }
+  ],
+
   sud: [
-    { name: "Ebolowa", lat: 2.9, lng: 11.15, type: "capital" },
-    { name: "Kribi", lat: 2.9333, lng: 9.9167, type: "city" },
-    { name: "Sangmélima", lat: 2.9333, lng: 11.9833, type: "city" },
-    { name: "Mbalmayo", lat: 3.5167, lng: 11.5, type: "city" },
-    { name: "Ambam", lat: 2.3833, lng: 11.2667, type: "town" },
-    { name: "Campo", lat: 2.3667, lng: 9.8167, type: "town" },
+    { name: "Ebolowa", lat: 2.90, lng: 11.15, type: "capital" },
+    { name: "Sangmélima", lat: 2.94, lng: 11.98, type: "town" },
+    { name: "Kribi", lat: 2.94, lng: 9.91, type: "town" },
+    { name: "Ambam", lat: 2.35, lng: 11.47, type: "town" },
+    { name: "Campo", lat: 2.23, lng: 9.98, type: "town" }
   ],
-  adamawa: [
-    { name: "Ngaoundéré", lat: 7.3167, lng: 13.5833, type: "capital" },
-    { name: "Meiganga", lat: 6.5167, lng: 14.2833, type: "city" },
-    { name: "Tibati", lat: 6.4667, lng: 12.6333, type: "city" },
-    { name: "Tignère", lat: 7.3667, lng: 12.65, type: "city" },
-    { name: "Banyo", lat: 6.75, lng: 11.8167, type: "town" },
-    { name: "Kontcha", lat: 8.2, lng: 12.2333, type: "town" },
+
+  littoral: [
+    { name: "Nkongsamba", lat: 4.96, lng: 9.94, type: "town" },
+    { name: "Yabassi", lat: 4.47, lng: 9.97, type: "town" },
+    { name: "Édéa", lat: 3.80, lng: 10.12, type: "city" },
+    { name: "Douala", lat: 4.05, lng: 9.70, type: "capital" },
+    { name: "Loum", lat: 4.72, lng: 9.74, type: "town" },
+    { name: "Mbanga", lat: 4.51, lng: 9.57, type: "town" },
+    { name: "Dizangué", lat: 4.70, lng: 9.68, type: "town" }
   ],
+
+  ouest: [
+    { name: "Mbouda", lat: 5.64, lng: 10.25, type: "town" },
+    { name: "Bafang", lat: 5.17, lng: 10.18, type: "town" },
+    { name: "Baham", lat: 5.23, lng: 10.13, type: "town" },
+    { name: "Bandjoun", lat: 5.22, lng: 10.42, type: "town" },
+    { name: "Dschang", lat: 5.44, lng: 10.05, type: "town" },
+    { name: "Bafoussam", lat: 5.48, lng: 10.42, type: "capital" },
+    { name: "Bangangté", lat: 5.14, lng: 10.51, type: "town" },
+    { name: "Foumban", lat: 5.73, lng: 10.90, type: "town" }
+  ],
+
+  'nord-ouest': [
+    { name: "Fundong", lat: 6.25, lng: 10.27, type: "town" },
+    { name: "Kumbo", lat: 6.20, lng: 10.67, type: "town" },
+    { name: "Nkambé", lat: 6.17, lng: 10.70, type: "town" },
+    { name: "Wum", lat: 6.38, lng: 10.07, type: "town" },
+    { name: "Bamenda", lat: 5.96, lng: 10.15, type: "capital" },
+    { name: "Mbengwi", lat: 6.14, lng: 10.40, type: "town" },
+    { name: "Ndop", lat: 6.07, lng: 10.47, type: "town" },
+    { name: "Bafut", lat: 5.92, lng: 10.15, type: "town" }
+  ],
+
+  'sud-ouest': [
+    { name: "Buéa", lat: 4.16, lng: 9.23, type: "capital" },
+    { name: "Limbé", lat: 4.02, lng: 9.19, type: "city" },
+    { name: "Bangem", lat: 5.15, lng: 9.55, type: "town" },
+    { name: "Menji", lat: 5.03, lng: 9.45, type: "town" },
+    { name: "Mamfé", lat: 5.78, lng: 9.29, type: "town" },
+    { name: "Kumba", lat: 4.64, lng: 9.44, type: "city" },
+    { name: "Mundemba", lat: 5.85, lng: 9.38, type: "town" },
+    { name: "Tombel", lat: 4.63, lng: 9.32, type: "town" },
+    { name: "Tiko", lat: 4.08, lng: 9.36, type: "town" },
+    { name: "Fontem", lat: 5.47, lng: 9.88, type: "town" }
+  ]
+
 };
+
 
 // Available regions
 const regions = [

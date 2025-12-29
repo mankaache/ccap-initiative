@@ -11,7 +11,7 @@ export const hero = {
   'hero.stats.activeProjects': 'Active Projects',
   'hero.stats.totalFunding': 'Total Funding',
   'hero.stats.activePartners': 'Active Partners',
-  'hero.stats.regionsCovered': 'Regions Covered',
+  'hero.stats.regionsCovered': 'Region(s) Covered',
   'hero.stats.projectsDesc': 'Climate initiatives across Cameroon',
   'hero.stats.fundingDesc': 'Allocated to environmental projects',
   'hero.stats.partnersDesc': 'Organizations and actors involved',

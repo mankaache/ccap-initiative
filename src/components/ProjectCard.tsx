@@ -178,7 +178,7 @@ const ProjectCard = ({ project, category, subcategory, id }: any) => {
             <div className="text-xs text-muted-foreground">
               {t("project.programs")}
             </div>
-            <div className="flex flex-wrap gap-1">
+            <div className="flex flex-col gap-1">
               {
                 
                   project &&
@@ -186,13 +186,10 @@ const ProjectCard = ({ project, category, subcategory, id }: any) => {
                   //@ts-ignore
               
                   project.programs.slice(0, 2).map((program, index) => (
-                    <Badge
-                      key={index}
-                      variant="outline"
-                      className="text-xs text-left w-full truncate"
-                    >
+                    <div   key={index} className="text-xs text-left max-w-64 truncate border border-gray-800 rounded-lg px-1 py-0.5">
+                
                       {program}
-                    </Badge>
+                    </div>
                   ))
               }
               {project && project.programs && project.programs.length > 2 && (

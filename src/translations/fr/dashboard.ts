@@ -182,7 +182,7 @@ export const dashboard = {
      'admin.project.settingsDesc' :  'Gérer les préférences et la sécurité de votre compte',
      'admin.project.general' :  'Préférences générales',
      'admin.project.generalDesc' :  'Configurer vos préférences générales pour l\'application',
-    'admin.project.checkTransparency' :'Vérifier la transparence',
+    'admin.project.checkTransparency' :'Vérifier la transparence et la redevabilite',
 
     'admin.document.noDocs' : 'Aucun document trouvé',
     'admin.document.noDocsYet' : 'Aucun document disponible pour le moment.',

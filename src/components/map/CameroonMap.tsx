@@ -6,20 +6,22 @@ import 'leaflet.markercluster/dist/MarkerCluster.css';
 import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
 import dynamic from 'next/dynamic';
 import { useTranslation } from '@/hooks/useTranslation';
+import { formatBudget } from '@/utils/moneyFormat';
 
 
 const MapComponent = dynamic(() => import('./ProjectMarkers'), {
   ssr: false,
   loading: () => {
-    const {t} = useTranslation()
+    const { t } = useTranslation()
     return (
-    <div className="h-screen w-full flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-        <p className="text-gray-600">{t('map.loadingProjects')}</p>
+      <div className="h-screen w-full flex items-center justify-center bg-gray-100">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">{t('map.loadingProjects')}</p>
+        </div>
       </div>
-    </div>
-  )}
+    )
+  }
 });
 
 
@@ -27,40 +29,40 @@ const MapComponent = dynamic(() => import('./ProjectMarkers'), {
 
 // Cameroon regions with coordinates
 const regionCoordinates = {
-  'centre': {lat: 4.7500, lng: 11.8333, color: '#10B981'},       
-  'littoral': {lat: 4.25, lng: 9.70, color: '#3B82F6'},           
-  'extrême nord': {lat: 11.75, lng: 14.50, color: '#F59E0B'},     
-  'nord': {lat: 9.75, lng: 13.25, color: '#EF4444' },               
-  'nord-ouest': {lat: 6.00, lng: 10.20, color: '#8B5CF6'},        
-  'sud-ouest': {lat: 4.00, lng: 9.30, color: '#EC4899'},           
-  'ouest': {lat: 5.50, lng: 10.50, color: '#06B6D4'},               
-  'est': {lat: 5.00, lng: 14.50, color: '#84CC16'},                 
-  'sud': {lat: 2.90, lng: 11.50, color: '#F97316'},                
-  'adamawa': {lat: 7.50, lng: 13.50, color: '#6366F1'} 
+  'centre': { lat: 4.7500, lng: 11.8333, color: '#10B981' },
+  'littoral': { lat: 4.25, lng: 9.70, color: '#3B82F6' },
+  'extrême nord': { lat: 11.75, lng: 14.50, color: '#F59E0B' },
+  'nord': { lat: 9.75, lng: 13.25, color: '#EF4444' },
+  'nord-ouest': { lat: 6.00, lng: 10.20, color: '#8B5CF6' },
+  'sud-ouest': { lat: 4.00, lng: 9.30, color: '#EC4899' },
+  'ouest': { lat: 5.50, lng: 10.50, color: '#06B6D4' },
+  'est': { lat: 5.00, lng: 14.50, color: '#84CC16' },
+  'sud': { lat: 2.90, lng: 11.50, color: '#F97316' },
+  'adamawa': { lat: 7.50, lng: 13.50, color: '#6366F1' }
 };
 
 
 
-const RegionInfoPanel = ({ region, projects, onClose }:any) => {
-  const {t} = useTranslation()
-    //@ts-ignore
+const RegionInfoPanel = ({ region, projects, onClose }: any) => {
+  const { t } = useTranslation()
+  //@ts-ignore
   const regionData = regionCoordinates[region?.toLowerCase()];
-  const regionProjects = projects.filter((  p:any) => 
-    p.region.some((r:any) => r.toLowerCase() === region?.toLowerCase())
+  const regionProjects = projects.filter((p: any) =>
+    p.region.some((r: any) => r.toLowerCase() === region?.toLowerCase())
   );
 
- const totalBudget = regionProjects.reduce(
-  (sum: number, p: any) => sum + Number(p.budgetAmount.replace(/,/g, "")),
-  0
-);
-  const statusCounts = regionProjects.reduce((acc:any, p:any) => {
+  const totalBudget = regionProjects.reduce(
+    (sum: number, p: any) => sum + Number(p.budgetAmount.replace(/,/g, "")),
+    0
+  );
+  const statusCounts = regionProjects.reduce((acc: any, p: any) => {
     acc[p.status] = (acc[p.status] || 0) + 1;
     return acc;
   }, {});
 
   return (
     <div className="absolute top-4 right-4 w-80 bg-white rounded-xl shadow-2xl z-[1000] border border-gray-200">
-      <div 
+      <div
         className="p-4 rounded-t-xl text-white font-bold flex items-center justify-between"
         style={{ backgroundColor: regionData?.color || '#6B7280' }}
       >
@@ -69,7 +71,7 @@ const RegionInfoPanel = ({ region, projects, onClose }:any) => {
           ×
         </button>
       </div>
-      
+
       <div className="p-4">
         <div className="grid grid-cols-2 gap-4 mb-4">
           <div className="bg-blue-50 p-3 rounded-lg">
@@ -85,14 +87,13 @@ const RegionInfoPanel = ({ region, projects, onClose }:any) => {
         <div className="mb-4">
           <h4 className="font-semibold text-sm mb-2">{t('map.statusBreakdown')}</h4>
           <div className="space-y-2">
-            {Object.entries(statusCounts).map(([status, count]:any) => (
+            {Object.entries(statusCounts).map(([status, count]: any) => (
               <div key={status} className="flex items-center justify-between">
                 <span className="capitalize text-sm">{status}</span>
-                <span className={`px-2 py-1 rounded text-xs font-medium ${
-                  status === 'accepted' ? 'bg-green-100 text-green-800' :
-                  status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
-                  'bg-red-100 text-red-800'
-                }`}>
+                <span className={`px-2 py-1 rounded text-xs font-medium ${status === 'accepted' ? 'bg-green-100 text-green-800' :
+                    status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
+                      'bg-red-100 text-red-800'
+                  }`}>
                   {count}
                 </span>
               </div>
@@ -103,7 +104,7 @@ const RegionInfoPanel = ({ region, projects, onClose }:any) => {
         <div>
           <h4 className="font-semibold text-sm mb-2">{t('map.recentProject')}</h4>
           <div className="space-y-2 max-h-48 overflow-y-auto">
-            {regionProjects.slice(0, 5).map((project:any) => (
+            {regionProjects.slice(0, 5).map((project: any) => (
               <div key={project.id} className="p-2 bg-gray-50 rounded-lg">
                 <div className="font-medium text-sm">{project.ProjectTitle}</div>
                 <div className="text-xs text-gray-600">{project.organizationName}</div>
@@ -116,20 +117,20 @@ const RegionInfoPanel = ({ region, projects, onClose }:any) => {
   );
 };
 
-const CameroonMap = ({ projects  }:any) => {
-  const {t} = useTranslation()
+const CameroonMap = ({ projects }: any) => {
+  const { t } = useTranslation()
   const [selectedRegion, setSelectedRegion] = useState(null);
   const [mapMode, setMapMode] = useState('markers');
   const [statusFilter, setStatusFilter] = useState('all');
   const [isMounted, setIsMounted] = useState(false);
- const [filteredProjects, setFilteredProjects] = useState([]);
+  const [filteredProjects, setFilteredProjects] = useState([]);
   useEffect(() => {
     setIsMounted(true);
-    
+
   }, []);
 
-const processedProjects = useMemo(() => {
-    return projects.map((project:any) => {
+  const processedProjects = useMemo(() => {
+    return projects.map((project: any) => {
       // If project has specific locations with coordinates, use the first one
       if (project.specificLocation && Array.isArray(project.specificLocation) && project.specificLocation.length > 0) {
         const firstLocation = project.specificLocation[0];
@@ -137,7 +138,7 @@ const processedProjects = useMemo(() => {
           const primaryRegion = project.region?.[0]?.toLowerCase() || '';
           //@ts-ignore
           const coords = regionCoordinates[primaryRegion];
-          
+
           return {
             ...project,
             lat: firstLocation.lat,
@@ -146,16 +147,16 @@ const processedProjects = useMemo(() => {
           };
         }
       }
-      
+
       // Fallback to region-based coordinates if no specific location coordinates
       const primaryRegion = project.region?.[0]?.toLowerCase() || '';
       //@ts-ignore
       const coords = regionCoordinates[primaryRegion];
-      
+
       if (coords) {
         const latOffset = (Math.random() - 0.5) * 0.2;
         const lngOffset = (Math.random() - 0.5) * 0.2;
-        
+
         return {
           ...project,
           lat: coords.lat + latOffset,
@@ -163,31 +164,39 @@ const processedProjects = useMemo(() => {
           regionColor: coords.color
         };
       }
-      
+
       return project;
-    }).filter((p:any) => p.lat && p.lng);
+    }).filter((p: any) => p.lat && p.lng);
   }, [projects]);
 
 
   // Update filtered projects when filters change
   useEffect(() => {
     let filtered = processedProjects;
-    
+
     if (statusFilter !== 'all') {
-      filtered = processedProjects.filter((p:any) => p.status === statusFilter);
+      filtered = processedProjects.filter((p: any) => p.status === statusFilter);
     }
     //@ts-ignore
     setFilteredProjects(filtered);
   }, [processedProjects, statusFilter]);
 
-  const handleViewDetails = (projectId:any) => {
+  const handleViewDetails = (projectId: any) => {
     console.log('Navigate to project details:', projectId);
     // Implement navigation logic here
   };
 
-  const handleRegionClick = (regionName:any) => {
+  const handleRegionClick = (regionName: any) => {
     setSelectedRegion(regionName);
   };
+
+  console.log('filteredProjects', filteredProjects);
+
+  const totalBudget = filteredProjects.reduce((sum, project) => {
+    //@ts-expect-error
+  const amount = Number(project.budgetAmount.replace(/\s/g, ""));
+  return sum + amount;
+}, 0)
 
 
   if (!isMounted) {
@@ -261,16 +270,13 @@ const processedProjects = useMemo(() => {
           </div>
           <div className="text-center">
             <div className="text-lg font-bold text-green-600">
-              {filteredProjects.reduce(
-  (sum: number, p: any) => sum + Number(p.budgetAmount.replace(/,/g, "")),
-  0
-).toLocaleString()} XAF
+              {formatBudget(totalBudget)} XAF
             </div>
             <div className="text-xs text-gray-600">{t('map.totalInvestment')}</div>
           </div>
           <div className="text-center">
             <div className="text-lg font-bold text-purple-600">
-              {new Set(filteredProjects.flatMap((p:any) => p.region)).size}
+              {new Set(filteredProjects.flatMap((p: any) => p.region)).size}
             </div>
             <div className="text-xs text-gray-600">{t('map.regionsCovered')}</div>
           </div>

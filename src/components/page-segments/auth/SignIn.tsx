@@ -180,8 +180,8 @@ const SignIn = () => {
           </Card>
 
           {/* Footer */}
-          <div className="text-center text-sm text-muted-foreground">
-            <p>
+          {/* <div className="text-center text-sm text-muted-foreground"> */}
+            {/* <p>
               <Label
                 htmlFor="agreeToTerms"
                 className="flex gap-2 md:whitespace-nowrap items-center text-sm cursor-pointer"
@@ -201,8 +201,8 @@ const SignIn = () => {
                   {t("auth.privacyPolicy")}
                 </Link>
               </Label>
-            </p>
-          </div>
+            </p> */}
+          {/* </div> */}
         </div>
       </div>
     </div>
